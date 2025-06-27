@@ -1,6 +1,6 @@
 # MinerU M芯片全功能版 Dockerfile (修复版)
-# 基于Python 3.10镜像，为Apple Silicon优化
-FROM python:3.10-slim
+# 基于Python 3.11镜像，为Apple Silicon优化
+FROM python:3.11-slim
 
 # 维护者信息
 LABEL maintainer="MinerU Team <support@mineru.net>"

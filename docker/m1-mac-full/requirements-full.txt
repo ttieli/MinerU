@@ -13,8 +13,8 @@ python-multipart==0.0.6
 starlette==0.27.0
 
 # Pydantic数据验证
-pydantic==2.5.0
-pydantic-settings==2.1.0
+pydantic>=2.7.1,<3.0.0
+pydantic-settings>=2.2.1,<3.0.0
 
 # ========== AI/ML 核心依赖 ==========
 # PyTorch生态（支持MPS）
