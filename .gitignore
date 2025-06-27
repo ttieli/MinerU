@@ -50,4 +50,13 @@ debug_utils/
 _build/
 
 
-output/
+output/# 添加模型文件到gitignore
+docker/m1-mac-full/models/
+docker/m1-mac-full/layoutreader/
+*.bin
+*.pth
+*.pt
+*.onnx
+*.safetensors
+/tmp/
+*.log

@@ -6,12 +6,12 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      platform: linux/arm64  # 指定ARM64架构
       args:
         BUILD_DATE: ${BUILD_DATE:-$(date -u +'%Y-%m-%dT%H:%M:%SZ')}
         VERSION: ${VERSION:-2.0-full}
         PREDOWNLOAD_MODELS: ${PREDOWNLOAD_MODELS:-true}
     
+    platform: linux/arm64  # 指定ARM64架构
     image: mineru-m1-full:${VERSION:-latest}
     container_name: mineru-full-api
     hostname: mineru-full
@@ -163,7 +163,7 @@ services:
     build:
       context: ./webui
       dockerfile: Dockerfile
-      platform: linux/arm64
+    platform: linux/arm64
     container_name: mineru-webui
     restart: unless-stopped
     ports:
@@ -290,4 +290,4 @@ networks:
     driver: bridge
     ipam:
       config:
-        - subnet: 172.20.0.0/16
+        - subnet: 172.25.0.0/16

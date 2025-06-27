@@ -1,0 +1,47 @@
+# 基于现有简化版镜像构建增强版
+FROM mineru_simple-mineru-api:latest
+
+# 切换到root用户进行安装
+USER root
+
+# 设置全功能版环境变量
+ENV ENABLE_VLM=true \
+    ENABLE_PIPELINE=true \
+    ENABLE_TABLE=true \
+    ENABLE_FORMULA=true \
+    MEMORY_EFFICIENT_MODE=false \
+    MODEL_OFFLOAD_CPU=false \
+    MAX_WORKERS=6 \
+    BATCH_SIZE=3 \
+    DEVICE_MODE=mps \
+    MPS_MEMORY_LIMIT=12G
+
+# 创建模型目录
+RUN mkdir -p /opt/models /opt/layoutreader
+
+# 复制本地模型
+COPY models/ /opt/models/
+COPY layoutreader/ /opt/layoutreader/
+
+# 复制全功能版配置
+COPY magic-pdf-full.json /root/magic-pdf.json
+
+# 安装额外的全功能版依赖
+RUN pip install --no-cache-dir \
+    transformers>=4.49.0 \
+    accelerate>=1.5.1 \
+    ultralytics>=8.3.48 \
+    rapid-table>=1.0.5
+
+# 设置权限
+RUN chown -R root:root /opt/models /opt/layoutreader
+
+# 暴露端口
+EXPOSE 8000 8080
+
+# 健康检查
+HEALTHCHECK --interval=30s --timeout=15s --start-period=120s --retries=3 \
+    CMD curl -f http://localhost:8000/health || exit 1
+
+# 启动命令
+CMD ["python", "app.py", "--host", "0.0.0.0", "--port", "8000"]
