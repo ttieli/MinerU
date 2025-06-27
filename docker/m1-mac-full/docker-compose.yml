@@ -1,0 +1,293 @@
+version: '3.8'
+
+services:
+  # 主要的MinerU全功能服务
+  mineru-full:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      platform: linux/arm64  # 指定ARM64架构
+      args:
+        BUILD_DATE: ${BUILD_DATE:-$(date -u +'%Y-%m-%dT%H:%M:%SZ')}
+        VERSION: ${VERSION:-2.0-full}
+        PREDOWNLOAD_MODELS: ${PREDOWNLOAD_MODELS:-true}
+    
+    image: mineru-m1-full:${VERSION:-latest}
+    container_name: mineru-full-api
+    hostname: mineru-full
+    restart: unless-stopped
+    
+    # 端口映射
+    ports:
+      - "${API_PORT:-8000}:8000"     # API服务端口
+      - "${WEBUI_PORT:-3000}:3000"   # WebUI端口（可选）
+      - "${MONITOR_PORT:-8080}:8080" # 监控端口
+    
+    # 环境变量配置
+    environment:
+      # 模型源配置
+      - MINERU_MODEL_SOURCE=${MINERU_MODEL_SOURCE:-huggingface}
+      
+      # 设备配置
+      - DEVICE_MODE=${DEVICE_MODE:-mps}
+      - MPS_MEMORY_LIMIT=${MPS_MEMORY_LIMIT:-8G}
+      - PYTORCH_ENABLE_MPS_FALLBACK=1
+      - PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0
+      - MPS_MEMORY_FRACTION=${MPS_MEMORY_FRACTION:-0.8}
+      
+      # 功能开关
+      - ENABLE_VLM=${ENABLE_VLM:-true}
+      - ENABLE_PIPELINE=${ENABLE_PIPELINE:-true}
+      - ENABLE_TABLE=${ENABLE_TABLE:-true}
+      - ENABLE_FORMULA=${ENABLE_FORMULA:-true}
+      - ENABLE_LLM_AIDED=${ENABLE_LLM_AIDED:-false}
+      - ENABLE_WEBUI=${ENABLE_WEBUI:-false}
+      
+      # 性能配置
+      - MAX_WORKERS=${MAX_WORKERS:-4}
+      - BATCH_SIZE=${BATCH_SIZE:-2}
+      - MEMORY_LIMIT=${MEMORY_LIMIT:-8G}
+      - MODEL_PRECISION=${MODEL_PRECISION:-fp16}
+      - WORKER_PROCESSES=${WORKER_PROCESSES:-4}
+      - WORKER_THREADS=${WORKER_THREADS:-2}
+      - QUEUE_MAX_SIZE=${QUEUE_MAX_SIZE:-100}
+      - REQUEST_TIMEOUT=${REQUEST_TIMEOUT:-300}
+      
+      # 内存优化
+      - MEMORY_EFFICIENT_MODE=${MEMORY_EFFICIENT_MODE:-true}
+      - MODEL_OFFLOAD_CPU=${MODEL_OFFLOAD_CPU:-true}
+      - CLEAR_CACHE_INTERVAL=${CLEAR_CACHE_INTERVAL:-100}
+      - ADAPTIVE_BATCH_SIZE=${ADAPTIVE_BATCH_SIZE:-true}
+      - MAX_CONCURRENT_REQUESTS=${MAX_CONCURRENT_REQUESTS:-4}
+      
+      # LLM配置（可选）
+      - LLM_API_KEY=${LLM_API_KEY:-}
+      - LLM_BASE_URL=${LLM_BASE_URL:-https://api.openai.com/v1}
+      - LLM_MODEL=${LLM_MODEL:-gpt-4}
+      
+      # 日志配置
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - LOG_FORMAT=${LOG_FORMAT:-json}
+      
+      # Python路径
+      - PYTHONPATH=/app
+    
+    # 数据卷映射
+    volumes:
+      # 模型持久化存储
+      - mineru_models:/opt/models
+      - mineru_layoutreader:/opt/layoutreader
+      
+      # 缓存和日志
+      - mineru_cache:/app/cache
+      - mineru_logs:/app/logs
+      
+      # 输出目录
+      - ./output:/app/output
+      - ./temp:/app/temp
+      
+      # 配置文件（可选挂载自定义配置）
+      - ./config:/app/config:ro
+      
+      # 插件目录（可选）
+      - ./plugins:/app/plugins:ro
+    
+    # 资源限制
+    deploy:
+      resources:
+        limits:
+          memory: ${MEMORY_LIMIT:-16G}
+          cpus: '${CPU_LIMIT:-8.0}'
+        reservations:
+          memory: ${MEMORY_RESERVATION:-8G}
+          cpus: '${CPU_RESERVATION:-4.0}'
+    
+    # 健康检查
+    healthcheck:
+      test: ["CMD", "/app/healthcheck.sh"]
+      interval: 30s
+      timeout: 15s
+      retries: 3
+      start_period: 120s
+    
+    # 网络配置
+    networks:
+      - mineru-network
+    
+    # 依赖服务
+    depends_on:
+      - redis
+    
+    # 系统配置
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
+      memlock:
+        soft: -1
+        hard: -1
+    
+    # 安全配置
+    security_opt:
+      - no-new-privileges:true
+    
+    # 标签
+    labels:
+      - "com.mineru.service=api"
+      - "com.mineru.version=${VERSION:-2.0-full}"
+
+  # Redis缓存服务（用于任务队列和缓存）
+  redis:
+    image: redis:7-alpine
+    container_name: mineru-redis
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:6379:6379"
+    volumes:
+      - redis_data:/data
+    command: >
+      redis-server
+      --appendonly yes
+      --maxmemory 512mb
+      --maxmemory-policy allkeys-lru
+    networks:
+      - mineru-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # WebUI服务（可选）
+  webui:
+    build:
+      context: ./webui
+      dockerfile: Dockerfile
+      platform: linux/arm64
+    container_name: mineru-webui
+    restart: unless-stopped
+    ports:
+      - "${WEBUI_PORT:-3000}:3000"
+    environment:
+      - API_URL=http://mineru-full:8000
+      - NODE_ENV=production
+    volumes:
+      - ./webui/config:/app/config:ro
+    networks:
+      - mineru-network
+    depends_on:
+      - mineru-full
+    profiles:
+      - webui
+    labels:
+      - "com.mineru.service=webui"
+
+  # Nginx反向代理（生产环境）
+  nginx:
+    image: nginx:alpine
+    container_name: mineru-nginx
+    restart: unless-stopped
+    ports:
+      - "${HTTP_PORT:-80}:80"
+      - "${HTTPS_PORT:-443}:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+      - nginx_logs:/var/log/nginx
+    networks:
+      - mineru-network
+    depends_on:
+      - mineru-full
+      - webui
+    profiles:
+      - production
+    labels:
+      - "com.mineru.service=proxy"
+
+  # 监控服务（Prometheus + Grafana）
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: mineru-prometheus
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=200h'
+      - '--web.enable-lifecycle'
+    networks:
+      - mineru-network
+    profiles:
+      - monitoring
+    labels:
+      - "com.mineru.service=monitoring"
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: mineru-grafana
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3001:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-admin123}
+      - GF_USERS_ALLOW_SIGN_UP=false
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./monitoring/grafana:/etc/grafana/provisioning:ro
+    networks:
+      - mineru-network
+    depends_on:
+      - prometheus
+    profiles:
+      - monitoring
+    labels:
+      - "com.mineru.service=dashboard"
+
+# 数据卷定义
+volumes:
+  # 模型存储
+  mineru_models:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${MODELS_PATH:-./models}
+  
+  mineru_layoutreader:
+    driver: local
+  
+  # 缓存和日志
+  mineru_cache:
+    driver: local
+  
+  mineru_logs:
+    driver: local
+  
+  # Redis数据
+  redis_data:
+    driver: local
+  
+  # Nginx日志
+  nginx_logs:
+    driver: local
+  
+  # 监控数据
+  prometheus_data:
+    driver: local
+  
+  grafana_data:
+    driver: local
+
+# 网络配置
+networks:
+  mineru-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

@@ -1,0 +1,36 @@
+# MinerU M芯片全功能版依赖约束文件
+# 用于解决依赖版本冲突，确保兼容性
+
+# 核心框架版本约束
+torch>=2.2.2,!=2.5.0,!=2.5.1,<3
+torchvision>=0.17.0,<0.20.0
+transformers>=4.49.0,!=4.51.0,<5.0.0
+accelerate>=1.5.1,<2.0.0
+
+# 科学计算库约束
+numpy>=1.24.4,<2.0.0
+scipy>=1.11.0,<2.0.0
+pillow>=11.0.0,<12.0.0
+
+# FastAPI生态约束
+fastapi>=0.104.1,<0.110.0
+uvicorn>=0.24.0,<0.30.0
+pydantic>=2.5.0,<3.0.0
+
+# 避免已知冲突
+protobuf>=3.20.0,<5.0.0
+grpcio>=1.50.0,<2.0.0
+setuptools>=61.0,<70.0.0
+
+# HuggingFace生态版本锁定
+huggingface-hub>=0.32.4,<1.0.0
+tokenizers>=0.15.0,<1.0.0
+datasets>=2.14.0,<3.0.0
+
+# OpenCV版本约束（避免ARM64兼容性问题）
+opencv-python-headless>=4.8.1.78,<5.0.0
+
+# 日志和工具库约束
+loguru>=0.7.2,<1.0.0
+click>=8.1.7,<9.0.0
+tqdm>=4.67.1,<5.0.0
