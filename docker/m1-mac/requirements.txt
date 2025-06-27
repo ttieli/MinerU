@@ -1,0 +1,28 @@
+# 核心依赖
+magic-pdf[core]
+
+# API服务
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+python-multipart==0.0.6
+
+# 图像处理 (轻量版本)
+Pillow==10.0.1
+opencv-python-headless==4.8.1.78
+
+# 科学计算 (CPU优化版本)
+torch==2.1.0+cpu --extra-index-url https://download.pytorch.org/whl/cpu
+torchvision==0.16.0+cpu --extra-index-url https://download.pytorch.org/whl/cpu
+
+# HTTP客户端
+httpx==0.25.2
+
+# 日志
+loguru==0.7.2
+
+# HuggingFace
+huggingface-hub==0.19.4
+transformers==4.35.2
+
+# 数学库
+numpy==1.24.4
