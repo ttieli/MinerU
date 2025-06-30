@@ -1,0 +1,255 @@
+{
+    "bucket_info": {
+        "bucket-name-1": ["ak", "sk", "endpoint"],
+        "bucket-name-2": ["ak", "sk", "endpoint"]
+    },
+    "models-dir": {
+        "pipeline": "/opt/models",
+        "vlm": "/opt/models/vlm"
+    },
+    "layoutreader-model-dir": "/opt/layoutreader",
+    "device-mode": "mps",
+    "device-config": {
+        "mps": {
+            "memory_fraction": 0.8,
+            "allow_tf32": true,
+            "allow_fp16_reduced_precision_reduction": true
+        },
+        "cpu": {
+            "num_threads": 8,
+            "use_openmp": true
+        }
+    },
+    "layout-config": {
+        "model": "doclayout_yolo",
+        "device": "mps",
+        "batch_size": 4,
+        "confidence_threshold": 0.25,
+        "nms_threshold": 0.45
+    },
+    "formula-config": {
+        "mfd_model": "yolo_v8_mfd",
+        "mfr_model": "unimernet_small",
+        "enable": true,
+        "device": "mps",
+        "batch_size": 2,
+        "max_time": 300,
+        "confidence_threshold": 0.3
+    },
+    "table-config": {
+        "model": "rapid_table",
+        "sub_model": "slanet_plus",
+        "enable": true,
+        "device": "mps",
+        "max_time": 400,
+        "batch_size": 1,
+        "confidence_threshold": 0.5
+    },
+    "ocr-config": {
+        "use_angle_cls": true,
+        "use_space_char": true,
+        "drop_score": 0.5,
+        "det_limit_side_len": 1280,
+        "det_limit_type": "max",
+        "rec_batch_num": 8,
+        "max_text_length": 25,
+        "use_mp": true,
+        "total_process_num": 4,
+        "process_id": 0,
+        "lang": "ch",
+        "det_db_thresh": 0.3,
+        "det_db_box_thresh": 0.6,
+        "det_db_unclip_ratio": 1.5,
+        "use_dilation": false,
+        "det_db_score_mode": "fast",
+        "cls_thresh": 0.9,
+        "cls_batch_num": 6
+    },
+    "reading-order-config": {
+        "model": "layoutreader",
+        "enable": true,
+        "device": "mps"
+    },
+    "vlm-config": {
+        "model": "opendatalab/MinerU2.0-2505-0.9B",
+        "device": "mps",
+        "precision": "fp16",
+        "max_memory": "8GB",
+        "batch_size": 1,
+        "max_new_tokens": 2048,
+        "temperature": 0.1,
+        "top_p": 0.9,
+        "do_sample": false,
+        "enable_streaming": false,
+        "use_cache": true,
+        "pad_token_id": 151643,
+        "eos_token_id": 151645
+    },
+    "llm-aided-config": {
+        "formula_aided": {
+            "enable": false,
+            "api_key": "",
+            "base_url": "https://api.openai.com/v1",
+            "model": "gpt-4",
+            "temperature": 0.1,
+            "max_tokens": 512,
+            "timeout": 30
+        },
+        "text_aided": {
+            "enable": false,
+            "api_key": "",
+            "base_url": "https://api.openai.com/v1",
+            "model": "gpt-4",
+            "temperature": 0.1,
+            "max_tokens": 1024,
+            "timeout": 30
+        },
+        "title_aided": {
+            "enable": false,
+            "api_key": "",
+            "base_url": "https://api.openai.com/v1",
+            "model": "gpt-4",
+            "temperature": 0.1,
+            "max_tokens": 256,
+            "timeout": 30
+        },
+        "table_aided": {
+            "enable": false,
+            "api_key": "",
+            "base_url": "https://api.openai.com/v1",
+            "model": "gpt-4",
+            "temperature": 0.1,
+            "max_tokens": 1024,
+            "timeout": 60
+        }
+    },
+    "latex-delimiter-config": {
+        "display": {
+            "left": "$$",
+            "right": "$$"
+        },
+        "inline": {
+            "left": "$",
+            "right": "$"
+        }
+    },
+    "performance-config": {
+        "max_workers": 4,
+        "batch_size": 2,
+        "memory_limit": "8GB",
+        "cpu_limit": 8,
+        "gpu_memory_limit": "8GB",
+        "enable_memory_optimization": true,
+        "enable_model_quantization": true,
+        "model_offload_cpu": true,
+        "clear_cache_interval": 100,
+        "adaptive_batch_size": true,
+        "max_concurrent_requests": 4,
+        "request_timeout": 300,
+        "enable_async_processing": true,
+        "use_multiprocessing": true,
+        "worker_processes": 4,
+        "worker_threads": 2,
+        "queue_max_size": 100
+    },
+    "backend-config": {
+        "default_backend": "auto",
+        "fallback_strategy": "pipeline_first",
+        "quality_threshold": 0.85,
+        "available_backends": [
+            "pipeline",
+            "vlm-transformers",
+            "vlm-sglang-engine",
+            "vlm-sglang-client"
+        ],
+        "backend_priorities": {
+            "speed": ["vlm-transformers", "pipeline"],
+            "quality": ["pipeline", "vlm-transformers"],
+            "balanced": ["auto"]
+        }
+    },
+    "api-config": {
+        "host": "0.0.0.0",
+        "port": 8000,
+        "workers": 4,
+        "timeout": 300,
+        "keepalive": 60,
+        "max_requests": 1000,
+        "max_requests_jitter": 50,
+        "preload": true,
+        "enable_cors": true,
+        "cors_origins": ["*"],
+        "cors_methods": ["*"],
+        "cors_headers": ["*"],
+        "enable_gzip": true,
+        "gzip_minimum_size": 1024
+    },
+    "logging-config": {
+        "level": "INFO",
+        "format": "json",
+        "output": "both",
+        "file_path": "/app/logs/mineru.log",
+        "max_file_size": "100MB",
+        "backup_count": 5,
+        "enable_rotation": true,
+        "enable_compression": true
+    },
+    "cache-config": {
+        "enable": true,
+        "type": "redis",
+        "redis_url": "redis://redis:6379/0",
+        "ttl": 3600,
+        "max_size": "1GB",
+        "enable_model_cache": true,
+        "model_cache_ttl": 7200
+    },
+    "monitoring-config": {
+        "enable": true,
+        "metrics_port": 8080,
+        "health_check_interval": 30,
+        "performance_monitoring": true,
+        "resource_monitoring": true,
+        "model_performance_tracking": true
+    },
+    "security-config": {
+        "enable_auth": false,
+        "api_key": "",
+        "rate_limit": {
+            "enable": true,
+            "requests_per_minute": 60,
+            "requests_per_hour": 1000
+        },
+        "input_validation": {
+            "max_file_size": "100MB",
+            "allowed_file_types": [".pdf", ".png", ".jpg", ".jpeg", ".docx", ".pptx"],
+            "scan_uploads": false
+        }
+    },
+    "output-config": {
+        "default_format": "markdown",
+        "supported_formats": ["markdown", "json", "html", "txt"],
+        "include_metadata": true,
+        "include_images": true,
+        "include_tables": true,
+        "include_formulas": true,
+        "preserve_formatting": true,
+        "enable_postprocessing": true
+    },
+    "experimental-config": {
+        "enable_experimental_features": false,
+        "experimental_models": [],
+        "beta_features": {
+            "advanced_table_parsing": false,
+            "multi_column_layout": false,
+            "handwriting_recognition": false
+        }
+    },
+    "debug-config": {
+        "enable_debug": false,
+        "save_intermediate_results": false,
+        "debug_output_path": "/app/debug",
+        "verbose_logging": false,
+        "profile_performance": false
+    },
+    "config_version": "2.0-full"
+}
