@@ -199,87 +199,90 @@ export MEMORY_LIMIT=4G
 ```bash
 # 切换模型源
 export MINERU_MODEL_SOURCE=modelscope
-
-# 手动下载模型
-docker exec [容器名] python download_models.py
 ```
 
-**4. 服务无法启动**
-```bash
-# 查看详细日志
-docker compose logs
+**4. 依赖冲突**
+请参考 [依赖冲突解决方案](#dependency-conflicts) 章节。
 
-# 重新构建镜像
-docker compose build --no-cache
-```
+## 依赖冲突解决方案 {#dependency-conflicts}
 
-### 性能监控
+### 🔍 常见冲突类型
 
-**查看资源使用**:
-```bash
-# 容器资源使用
-docker stats
+1. **PyTorch 版本冲突**
+   - VLM 模式要求: `torch>=2.6.0`
+   - Pipeline 模式要求: `torch>=2.2.2,!=2.5.0,!=2.5.1,<3`
+   - 解决方案: 使用 `torch>=2.6.0,<3`
 
-# 系统资源使用
-htop
-```
+2. **Transformers 版本冲突**
+   - VLM 模式要求: `transformers>=4.51.1`
+   - Pipeline 模式要求: `transformers>=4.49.0,!=4.51.0,<5.0.0`
+   - 解决方案: 使用 `transformers>=4.51.1,<5.0.0`
 
-**Apple Silicon专用**:
-```bash
-# GPU/MPS使用情况
-sudo powermetrics -n 1 -s gpu_power
-```
+### 🛠️ 解决步骤
 
-## 📚 进阶用法
+1. **更新依赖文件**
+   ```bash
+   cd docker/[版本目录]
+   # 编辑 requirements.txt，使用兼容版本
+   ```
 
-### 自定义配置
+2. **重新构建镜像**
+   ```bash
+   docker compose build --no-cache
+   docker compose up -d
+   ```
 
-创建 `docker-compose.override.yml`:
-```yaml
-version: '3.8'
-services:
-  mineru-full:
-    environment:
-      - CUSTOM_CONFIG=value
-    volumes:
-      - ./custom_models:/opt/models
-```
+3. **验证启动**
+   ```bash
+   curl http://localhost:8000/health
+   ```
 
-### 集群部署
+## 🎯 最佳实践
 
-```bash
-# 多实例负载均衡
-docker compose -f docker-compose.yml -f docker-compose.cluster.yml up -d --scale mineru-full=3
-```
+### 开发环境
+- 使用简化版进行快速开发和测试
+- 定期拉取最新镜像
+- 配置合适的资源限制
 
-### 监控配置
+### 生产环境
+- 使用完整版以获得最佳性能
+- 配置监控和日志收集
+- 设置自动重启策略
 
-```bash
-# 启用监控服务（仅完整版）
-docker compose --profile monitoring up -d
-```
+### 资源管理
+- 根据实际负载调整内存和CPU限制
+- 定期清理未使用的镜像和容器
+- 监控磁盘空间使用情况
 
-访问监控面板：
-- Grafana: http://localhost:3001
-- Prometheus: http://localhost:9090
+## 📝 更新日志
 
-## 🔒 安全建议
+### Docker Compose V2 升级
+- 将所有 `docker-compose` 命令更新为 `docker compose`
+- 兼容 Docker Desktop 4.42.1+
+- 支持最新的 compose 文件格式
 
-1. **生产环境**：使用Nginx反向代理
-2. **访问控制**：配置防火墙规则
-3. **数据安全**：定期备份重要数据
-4. **更新维护**：定期更新镜像和依赖
+### M1 芯片优化
+- 优化 ARM64 架构支持
+- 解决 PyTorch CPU 版本兼容性
+- 改进模块导入路径
 
-## 📝 许可证
-
-本项目遵循 AGPL-3.0 许可证。
-
-## 🆘 获取帮助
-
-- 📖 [完整文档](https://mineru.net/)
-- 🐛 [问题反馈](https://github.com/opendatalab/MinerU/issues)
-- 💬 [社区讨论](https://github.com/opendatalab/MinerU/discussions)
+### 依赖管理改进
+- 统一项目依赖管理策略
+- 解决版本冲突问题
+- 优化构建速度和镜像大小
 
 ---
 
-**快速开始**: `./start_mineru_docker.sh` 🚀 
+## 🆘 获取帮助
+
+如果遇到问题，请：
+
+1. 查看 [常见问题](../../docs/FAQ_zh_cn.md)
+2. 检查 Docker 日志: `docker compose logs`
+3. 提交 Issue 时附上详细的错误信息和系统配置
+
+---
+
+**📍 文档位置**: `docs/docker/README.md`  
+**🔄 最后更新**: 2024年12月  
+**�� 维护者**: MinerU 团队 

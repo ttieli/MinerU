@@ -508,7 +508,7 @@ For Mac users with Apple Silicon chips (M1/M2/M3/M4), we provide an optimized Do
 ./start_mineru_docker.sh stop     # Stop service
 ```
 
-For detailed Docker deployment instructions, see [DOCKER_README.md](DOCKER_README.md)
+For detailed Docker deployment instructions, see [Docker Deployment Guide](docs/docker/README.md)
 
 ---
 
