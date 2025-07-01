@@ -484,6 +484,34 @@ There are three different ways to experience MinerU:
 
 ## Local Deployment
 
+### 🐳 Docker Deployment (Recommended for Apple Silicon Mac)
+
+For Mac users with Apple Silicon chips (M1/M2/M3/M4), we provide an optimized Docker solution:
+
+```bash
+# One-click startup from project root directory
+./start_mineru_docker.sh
+```
+
+**Key Features:**
+- ✅ **Apple Silicon Optimized** - Native ARM64 architecture support
+- ✅ **Low Memory Usage** - 4GB limit, actual usage 1-2GB  
+- ✅ **CPU Mode** - No GPU required, works on all Mac devices
+- ✅ **Complete API Interface** - RESTful API + Swagger documentation
+- ✅ **One-Click Deployment** - Automated build and startup
+
+**Quick Commands:**
+```bash
+./start_mineru_docker.sh          # Start service
+./start_mineru_docker.sh status   # Check status
+./start_mineru_docker.sh logs     # View logs
+./start_mineru_docker.sh stop     # Stop service
+```
+
+For detailed Docker deployment instructions, see [DOCKER_README.md](DOCKER_README.md)
+
+---
+
 ### 1. Install MinerU
 
 #### 1.1 Install via pip or uv

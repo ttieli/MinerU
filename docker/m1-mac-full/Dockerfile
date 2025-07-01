@@ -18,13 +18,11 @@ ENV DEBIAN_FRONTEND=noninteractive \
     PYTHONUNBUFFERED=1 \
     PIP_DISABLE_PIP_VERSION_CHECK=1 \
     PIP_NO_CACHE_DIR=1 \
-    MINERU_MODEL_SOURCE=huggingface \
     DEVICE_MODE=mps \
     ENABLE_VLM=true \
     ENABLE_PIPELINE=true \
     ENABLE_TABLE=true \
     ENABLE_FORMULA=true \
-    ENABLE_LLM_AIDED=false \
     MAX_WORKERS=4 \
     BATCH_SIZE=2 \
     MEMORY_LIMIT=8G \
@@ -36,134 +34,111 @@ ENV DEBIAN_FRONTEND=noninteractive \
 # 安装系统依赖
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-        # 基础工具
         build-essential \
         curl \
         wget \
         git \
         unzip \
-        # 图像处理库
         libgl1-mesa-glx \
         libglib2.0-0 \
         libsm6 \
         libxext6 \
         libxrender-dev \
         libgomp1 \
-        # OpenCV依赖
         libopencv-dev \
         python3-opencv \
-        # 字体支持
         fonts-dejavu-core \
         fontconfig \
-        # 网络工具
         ca-certificates \
-        # 清理
         && apt-get clean \
         && rm -rf /var/lib/apt/lists/* \
         && fc-cache -fv
 
 # 创建必要目录
-RUN mkdir -p /opt/models \
-             /opt/layoutreader \
-             /app/logs \
+RUN mkdir -p /app/logs \
              /app/output \
              /app/temp \
-             /app/cache \
-             /app/config \
-             /app/plugins
+             /app/cache
 
 # 复制requirements文件
 COPY requirements-full.txt requirements.txt
-COPY constraints.txt constraints.txt
 
-# 设置pip源（支持国内镜像）
-RUN pip config set global.index-url https://pypi.org/simple && \
-    pip config set global.trusted-host pypi.org
+# 如果存在constraints文件则复制
+COPY constraints.txt* ./
 
-# 安装Python依赖 - 分步安装以优化构建缓存
-# 1. 基础依赖
+# 安装Python依赖
 RUN pip install --no-cache-dir -U pip setuptools wheel
 
-# 2. 科学计算库（针对ARM64优化）
+# 基础科学计算库
 RUN pip install --no-cache-dir \
     numpy>=1.24.4 \
     scipy>=1.11.0 \
     pillow>=11.0.0 \
     opencv-python-headless>=4.8.1.78
 
-# 3. PyTorch生态（MPS支持）
+# PyTorch生态（MPS支持）
 RUN pip install --no-cache-dir \
     torch>=2.2.2 \
     torchvision>=0.17.0 \
     torchaudio>=2.2.0 \
     --index-url https://download.pytorch.org/whl/cpu
 
-# 4. 机器学习和深度学习框架
+# 机器学习框架
 RUN pip install --no-cache-dir \
-    transformers>=4.49.0,!=4.51.0,<5.0.0 \
+    transformers>=4.49.0 \
     accelerate>=1.5.1 \
-    huggingface-hub>=0.32.4 \
-    datasets>=2.14.0
+    huggingface-hub>=0.32.4
 
-# 5. MinerU完整版安装
-RUN pip install --no-cache-dir -c constraints.txt -r requirements.txt
-
-# 复制模型下载脚本
-COPY download_models_full.py download_models_full.py
-COPY model_config.json model_config.json
-
-# 预下载模型（可选，减少首次启动时间）
-ARG PREDOWNLOAD_MODELS=true
-RUN if [ "$PREDOWNLOAD_MODELS" = "true" ]; then \
-        echo "Pre-downloading models..." && \
-        python download_models_full.py --mode=essential; \
+# 安装其他依赖
+RUN if [ -f constraints.txt ]; then \
+        pip install --no-cache-dir -c constraints.txt -r requirements.txt; \
+    else \
+        pip install --no-cache-dir -r requirements.txt; \
     fi
-
-# 复制配置文件
-COPY magic-pdf-full.json /root/magic-pdf.json
-COPY logging.yml /app/config/logging.yml
-COPY model_config.json /app/config/model_config.json
 
 # 复制应用文件
 COPY app_full.py app.py
-COPY api/ api/
-COPY utils/ utils/
-COPY plugins/ plugins/
-COPY webui/ webui/
+
+# 复制配置文件（如果存在）
+COPY magic-pdf-full.json* /root/
 
 # 复制启动脚本
-COPY entrypoint.sh entrypoint.sh
-COPY healthcheck.sh healthcheck.sh
-COPY start.sh start.sh
+COPY entrypoint.sh* ./
+COPY healthcheck.sh* ./
+
+# 如果没有entrypoint.sh，创建一个简单的
+RUN if [ ! -f entrypoint.sh ]; then \
+        echo '#!/bin/bash' > entrypoint.sh && \
+        echo 'exec python app.py "$@"' >> entrypoint.sh; \
+    fi
+
+# 如果没有healthcheck.sh，创建一个简单的
+RUN if [ ! -f healthcheck.sh ]; then \
+        echo '#!/bin/bash' > healthcheck.sh && \
+        echo 'curl -f http://localhost:8000/health || exit 1' >> healthcheck.sh; \
+    fi
 
 # 设置执行权限
-RUN chmod +x entrypoint.sh healthcheck.sh start.sh && \
-    chmod +x download_models_full.py
+RUN chmod +x entrypoint.sh healthcheck.sh
 
-# 创建非root用户（安全最佳实践）
+# 创建非root用户
 RUN groupadd -r mineru && \
     useradd -r -g mineru -d /app -s /bin/bash mineru && \
-    chown -R mineru:mineru /app /opt/models /opt/layoutreader
+    chown -R mineru:mineru /app
 
 # 暴露端口
-EXPOSE 8000 3000 8080
+EXPOSE 8000
 
 # 设置数据卷
-VOLUME ["/app/output", "/app/logs", "/app/cache", "/opt/models"]
+VOLUME ["/app/output", "/app/logs", "/app/cache"]
 
 # 健康检查
 HEALTHCHECK --interval=30s --timeout=15s --start-period=120s --retries=3 \
     CMD ./healthcheck.sh
-
-# 添加构建时间标签
-ARG BUILD_DATE
-ARG VERSION
-LABEL build_date=$BUILD_DATE
-LABEL version=$VERSION
 
 # 切换到非root用户
 USER mineru
 
 # 启动命令
 ENTRYPOINT ["./entrypoint.sh"]
-CMD ["--host", "0.0.0.0", "--port", "8000", "--workers", "4"]
+CMD ["--host", "0.0.0.0", "--port", "8000"]
