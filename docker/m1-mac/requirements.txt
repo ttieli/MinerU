@@ -1,28 +1,29 @@
-# 核心依赖
+# 核心依赖 - 让 pip 自动解决版本冲突
 mineru[core]
 
 # API服务
-fastapi==0.104.1
-uvicorn[standard]==0.24.0
-python-multipart==0.0.6
+fastapi
+uvicorn[standard]
+python-multipart
+
+# 基础依赖
+requests
+loguru
 
 # 图像处理 (轻量版本)
-Pillow==10.0.1
+Pillow>=11.0.0
 opencv-python-headless==4.8.1.78
 
 # 科学计算 (Apple Silicon 优化版本)
-torch==2.1.0
-torchvision==0.16.0
+torch>=2.2.2,<3,!=2.5.0,!=2.5.1
+torchvision>=0.17.0
 
 # HTTP客户端
 httpx==0.25.2
 
-# 日志
-loguru==0.7.2
-
 # HuggingFace
-huggingface-hub==0.19.4
-transformers==4.35.2
+huggingface-hub>=0.32.4
+transformers>=4.35.2
 
 # 数学库
 numpy==1.24.4
