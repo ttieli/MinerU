@@ -38,6 +38,7 @@ COPY download_models_light.py .
 RUN python download_models_light.py
 
 # 复制应用文件
+COPY mineru ./mineru
 COPY app.py .
 COPY magic-pdf-m1.json /root/magic-pdf.json
 COPY entrypoint.sh .

@@ -319,46 +319,34 @@ ask_advanced_options() {
 start_services() {
     print_title "启动 MinerU $VERSION_NAME"
     
-    cd "$DOCKER_DIR"
-    
-    print_info "拉取/构建镜像..."
-    $DOCKER_COMPOSE build --pull
-    
+    print_info "拉取/构建镜像 (使用 --no-cache 确保应用最新代码)..."
+    docker compose -f $DOCKER_DIR/docker-compose.yml build --no-cache
     print_info "启动服务..."
-    
-    # 基础启动
-    $DOCKER_COMPOSE up -d
-    
+    docker compose -f $DOCKER_DIR/docker-compose.yml up -d
     # 如果启用了WebUI，启动WebUI服务
     if [[ "$VERSION" == "full" && "$ENABLE_WEBUI" == "true" ]]; then
-        $DOCKER_COMPOSE --profile webui up -d
+        docker compose -f $DOCKER_DIR/docker-compose.yml --profile webui up -d
     fi
-    
     print_success "服务启动成功!"
 }
 
 # 等待服务就绪
 wait_for_services() {
     print_info "等待服务启动..."
-    
     local max_attempts=30
     local attempt=0
-    
     while [[ $attempt -lt $max_attempts ]]; do
         if curl -s http://localhost:8000/health &> /dev/null; then
             print_success "API 服务就绪!"
             break
         fi
-        
         echo -n "."
         sleep 2
         ((attempt++))
     done
-    
     if [[ $attempt -eq $max_attempts ]]; then
         print_warning "服务启动超时，请检查日志"
-        cd "$DOCKER_DIR"
-        $DOCKER_COMPOSE logs --tail=10
+        docker compose -f $DOCKER_DIR/docker-compose.yml logs --tail=10
         return 1
     fi
 }
@@ -367,31 +355,27 @@ wait_for_services() {
 show_access_info() {
     print_title "服务访问信息"
     echo ""
-    
     API_PORT=$(grep "API_PORT=" "$ENV_FILE" | cut -d'=' -f2)
-    
     print_success "API 服务: http://localhost:$API_PORT"
     print_info "API 文档: http://localhost:$API_PORT/docs"
     print_info "健康检查: http://localhost:$API_PORT/health"
-    
     if [[ "$VERSION" == "full" && "$ENABLE_WEBUI" == "true" ]]; then
         WEBUI_PORT=$(grep "WEBUI_PORT=" "$ENV_FILE" | cut -d'=' -f2)
         print_success "WebUI 界面: http://localhost:$WEBUI_PORT"
     fi
-    
     echo ""
     print_info "常用命令:"
     echo -e "  ${CYAN}# 查看服务状态${NC}"
-    echo -e "  cd $DOCKER_DIR && $DOCKER_COMPOSE ps"
+    echo -e "  docker compose -f $DOCKER_DIR/docker-compose.yml ps"
     echo ""
     echo -e "  ${CYAN}# 查看日志${NC}"
-    echo -e "  cd $DOCKER_DIR && $DOCKER_COMPOSE logs -f"
+    echo -e "  docker compose -f $DOCKER_DIR/docker-compose.yml logs -f"
     echo ""
     echo -e "  ${CYAN}# 停止服务${NC}"
-    echo -e "  cd $DOCKER_DIR && $DOCKER_COMPOSE down"
+    echo -e "  docker compose -f $DOCKER_DIR/docker-compose.yml down"
     echo ""
     echo -e "  ${CYAN}# 重启服务${NC}"
-    echo -e "  cd $DOCKER_DIR && $DOCKER_COMPOSE restart"
+    echo -e "  docker compose -f $DOCKER_DIR/docker-compose.yml restart"
 }
 
 # 快速测试
@@ -423,7 +407,7 @@ cleanup() {
     if [[ $? -ne 0 ]]; then
         print_error "启动过程中出现错误"
         print_info "查看日志以获取更多信息:"
-        echo "  cd $DOCKER_DIR && $DOCKER_COMPOSE logs"
+        echo "  docker compose -f $DOCKER_DIR/docker-compose.yml logs"
     fi
 }
 
