@@ -38,20 +38,20 @@ cd MinerU
 **简化版（推荐入门用户）**:
 ```bash
 cd docker/m1-mac
-docker-compose up -d
+docker compose up -d
 ```
 
 **完整版（推荐专业用户）**:
 ```bash
 cd docker/m1-mac-full
-docker-compose up -d
+docker compose up -d
 ```
 
 #### 通用x86_64
 
 ```bash
 cd docker/global
-docker-compose up -d
+docker compose up -d
 ```
 
 ## 🔧 版本对比
@@ -108,32 +108,32 @@ docker-compose up -d
 ### 查看服务状态
 ```bash
 cd docker/[版本目录]
-docker-compose ps
+docker compose ps
 ```
 
 ### 查看实时日志
 ```bash
 cd docker/[版本目录]
-docker-compose logs -f
+docker compose logs -f
 ```
 
 ### 停止服务
 ```bash
 cd docker/[版本目录]
-docker-compose down
+docker compose down
 ```
 
 ### 重启服务
 ```bash
 cd docker/[版本目录]
-docker-compose restart
+docker compose restart
 ```
 
 ### 更新镜像
 ```bash
 cd docker/[版本目录]
-docker-compose pull
-docker-compose up -d
+docker compose pull
+docker compose up -d
 ```
 
 ## 🔧 环境配置
@@ -207,10 +207,10 @@ docker exec [容器名] python download_models.py
 **4. 服务无法启动**
 ```bash
 # 查看详细日志
-docker-compose logs
+docker compose logs
 
 # 重新构建镜像
-docker-compose build --no-cache
+docker compose build --no-cache
 ```
 
 ### 性能监控
@@ -249,14 +249,14 @@ services:
 
 ```bash
 # 多实例负载均衡
-docker-compose -f docker-compose.yml -f docker-compose.cluster.yml up -d --scale mineru-full=3
+docker compose -f docker-compose.yml -f docker-compose.cluster.yml up -d --scale mineru-full=3
 ```
 
 ### 监控配置
 
 ```bash
 # 启用监控服务（仅完整版）
-docker-compose --profile monitoring up -d
+docker compose --profile monitoring up -d
 ```
 
 访问监控面板：

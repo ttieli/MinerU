@@ -31,7 +31,7 @@ uname -m  # 应显示 arm64
 
 # 确保Docker运行
 docker --version
-docker-compose --version
+docker compose version
 ```
 
 ### 2. 下载部署包
@@ -120,30 +120,30 @@ export MINERU_MODEL_SOURCE=huggingface    # huggingface/modelscope
 
 ```bash
 # 启动所有服务
-docker-compose up -d
+docker compose up -d
 
 # 启动指定服务
-docker-compose up -d mineru-full
+docker compose up -d mineru-full
 
 # 停止服务
-docker-compose down
+docker compose down
 
 # 重启服务
-docker-compose restart mineru-full
+docker compose restart mineru-full
 ```
 
 ### 查看日志
 
 ```bash
 # 查看实时日志
-docker-compose logs -f mineru-full
+docker compose logs -f mineru-full
 
 # 查看特定组件日志
-docker-compose logs -f mineru-full | grep "VLM"
-docker-compose logs -f mineru-full | grep "Pipeline"
+docker compose logs -f mineru-full | grep "VLM"
+docker compose logs -f mineru-full | grep "Pipeline"
 
 # 导出日志
-docker-compose logs mineru-full > mineru.log
+docker compose logs mineru-full > mineru.log
 ```
 
 ### 资源监控
@@ -250,7 +250,7 @@ export PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0
 export MPS_MEMORY_FRACTION=0.8
 
 # 重启服务应用设置
-docker-compose restart mineru-full
+docker compose restart mineru-full
 ```
 
 ### 并发优化
@@ -278,7 +278,7 @@ export ADAPTIVE_BATCH_SIZE=true
 ```bash
 # 增加内存限制
 export MEMORY_LIMIT=20G
-docker-compose restart mineru-full
+docker compose restart mineru-full
 
 # 启用内存优化
 export MEMORY_EFFICIENT_MODE=true
@@ -293,7 +293,7 @@ export MODEL_OFFLOAD_CPU=true
 ```bash
 # 使用国内镜像源
 export MINERU_MODEL_SOURCE=modelscope
-docker-compose restart mineru-full
+docker compose restart mineru-full
 
 # 手动下载模型
 docker exec mineru-full-api python download_models_full.py \
@@ -311,7 +311,7 @@ python -c "import torch; print(torch.backends.mps.is_available())"
 
 # 降级到CPU模式
 export DEVICE_MODE=cpu
-docker-compose restart mineru-full
+docker compose restart mineru-full
 ```
 
 #### 4. API响应慢
@@ -365,13 +365,13 @@ open http://localhost:9090  # Prometheus
 
 ```bash
 # 配置日志轮转
-docker-compose exec mineru-full logrotate -f /etc/logrotate.d/mineru
+docker compose exec mineru-full logrotate -f /etc/logrotate.d/mineru
 
 # 压缩历史日志
-docker-compose exec mineru-full gzip /app/logs/*.log.1
+docker compose exec mineru-full gzip /app/logs/*.log.1
 
 # 清理临时文件
-docker-compose exec mineru-full find /app/temp -type f -mtime +1 -delete
+docker compose exec mineru-full find /app/temp -type f -mtime +1 -delete
 ```
 
 ### 健康检查
@@ -429,7 +429,7 @@ register_plugin('custom', CustomPlugin)
 
 ```bash
 # 多实例负载均衡
-docker-compose up -d --scale mineru-full=3
+docker compose up -d --scale mineru-full=3
 
 # 使用外部负载均衡器
 # nginx.conf配置示例见 ./nginx/nginx.conf
