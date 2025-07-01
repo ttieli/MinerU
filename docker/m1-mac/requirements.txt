@@ -10,9 +10,9 @@ python-multipart==0.0.6
 Pillow==10.0.1
 opencv-python-headless==4.8.1.78
 
-# 科学计算 (CPU优化版本)
-torch==2.1.0+cpu --extra-index-url https://download.pytorch.org/whl/cpu
-torchvision==0.16.0+cpu --extra-index-url https://download.pytorch.org/whl/cpu
+# 科学计算 (Apple Silicon 优化版本)
+torch==2.1.0
+torchvision==0.16.0
 
 # HTTP客户端
 httpx==0.25.2
