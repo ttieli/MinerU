@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      platform: linux/arm64  # M1芯片架构
+      # platform: linux/arm64  # M1芯片架构 - 注释掉以解决兼容性问题
     container_name: mineru-m1-api
     restart: unless-stopped
     ports:
