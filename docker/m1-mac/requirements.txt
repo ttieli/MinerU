@@ -1,5 +1,5 @@
 # 核心依赖
-magic-pdf[core]
+mineru[core]
 
 # API服务
 fastapi==0.104.1
