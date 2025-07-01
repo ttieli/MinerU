@@ -28,7 +28,7 @@ docker build -t mineru-m1:latest .
 
 ```bash
 # 基础启动
-docker-compose up -d
+docker compose up -d
 
 # 或者直接运行容器
 docker run -d \
@@ -125,7 +125,7 @@ curl -X POST "http://localhost:8000/file_parse" \
 
 ```bash
 # 启动包含Nginx的完整服务
-docker-compose --profile production up -d
+docker compose --profile production up -d
 ```
 
 ### 扩展配置
@@ -151,32 +151,32 @@ services:
 1. **内存不足**
    ```bash
    # 增加内存限制
-   docker-compose up -d --scale mineru-m1=1 --memory=6g
+   docker compose up -d --scale mineru-m1=1 --memory=6g
    ```
 
 2. **模型下载失败**
    ```bash
    # 使用国内镜像源
-   docker-compose up -d -e MINERU_MODEL_SOURCE=modelscope
+   docker compose up -d -e MINERU_MODEL_SOURCE=modelscope
    ```
 
 3. **容器启动失败**
    ```bash
    # 查看日志
-   docker-compose logs mineru-m1
+   docker compose logs mineru-m1
    
    # 重新构建
-   docker-compose build --no-cache
+   docker compose build --no-cache
    ```
 
 ### 监控和日志
 
 ```bash
 # 查看容器状态
-docker-compose ps
+docker compose ps
 
 # 查看实时日志
-docker-compose logs -f mineru-m1
+docker compose logs -f mineru-m1
 
 # 查看资源使用
 docker stats mineru-m1-api

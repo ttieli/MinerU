@@ -128,7 +128,7 @@ diagnose_build() {
     echo
     echo "=== Docker版本 ==="
     docker --version | sed 's/^/  /'
-    docker-compose --version | sed 's/^/  /'
+    docker compose version | sed 's/^/  /'
     
     echo
     echo "=== Docker状态 ==="

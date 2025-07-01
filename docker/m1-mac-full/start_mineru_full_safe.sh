@@ -44,7 +44,7 @@ echo ""
 echo "🔧 使用生产环境配置启动MinerU全功能版..."
 
 # 使用生产环境配置启动
-docker-compose --env-file .env.production up -d mineru-full redis
+docker compose --env-file .env.production up -d mineru-full redis
 
 echo ""
 echo "⏳ 等待服务启动..."
@@ -52,7 +52,7 @@ sleep 10
 
 # 检查服务状态
 echo "📊 服务状态检查："
-docker-compose --env-file .env.production ps
+docker compose --env-file .env.production ps
 
 echo ""
 echo "🔍 健康检查..."
@@ -78,5 +78,5 @@ for i in {1..30}; do
 done
 
 echo "❌ 服务启动超时，请检查日志："
-echo "docker-compose --env-file .env.production logs mineru-full"
+echo "docker compose --env-file .env.production logs mineru-full"
 

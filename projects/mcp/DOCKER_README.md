@@ -22,7 +22,7 @@ Docker 部署的主要优势：
 
 ```bash
 docker --version
-docker-compose --version
+docker compose version
 ```
 
 同时，你需要：
@@ -66,7 +66,7 @@ Docker Compose 提供了最简单的部署方式，特别适合快速开始使�
 在项目根目录下运行：
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 这将会：
@@ -81,7 +81,7 @@ docker-compose up -d
 要查看服务日志，运行：
 
 ```bash
-docker-compose logs -f
+docker compose logs -f
 ```
 
 按 `Ctrl+C` 退出日志查看。
@@ -91,13 +91,13 @@ docker-compose logs -f
 要停止服务，运行：
 
 ```bash
-docker-compose down
+docker compose down
 ```
 
 如果你想同时删除构建的镜像，可以使用：
 
 ```bash
-docker-compose down --rmi local
+docker compose down --rmi local
 ```
 
 ## 4. 手动构建和运行 Docker 镜像

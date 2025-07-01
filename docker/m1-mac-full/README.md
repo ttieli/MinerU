@@ -58,23 +58,23 @@ chmod +x build.sh
 
 #### 基础启动（推荐）
 ```bash
-# 使用docker-compose启动完整服务栈
-docker-compose up -d
+# 使用docker compose启动完整服务栈
+docker compose up -d
 
 # 查看服务状态
-docker-compose ps
+docker compose ps
 ```
 
 #### 高级启动配置
 ```bash
 # 启动包含WebUI的完整服务
-docker-compose --profile webui up -d
+docker compose --profile webui up -d
 
 # 启动包含监控的生产环境
-docker-compose --profile production up -d
+docker compose --profile production up -d
 
 # 手动指定资源限制
-docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d
+docker compose -f docker-compose.yml -f docker-compose.override.yml up -d
 ```
 
 ### 3. 验证服务
@@ -90,7 +90,7 @@ open http://localhost:8000/docs
 open http://localhost:3000
 
 # 检查服务日志
-docker-compose logs -f mineru-full
+docker compose logs -f mineru-full
 ```
 
 ## 📋 配置说明
@@ -285,19 +285,19 @@ services:
 ### 开发模式
 ```bash
 # 挂载源代码进行开发
-docker-compose -f docker-compose.dev.yml up -d
+docker compose -f docker-compose.dev.yml up -d
 ```
 
 ### 生产模式
 ```bash
 # 包含监控、日志收集等
-docker-compose --profile production up -d
+docker compose --profile production up -d
 ```
 
 ### 集群模式
 ```bash
 # 多实例负载均衡
-docker-compose -f docker-compose.cluster.yml up -d --scale mineru-full=3
+docker compose -f docker-compose.cluster.yml up -d --scale mineru-full=3
 ```
 
 ## 🔍 监控和维护
@@ -305,14 +305,14 @@ docker-compose -f docker-compose.cluster.yml up -d --scale mineru-full=3
 ### 日志管理
 ```bash
 # 查看服务日志
-docker-compose logs -f mineru-full
+docker compose logs -f mineru-full
 
 # 查看特定组件日志
-docker-compose logs -f mineru-full | grep "VLM"
-docker-compose logs -f mineru-full | grep "Pipeline"
+docker compose logs -f mineru-full | grep "VLM"
+docker compose logs -f mineru-full | grep "Pipeline"
 
 # 导出日志
-docker-compose logs mineru-full > mineru.log
+docker compose logs mineru-full > mineru.log
 ```
 
 ### 性能监控
@@ -351,16 +351,16 @@ curl -X POST "http://localhost:8000/benchmark" \
 #### 1. 内存不足
 ```bash
 # 解决方案：增加内存限制或启用交换
-docker-compose down
+docker compose down
 export MEMORY_LIMIT=20G
-docker-compose up -d
+docker compose up -d
 ```
 
 #### 2. 模型下载失败
 ```bash
 # 使用国内镜像源
 export MINERU_MODEL_SOURCE=modelscope
-docker-compose restart mineru-full
+docker compose restart mineru-full
 
 # 手动下载模型
 docker exec mineru-full-api mineru-models-download -s modelscope -m all
@@ -373,7 +373,7 @@ python -c "import torch; print(torch.backends.mps.is_available())"
 
 # 降级到CPU模式
 export DEVICE_MODE=cpu
-docker-compose restart mineru-full
+docker compose restart mineru-full
 ```
 
 #### 4. API响应慢
@@ -384,7 +384,7 @@ curl -X POST "http://localhost:8000/models/warmup"
 # 调整并发参数
 export MAX_WORKERS=2
 export BATCH_SIZE=1
-docker-compose restart mineru-full
+docker compose restart mineru-full
 ```
 
 ### 性能诊断

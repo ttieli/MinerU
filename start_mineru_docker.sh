@@ -103,12 +103,16 @@ check_dependencies() {
         exit 1
     fi
     
-    # 检查 docker-compose
-    if ! command -v docker-compose &> /dev/null; then
-        print_warning "docker-compose 未找到，尝试使用 docker compose"
+    # 检查 Docker Compose (优先使用新版 docker compose)
+    if command -v docker &> /dev/null && docker compose version &> /dev/null; then
+        print_success "检测到 Docker Compose v2，使用 docker compose"
         DOCKER_COMPOSE="docker compose"
-    else
+    elif command -v docker-compose &> /dev/null; then
+        print_warning "使用旧版 docker-compose，建议升级到 Docker Desktop 最新版"
         DOCKER_COMPOSE="docker-compose"
+    else
+        print_error "未找到 Docker Compose，请确认 Docker Desktop 已正确安装"
+        exit 1
     fi
     
     print_success "所有依赖检查通过"

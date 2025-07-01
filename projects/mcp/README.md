@@ -295,7 +295,7 @@ mineru-mcp --transport streamable-http
 3. 运行以下命令启动服务：
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 服务默认会在 `http://localhost:8001` 启动。
