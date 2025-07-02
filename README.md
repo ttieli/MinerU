@@ -363,6 +363,7 @@ Easier to use: Just grab MinerU Desktop. No coding, no login, just a simple inte
 <details open="open">
   <summary><h2 style="display: inline-block">Table of Contents</h2></summary>
   <ol>
+    <li><a href="#-documentation-links">📚 Documentation Links</a></li>
     <li>
       <a href="#mineru">MinerU</a>
       <ul>
@@ -389,6 +390,25 @@ Easier to use: Just grab MinerU Desktop. No coding, no login, just a simple inte
     <li><a href="#links">Links</a></li>
   </ol>
 </details>
+
+## 📚 Documentation Links
+
+### Core Documentation
+- **[Quick Start Guide](QUICK_START.md)** - Complete setup and launch instructions
+- **[API Documentation](API_DOCUMENTATION.md)** - Detailed API usage and examples
+- **[Project Structure](DIRECTORY_SUMMARY.md)** - Overview of project organization
+
+### Additional Resources
+- **[Project Documentation](docs/README.md)** - Main documentation portal
+- **[Docker Deployment](docs/docker/README.md)** - Docker setup and troubleshooting
+- **[API Guide](docs/api/API_GUIDE.md)** - Advanced API usage
+- **[Project Structure Details](docs/PROJECT_STRUCTURE.md)** - Detailed architecture overview
+- **[Derivative Projects](projects/README.md)** - Related projects and integrations
+
+### Security & Legal
+- **[Security Policy](SECURITY.md)** - Security guidelines and reporting
+- **[License Information](LICENSE.md)** - Project licensing details
+- **[Contributor Agreement](MinerU_CLA.md)** - Contributor License Agreement
 
 # MinerU
 
