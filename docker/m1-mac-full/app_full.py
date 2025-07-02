@@ -1,453 +1,259 @@
-#!/usr/bin/env python3
-"""
-MinerU M芯片全功能版 API 服务
-支持Pipeline和VLM模式的完整文档解析功能
-"""
-import os
-import sys
 import json
-import asyncio
-import logging
-from pathlib import Path
-from typing import Optional, Dict, Any, List
-from contextlib import asynccontextmanager
+import os
+import gc
+from base64 import b64encode
+from glob import glob
+from io import StringIO
+import tempfile
+from typing import Tuple
 
 import uvicorn
-from fastapi import FastAPI, HTTPException, UploadFile, Form, BackgroundTasks
+from fastapi import FastAPI, HTTPException, UploadFile, Form
 from fastapi.responses import JSONResponse
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.middleware.gzip import GZipMiddleware
-from pydantic import BaseModel, Field
 from loguru import logger
 
-# 配置日志
-logger.remove()
-logger.add(
-    sys.stdout,
-    level=os.getenv("LOG_LEVEL", "INFO"),
-    format="<green>{time:HH:mm:ss}</green> | <level>{level: <8}</level> | {message}"
-)
+# MinerU imports
+from mineru.data.data_reader_writer import DataWriter, FileBasedDataWriter
+from mineru.data.data_reader_writer.s3 import S3DataReader, S3DataWriter
+from mineru.utils.config_reader import get_device
+from mineru.backend.pipeline.model_init import MineruPipelineModel
 
-# 尝试导入MinerU组件
-try:
-    from mineru.cli.common import prepare_env
-    from mineru.backend.pipeline.pipeline_analyze import doc_analyze as pipeline_analyze
-    from mineru.backend.vlm.vlm_analyze import doc_analyze as vlm_analyze
-    MINERU_AVAILABLE = True
-    logger.info("✅ MinerU组件加载成功")
-except ImportError as e:
-    MINERU_AVAILABLE = False
-    logger.warning(f"⚠️  MinerU组件加载失败: {e}")
+# 全局模型变量
+model: MineruPipelineModel = None
 
-# 全局配置
-CONFIG = {
-    "device_mode": os.getenv("DEVICE_MODE", "mps"),
-    "enable_vlm": os.getenv("ENABLE_VLM", "true").lower() == "true",
-    "enable_pipeline": os.getenv("ENABLE_PIPELINE", "true").lower() == "true",
-    "enable_table": os.getenv("ENABLE_TABLE", "true").lower() == "true",
-    "enable_formula": os.getenv("ENABLE_FORMULA", "true").lower() == "true",
-    "max_workers": int(os.getenv("MAX_WORKERS", "4")),
-    "batch_size": int(os.getenv("BATCH_SIZE", "2")),
-    "memory_limit": os.getenv("MEMORY_LIMIT", "8G"),
-    "model_precision": os.getenv("MODEL_PRECISION", "fp16"),
-}
-
-# 模型管理器
-class ModelManager:
-    """模型管理器，负责加载和切换不同的解析后端"""
-    
-    def __init__(self):
-        self.pipeline_model = None
-        self.vlm_model = None
-        self.current_backend = "auto"
-        self.is_initialized = False
-    
-    async def initialize(self):
-        """初始化模型"""
-        if self.is_initialized:
-            return
-        
-        logger.info("🔧 初始化模型管理器...")
-        
-        try:
-            if CONFIG["enable_pipeline"]:
-                await self._load_pipeline_model()
-            
-            if CONFIG["enable_vlm"]:
-                await self._load_vlm_model()
-            
-            self.is_initialized = True
-            logger.success("✅ 模型管理器初始化完成")
-            
-        except Exception as e:
-            logger.error(f"❌ 模型初始化失败: {e}")
-            raise
-    
-    async def _load_pipeline_model(self):
-        """加载Pipeline模型"""
-        logger.info("📦 加载Pipeline模型...")
-        try:
-            if MINERU_AVAILABLE:
-                # 这里应该加载实际的Pipeline模型
-                # self.pipeline_model = load_pipeline_model()
-                self.pipeline_model = "pipeline_loaded"
-                logger.success("✅ Pipeline模型加载完成")
-            else:
-                logger.warning("⚠️  Pipeline模型不可用")
-        except Exception as e:
-            logger.error(f"❌ Pipeline模型加载失败: {e}")
-    
-    async def _load_vlm_model(self):
-        """加载VLM模型"""
-        logger.info("🤖 加载VLM模型...")
-        try:
-            if MINERU_AVAILABLE:
-                # 这里应该加载实际的VLM模型
-                # self.vlm_model = load_vlm_model()
-                self.vlm_model = "vlm_loaded"
-                logger.success("✅ VLM模型加载完成")
-            else:
-                logger.warning("⚠️  VLM模型不可用")
-        except Exception as e:
-            logger.error(f"❌ VLM模型加载失败: {e}")
-    
-    def get_available_backends(self) -> List[str]:
-        """获取可用的后端"""
-        backends = []
-        if self.pipeline_model:
-            backends.extend(["pipeline", "auto"])
-        if self.vlm_model:
-            backends.extend(["vlm-transformers"])
-        return backends
-    
-    def switch_backend(self, backend: str) -> bool:
-        """切换后端"""
-        available = self.get_available_backends()
-        if backend in available:
-            self.current_backend = backend
-            logger.info(f"🔄 切换到后端: {backend}")
-            return True
-        else:
-            logger.warning(f"⚠️  后端不可用: {backend}")
-            return False
-
-# 全局模型管理器
-model_manager = ModelManager()
-
-# 应用生命周期管理
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    """应用生命周期管理"""
-    # 启动时
-    logger.info("🚀 启动MinerU全功能版API服务...")
-    
-    # 准备环境
-    if MINERU_AVAILABLE:
-        try:
-            prepare_env()
-            logger.info("✅ MinerU环境准备完成")
-        except Exception as e:
-            logger.warning(f"⚠️  MinerU环境准备失败: {e}")
-    
-    # 初始化模型
-    await model_manager.initialize()
-    
-    yield  # 应用运行期间
-    
-    # 关闭时
-    logger.info("🛑 关闭MinerU API服务...")
-
-# 创建FastAPI应用
+# 初始化FastAPI应用
 app = FastAPI(
-    title="MinerU Full API - Apple Silicon",
-    description="MinerU完整功能API服务 - 专为Apple Silicon优化",
-    version="2.0-full",
-    lifespan=lifespan
+    title="MinerU API - M1 Mac Full Version",
+    description="PDF解析API服务 - M1芯片Mac完整版 (VLM+表格+公式识别)",
+    version="2.0.0-full"
 )
 
-# 添加中间件
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+# 文件扩展名定义
+pdf_extensions = [".pdf"]
+office_extensions = [".ppt", ".pptx", ".doc", ".docx"]
+image_extensions = [".png", ".jpg", ".jpeg"]
 
-app.add_middleware(GZipMiddleware, minimum_size=1000)
+@app.on_event("startup")
+async def startup_event():
+    """在服务启动时预加载模型"""
+    global model
+    logger.info("开始预加载MinerU完整版模型...")
+    device = get_device()
+    
+    try:
+        # 使用完整配置加载，启用所有功能
+        model = MineruPipelineModel(
+            device=device, 
+            table_config={"enable": True}, 
+            formula_config={"enable": True}  # 完整版启用公式识别
+        )
+        logger.info("MinerU完整版模型预加载完成，服务就绪。")
+    except Exception as e:
+        logger.error(f"模型加载失败: {e}")
+        # 设置为None，将在第一次请求时延迟加载
+        model = None
 
-# 数据模型
-class ParseRequest(BaseModel):
-    backend: str = Field(default="auto", description="解析后端")
-    method: str = Field(default="auto", description="解析方法")
-    enable_table: bool = Field(default=True, description="启用表格识别")
-    enable_formula: bool = Field(default=True, description="启用公式识别")
-    return_format: str = Field(default="markdown", description="返回格式")
-    max_tokens: Optional[int] = Field(default=2048, description="VLM最大token数")
+class MemoryDataWriter(DataWriter):
+    """内存数据写入器，避免频繁文件IO"""
+    def __init__(self):
+        self.buffer = StringIO()
 
-class SystemInfo(BaseModel):
-    service: str = "mineru-full"
-    version: str = "2.0-full"
-    device_mode: str = CONFIG["device_mode"]
-    available_backends: List[str] = []
-    config: Dict[str, Any] = CONFIG
+    def write(self, path: str, data: bytes) -> None:
+        if isinstance(data, str):
+            self.buffer.write(data)
+        else:
+            self.buffer.write(data.decode("utf-8"))
 
-# API路由
+    def write_string(self, path: str, data: str) -> None:
+        self.buffer.write(data)
+
+    def get_value(self) -> str:
+        return self.buffer.getvalue()
+
+    def close(self):
+        self.buffer.close()
+
+def cleanup_memory():
+    """清理内存"""
+    gc.collect()
+
+def init_writers(
+    file_path: str = None,
+    file: UploadFile = None,
+    output_path: str = None,
+    output_image_path: str = None,
+) -> Tuple[
+    FileBasedDataWriter,
+    FileBasedDataWriter,
+    bytes,
+    str
+]:
+    """初始化写入器"""
+    file_extension = None
+    if file_path:
+        is_s3_path = file_path.startswith("s3://")
+        if is_s3_path:
+            # S3路径处理（简化版暂不支持）
+            raise ValueError("S3路径暂不支持")
+        else:
+            writer = FileBasedDataWriter(output_path)
+            image_writer = FileBasedDataWriter(output_image_path)
+            os.makedirs(output_image_path, exist_ok=True)
+            with open(file_path, "rb") as f:
+                file_bytes = f.read()
+            file_extension = os.path.splitext(file_path)[1]
+    else:
+        file_bytes = file.file.read()
+        file_extension = os.path.splitext(file.filename)[1]
+
+        writer = FileBasedDataWriter(output_path)
+        image_writer = FileBasedDataWriter(output_image_path)
+        os.makedirs(output_image_path, exist_ok=True)
+
+    return writer, image_writer, file_bytes, file_extension
+
+def encode_image(image_path: str) -> str:
+    """Base64编码图像"""
+    with open(image_path, "rb") as f:
+        return b64encode(f.read()).decode()
+
 @app.get("/", tags=["root"])
 async def root():
     """根路径"""
     return {
-        "message": "MinerU Full API - Apple Silicon",
-        "version": "2.0-full",
-        "status": "running"
+        "message": "MinerU API - M1 Mac Full Version", 
+        "status": "running",
+        "version": "2.0.0-full",
+        "features": ["PDF解析", "表格识别", "公式识别", "VLM分析"],
+        "ports": {"api": 8001, "webui": 3001}
     }
 
 @app.get("/health", tags=["health"])
 async def health_check():
-    """基础健康检查"""
-    return {
-        "status": "healthy",
-        "service": "mineru-full",
-        "version": "2.0-full"
-    }
+    """健康检查"""
+    return {"status": "healthy", "service": "mineru-full", "version": "2.0.0-full"}
 
-@app.get("/health/detailed", tags=["health"])
-async def detailed_health():
-    """详细健康检查"""
+@app.post("/file_parse", tags=["parse"], summary="解析文件 (PDF/Office/图像)")
+async def file_parse(
+    file: UploadFile = None,
+    file_path: str = Form(None),
+    parse_method: str = Form("auto"),
+    is_json_md_dump: bool = Form(False),
+    output_dir: str = Form("output"),
+    return_layout: bool = Form(False),
+    return_info: bool = Form(False),
+    return_content_list: bool = Form(False),
+    return_images: bool = Form(False),
+):
+    """
+    解析PDF/Office/图像文件为JSON和Markdown格式
+    
+    参数:
+        file: 要解析的文件 (与file_path二选一)
+        file_path: 文件路径 (与file二选一)
+        parse_method: 解析方法 auto/ocr/txt，默认auto
+        is_json_md_dump: 是否保存解析结果到文件，默认False
+        output_dir: 输出目录，默认output
+        return_layout: 是否返回布局信息，默认False
+        return_info: 是否返回文档信息，默认False
+        return_content_list: 是否返回内容列表，默认False
+        return_images: 是否返回图像，默认False
+    """
     try:
-        import psutil
-        import torch
-        
-        # 系统信息
-        memory = psutil.virtual_memory()
-        cpu_percent = psutil.cpu_percent(interval=1)
-        
-        # 设备信息
-        device_info = {
-            "device_mode": CONFIG["device_mode"],
-            "mps_available": torch.backends.mps.is_available() if hasattr(torch.backends, 'mps') else False,
-            "cuda_available": torch.cuda.is_available(),
-        }
-        
-        # 模型状态
-        model_status = {
-            "pipeline_loaded": model_manager.pipeline_model is not None,
-            "vlm_loaded": model_manager.vlm_model is not None,
-            "current_backend": model_manager.current_backend,
-            "available_backends": model_manager.get_available_backends()
-        }
-        
-        return {
-            "status": "healthy",
-            "service": "mineru-full",
-            "system": {
-                "memory_percent": memory.percent,
-                "memory_available_mb": memory.available // 1024 // 1024,
-                "cpu_percent": cpu_percent
-            },
-            "device": device_info,
-            "models": model_status,
-            "config": CONFIG
-        }
-    except Exception as e:
-        return JSONResponse(
-            content={"status": "error", "error": str(e)},
-            status_code=500
+        # 参数验证
+        if (file is None and file_path is None) or (file is not None and file_path is not None):
+            return JSONResponse(
+                content={"error": "必须提供file或file_path其中之一"},
+                status_code=400,
+            )
+
+        # 获取文件名
+        file_name = os.path.basename(file_path if file_path else file.filename).split(".")[0]
+        output_path = f"{output_dir}/{file_name}"
+        output_image_path = f"{output_path}/images"
+
+        # 增加日志以进行调试
+        logger.info(f"文件名 (file_name): {file_name}")
+        logger.info(f"输出目录 (output_dir): {output_dir}")
+        logger.info(f"最终输出路径 (output_path): {output_path}")
+
+        # 初始化写入器和获取文件内容
+        writer, image_writer, file_bytes, file_extension = init_writers(
+            file_path=file_path,
+            file=file,
+            output_path=output_path,
+            output_image_path=output_image_path,
         )
 
-@app.get("/system/info", tags=["system"])
-async def system_info():
-    """系统信息"""
-    info = SystemInfo()
-    info.available_backends = model_manager.get_available_backends()
-    return info
-
-@app.post("/models/switch", tags=["models"])
-async def switch_backend(backend: str):
-    """切换解析后端"""
-    if model_manager.switch_backend(backend):
-        return {"status": "success", "backend": backend}
-    else:
-        raise HTTPException(status_code=400, detail=f"Backend not available: {backend}")
-
-@app.post("/models/warmup", tags=["models"])
-async def warmup_models():
-    """预热模型"""
-    try:
-        await model_manager.initialize()
-        return {"status": "success", "message": "Models warmed up"}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Warmup failed: {str(e)}")
-
-@app.get("/models/status", tags=["models"])
-async def models_status():
-    """模型状态"""
-    return {
-        "pipeline_loaded": model_manager.pipeline_model is not None,
-        "vlm_loaded": model_manager.vlm_model is not None,
-        "current_backend": model_manager.current_backend,
-        "available_backends": model_manager.get_available_backends(),
-        "is_initialized": model_manager.is_initialized
-    }
-
-@app.post("/parse", tags=["parse"])
-async def parse_document(
-    file: UploadFile,
-    backend: str = Form("auto"),
-    method: str = Form("auto"),
-    enable_table: bool = Form(True),
-    enable_formula: bool = Form(True),
-    return_format: str = Form("markdown"),
-    max_tokens: int = Form(2048)
-):
-    """解析文档"""
-    try:
-        # 检查文件类型
-        if not file.filename:
-            raise HTTPException(status_code=400, detail="No file provided")
-        
-        # 检查后端可用性
-        available_backends = model_manager.get_available_backends()
-        if backend != "auto" and backend not in available_backends:
-            raise HTTPException(
-                status_code=400, 
-                detail=f"Backend '{backend}' not available. Available: {available_backends}"
+        # 确保模型已加载
+        global model
+        if model is None:
+            logger.info("模型未加载，正在延迟初始化完整版...")
+            device = get_device()
+            model = MineruPipelineModel(
+                device=device, 
+                table_config={"enable": True}, 
+                formula_config={"enable": True}  # 完整版启用公式识别
             )
+            logger.info("延迟模型加载完成（完整版）")
         
-        # 读取文件内容
-        file_content = await file.read()
-        
-        # 模拟解析（实际应该调用真正的解析函数）
-        if MINERU_AVAILABLE:
-            # 这里应该调用实际的解析函数
-            result = await _mock_parse(file.filename, file_content, backend, method)
-        else:
-            result = await _mock_parse(file.filename, file_content, backend, method)
-        
-        return {
-            "status": "success",
-            "filename": file.filename,
-            "backend_used": backend,
-            "result": result
-        }
-        
-    except Exception as e:
-        logger.error(f"解析失败: {e}")
-        raise HTTPException(status_code=500, detail=f"Parse failed: {str(e)}")
-
-@app.post("/batch_parse", tags=["parse"])
-async def batch_parse(
-    files: List[UploadFile],
-    backend: str = Form("auto"),
-    parallel_workers: int = Form(2)
-):
-    """批量解析文档"""
-    try:
-        if not files:
-            raise HTTPException(status_code=400, detail="No files provided")
-        
-        # 限制并发数
-        parallel_workers = min(parallel_workers, CONFIG["max_workers"])
-        
-        # 批量处理
-        results = []
-        for file in files:
-            file_content = await file.read()
-            result = await _mock_parse(file.filename, file_content, backend, "auto")
-            results.append({
-                "filename": file.filename,
-                "status": "success",
-                "result": result
-            })
-        
-        return {
-            "status": "success",
-            "total_files": len(files),
-            "results": results
-        }
-        
-    except Exception as e:
-        logger.error(f"批量解析失败: {e}")
-        raise HTTPException(status_code=500, detail=f"Batch parse failed: {str(e)}")
-
-@app.post("/benchmark", tags=["benchmark"])
-async def benchmark(test_file: UploadFile):
-    """性能基准测试"""
-    try:
+        # 调用核心解析逻辑
+        logger.info(f"开始解析文件: {file_name}")
         import time
-        
         start_time = time.time()
-        file_content = await test_file.read()
         
-        # 模拟解析
-        result = await _mock_parse(test_file.filename, file_content, "auto", "auto")
+        result, md_content = model.predict(
+            b_content=file_bytes,
+            file_name=file_name,
+            writer=writer,
+            image_writer=image_writer,
+        )
         
-        end_time = time.time()
-        processing_time = end_time - start_time
-        
-        return {
-            "status": "success",
-            "filename": test_file.filename,
-            "file_size_bytes": len(file_content),
-            "processing_time_seconds": processing_time,
-            "throughput_mb_per_second": (len(file_content) / 1024 / 1024) / processing_time,
-            "result": result
+        processing_time = time.time() - start_time
+        logger.info(f"文件解析完成，耗时: {processing_time:.2f}秒")
+
+        # 构建返回数据
+        data = {
+            "result": result,
+            "md_content": md_content
         }
         
+        # 兼容旧的返回参数（简化处理）
+        if return_layout:
+            data["layout"] = result.get("layout", {})
+        if return_info:
+            data["info"] = {"filename": file_name, "type": file_extension}
+        if return_content_list:
+            data["content_list"] = result.get("content_list", [])
+        if return_images:
+            image_paths = glob(f"{output_image_path}/*.png")
+            data["images"] = {os.path.basename(p): encode_image(p) for p in image_paths}
+
+        # === 产物写入逻辑 ===
+        if is_json_md_dump:
+            logger.info(f"--- 开始写入产物 ---")
+            logger.info(f"目标路径: {output_path}")
+            try:
+                os.makedirs(output_path, exist_ok=True)
+                logger.info(f"目录检查/创建成功: {output_path}")
+
+                writer.write_string(os.path.join(output_path, "content.md"), data["md_content"])
+                logger.info(f"写入 content.md 成功")
+
+                writer.write_string(os.path.join(output_path, "result.json"), json.dumps(result, ensure_ascii=False, indent=2))
+                logger.info(f"写入 result.json 成功")
+                
+            except Exception as e:
+                logger.error(f"!!!!!! 写入产物时发生严重错误: {e} !!!!!!")
+            logger.info(f"--- 结束写入产物 ---")
+
+        cleanup_memory()
+        return JSONResponse(data, status_code=200)
+
     except Exception as e:
-        logger.error(f"基准测试失败: {e}")
-        raise HTTPException(status_code=500, detail=f"Benchmark failed: {str(e)}")
-
-# 辅助函数
-async def _mock_parse(filename: str, content: bytes, backend: str, method: str) -> Dict:
-    """模拟解析函数（实际应该调用真正的MinerU解析）"""
-    import time
-    
-    # 模拟处理时间
-    await asyncio.sleep(0.1)
-    
-    # 返回模拟结果
-    return {
-        "markdown_content": f"# 解析结果 - {filename}\n\n这是一个模拟的解析结果。\n\n实际部署时会调用真正的MinerU解析功能。",
-        "metadata": {
-            "file_size": len(content),
-            "backend_used": backend,
-            "method_used": method,
-            "processing_time": 0.1,
-            "page_count": 1,
-            "has_tables": CONFIG["enable_table"],
-            "has_formulas": CONFIG["enable_formula"]
-        },
-        "statistics": {
-            "text_blocks": 5,
-            "images": 0,
-            "tables": 1 if CONFIG["enable_table"] else 0,
-            "formulas": 2 if CONFIG["enable_formula"] else 0
-        }
-    }
-
-# 启动函数
-def main():
-    """主函数"""
-    # 配置
-    host = os.getenv("API_HOST", "0.0.0.0")
-    port = int(os.getenv("API_PORT", "8000"))
-    workers = int(os.getenv("API_WORKERS", "1"))
-    
-    # 启动配置
-    config = uvicorn.Config(
-        app,
-        host=host,
-        port=port,
-        workers=workers,
-        log_level=os.getenv("LOG_LEVEL", "info").lower(),
-        access_log=True,
-        loop="asyncio"
-    )
-    
-    # 启动服务
-    server = uvicorn.Server(config)
-    server.run()
+        logger.exception(e)
+        cleanup_memory()
+        return JSONResponse(content={"error": str(e)}, status_code=500)
 
 if __name__ == "__main__":
-    main()
+    uvicorn.run(app, host="0.0.0.0", port=8000)  # Docker内部端口，外部映射到8001

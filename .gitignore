@@ -60,3 +60,6 @@ docker/m1-mac-full/layoutreader/
 *.safetensors
 /tmp/
 *.log
+
+# 测试输出目录
+test_output/

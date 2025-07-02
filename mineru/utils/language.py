@@ -39,6 +39,31 @@ def detect_lang(text: str) -> str:
     return lang
 
 
+def get_lang_by_content(content, filename=None):
+    """
+    根据内容和文件名检测语言
+    为了向后兼容性而添加的函数
+    """
+    if isinstance(content, bytes):
+        # 如果内容是字节，尝试解码为字符串
+        try:
+            content = content.decode('utf-8')
+        except UnicodeDecodeError:
+            # 如果UTF-8解码失败，尝试其他编码
+            try:
+                content = content.decode('latin-1')
+            except:
+                content = str(content)
+    
+    # 从内容中提取文本进行语言检测
+    if isinstance(content, str):
+        # 取前1000个字符进行语言检测
+        sample_text = content[:1000]
+        return detect_lang(sample_text)
+    
+    return ""
+
+
 if __name__ == '__main__':
     print(os.getenv("FTLANG_CACHE"))
     print(detect_lang("This is a test."))

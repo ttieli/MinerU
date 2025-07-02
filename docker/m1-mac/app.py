@@ -12,11 +12,14 @@ from fastapi import FastAPI, HTTPException, UploadFile, Form
 from fastapi.responses import JSONResponse
 from loguru import logger
 
-# MinerU imports - 更新为正确的导入路径
+# MinerU imports
 from mineru.data.data_reader_writer import DataWriter, FileBasedDataWriter
 from mineru.data.data_reader_writer.s3 import S3DataReader, S3DataWriter
 from mineru.utils.config_reader import get_device
-from mineru.backend.pipeline.pipeline_analyze import doc_analyze
+from mineru.backend.pipeline.model_init import MineruPipelineModel
+
+# 全局模型变量
+model: MineruPipelineModel = None
 
 # 初始化FastAPI应用
 app = FastAPI(
@@ -29,6 +32,26 @@ app = FastAPI(
 pdf_extensions = [".pdf"]
 office_extensions = [".ppt", ".pptx", ".doc", ".docx"]
 image_extensions = [".png", ".jpg", ".jpeg"]
+
+@app.on_event("startup")
+async def startup_event():
+    """在服务启动时预加载模型"""
+    global model
+    logger.info("开始预加载MinerU模型...")
+    device = get_device()
+    
+    try:
+        # 使用简化配置加载，启用核心功能
+        model = MineruPipelineModel(
+            device=device, 
+            table_config={"enable": True}, 
+            formula_config={"enable": False}  # 暂时禁用公式以加快初始化
+        )
+        logger.info("MinerU模型预加载完成，服务就绪。")
+    except Exception as e:
+        logger.error(f"模型加载失败: {e}")
+        # 设置为None，将在第一次请求时延迟加载
+        model = None
 
 class MemoryDataWriter(DataWriter):
     """内存数据写入器，避免频繁文件IO"""
@@ -89,39 +112,6 @@ def init_writers(
 
     return writer, image_writer, file_bytes, file_extension
 
-def process_file(
-    file_bytes: bytes,
-    file_extension: str,
-    parse_method: str,
-    output_path: str,
-) -> dict:
-    """处理文件内容 - 简化版实现"""
-    
-    # 创建临时文件
-    temp_dir = tempfile.mkdtemp()
-    temp_file_path = os.path.join(temp_dir, f"temp_file{file_extension}")
-    
-    try:
-        with open(temp_file_path, "wb") as f:
-            f.write(file_bytes)
-        
-        # 简化版：直接返回基本信息
-        result = {
-            "filename": os.path.basename(temp_file_path),
-            "size": len(file_bytes),
-            "type": file_extension,
-            "method": parse_method,
-            "status": "processed"
-        }
-        
-        return result
-    
-    finally:
-        # 清理临时文件
-        import shutil
-        shutil.rmtree(temp_dir, ignore_errors=True)
-        cleanup_memory()
-
 def encode_image(image_path: str) -> str:
     """Base64编码图像"""
     with open(image_path, "rb") as f:
@@ -135,7 +125,7 @@ async def root():
 @app.get("/health", tags=["health"])
 async def health_check():
     """健康检查"""
-    return {"status": "healthy", "service": "mineru-m1"}
+    return {"status": "healthy", "service": "mineru-m1", "version": "1.1_fixed"}
 
 @app.post("/file_parse", tags=["parse"], summary="解析文件 (PDF/Office/图像)")
 async def file_parse(
@@ -150,7 +140,7 @@ async def file_parse(
     return_images: bool = Form(False),
 ):
     """
-    解析PDF/Office/图像文件为JSON和Markdown格式 - 简化版实现
+    解析PDF/Office/图像文件为JSON和Markdown格式
     
     参数:
         file: 要解析的文件 (与file_path二选一)
@@ -176,6 +166,11 @@ async def file_parse(
         output_path = f"{output_dir}/{file_name}"
         output_image_path = f"{output_path}/images"
 
+        # 增加日志以进行调试
+        logger.info(f"文件名 (file_name): {file_name}")
+        logger.info(f"输出目录 (output_dir): {output_dir}")
+        logger.info(f"最终输出路径 (output_path): {output_path}")
+
         # 初始化写入器和获取文件内容
         writer, image_writer, file_bytes, file_extension = init_writers(
             file_path=file_path,
@@ -184,23 +179,67 @@ async def file_parse(
             output_image_path=output_image_path,
         )
 
-        # 处理文件 - 简化版实现
-        result = process_file(file_bytes, file_extension, parse_method, output_path)
+        # 确保模型已加载
+        global model
+        if model is None:
+            logger.info("模型未加载，正在延迟初始化...")
+            device = get_device()
+            model = MineruPipelineModel(
+                device=device, 
+                table_config={"enable": True}, 
+                formula_config={"enable": False}
+            )
+            logger.info("延迟模型加载完成")
+        
+        # 调用核心解析逻辑
+        logger.info(f"开始解析文件: {file_name}")
+        import time
+        start_time = time.time()
+        
+        result, md_content = model.predict(
+            b_content=file_bytes,
+            file_name=file_name,
+            writer=writer,
+            image_writer=image_writer,
+        )
+        
+        processing_time = time.time() - start_time
+        logger.info(f"文件解析完成，耗时: {processing_time:.2f}秒")
 
         # 构建返回数据
         data = {
             "result": result,
-            "md_content": f"# {file_name}\n\n处理完成 - 简化版实现\n\n文件类型: {file_extension}\n解析方法: {parse_method}"
+            "md_content": md_content
         }
         
+        # 兼容旧的返回参数（简化处理）
         if return_layout:
-            data["layout"] = {"status": "简化版暂不支持layout返回"}
+            data["layout"] = result.get("layout", {})
         if return_info:
             data["info"] = {"filename": file_name, "type": file_extension}
         if return_content_list:
-            data["content_list"] = [{"type": "text", "content": f"文件 {file_name} 处理完成"}]
+            data["content_list"] = result.get("content_list", [])
         if return_images:
-            data["images"] = {}
+            image_paths = glob(f"{output_image_path}/*.png")
+            data["images"] = {os.path.basename(p): encode_image(p) for p in image_paths}
+
+        # === 产物写入逻辑 ===
+        if is_json_md_dump:
+            logger.info(f"--- 开始写入产物 ---")
+            logger.info(f"目标路径: {output_path}")
+            try:
+                os.makedirs(output_path, exist_ok=True)
+                logger.info(f"目录检查/创建成功: {output_path}")
+
+                writer.write_string(os.path.join(output_path, "content.md"), data["md_content"])
+                logger.info(f"写入 content.md 成功")
+
+                writer.write_string(os.path.join(output_path, "result.json"), json.dumps(result, ensure_ascii=False, indent=2))
+                logger.info(f"写入 result.json 成功")
+                
+            except Exception as e:
+                logger.error(f"!!!!!! 写入产物时发生严重错误: {e} !!!!!!")
+            logger.info(f"--- 结束写入产物 ---")
 
         cleanup_memory()
         return JSONResponse(data, status_code=200)

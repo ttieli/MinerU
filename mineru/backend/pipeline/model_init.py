@@ -180,3 +180,40 @@ class MineruPipelineModel:
             )
 
         logger.info('DocAnalysis init done!')
+
+    def predict(self, b_content, file_name, writer=None, image_writer=None):
+        """
+        单个文档的完整解析流程
+        """
+        from mineru.backend.pipeline.model_json_to_middle_json import result_to_middle_json
+        from mineru.backend.pipeline.pipeline_middle_json_mkcontent import mk_content
+        from mineru.backend.pipeline.pipeline_analyze import doc_analyze
+        from mineru.utils.language import get_lang_by_content
+
+        lang = get_lang_by_content(b_content, file_name)
+        # 使用 doc_analyze 函数进行文档分析
+        infer_results, all_image_lists, all_pdf_docs, lang_list, ocr_enabled_list = doc_analyze(
+            [b_content], [lang], 
+            formula_enable=self.apply_formula, 
+            table_enable=self.apply_table
+        )
+        
+        # 获取第一个文档的结果
+        model_list = infer_results[0]
+        images_list = all_image_lists[0]
+        pdf_doc = all_pdf_docs[0]
+        _lang = lang_list[0]
+        _ocr_enable = ocr_enabled_list[0]
+        
+        # 调用 result_to_middle_json 函数
+        middle_json = result_to_middle_json(
+            model_list, images_list, pdf_doc, image_writer, 
+            lang=_lang, ocr_enable=_ocr_enable, formula_enabled=self.apply_formula
+        )
+        md_content = mk_content(middle_json, writer, image_writer, need_image=True)
+        return middle_json, md_content
+
+    def __call__(self, img_list, ocr_list, lang_list):
+        # layout predict
+        layout_res = self.layout_model(img_list)
+        # ... existing code ...

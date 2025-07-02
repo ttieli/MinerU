@@ -179,12 +179,16 @@ select_version() {
                 VERSION="light"
                 VERSION_NAME="简化版"
                 DOCKER_DIR="docker/m1-mac"
+                DOCKER_COMPOSE_FILE="docker-compose.yml"
+                API_PORT="8000"
                 break
                 ;;
             2)
                 VERSION="full"
                 VERSION_NAME="完整版"
                 DOCKER_DIR="docker/m1-mac-full"
+                DOCKER_COMPOSE_FILE="docker-compose-fixed.yml"
+                API_PORT="8001"
                 if [[ $TOTAL_MEMORY -lt 16 ]]; then
                     echo ""
                     print_warning "您的内存可能不足以流畅运行完整版"
@@ -219,9 +223,9 @@ configure_environment() {
 VERSION=latest
 BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
 
-# 端口配置
-API_PORT=8000
-WEBUI_PORT=3000
+# 端口配置 (根据版本动态设置)
+API_PORT=${API_PORT:-8000}
+WEBUI_PORT=${WEBUI_PORT:-3000}
 MONITOR_PORT=8080
 HTTP_PORT=80
 HTTPS_PORT=443
@@ -240,6 +244,8 @@ EOF
     if [[ "$VERSION" == "full" ]]; then
         cat >> "$ENV_FILE" << EOF
 # 完整版特定配置
+API_PORT=8001
+WEBUI_PORT=3001
 DEVICE_MODE=mps
 MPS_MEMORY_LIMIT=8G
 MPS_MEMORY_FRACTION=0.8
@@ -298,9 +304,10 @@ ask_advanced_options() {
         
         # 端口配置
         echo ""
-        read -p "是否自定义 API 端口? (当前: 8000, 直接回车跳过): " custom_port
+        current_port=$(grep "API_PORT=" "$ENV_FILE" | tail -1 | cut -d'=' -f2)
+        read -p "是否自定义 API 端口? (当前: $current_port, 直接回车跳过): " custom_port
         if [[ -n "$custom_port" ]]; then
-            sed -i '' "s/API_PORT=8000/API_PORT=$custom_port/" "$ENV_FILE"
+            sed -i '' "s/API_PORT=$current_port/API_PORT=$custom_port/" "$ENV_FILE"
         fi
         
         # 模型源选择
@@ -320,12 +327,12 @@ start_services() {
     print_title "启动 MinerU $VERSION_NAME"
     
     print_info "拉取/构建镜像 (使用 --no-cache 确保应用最新代码)..."
-    docker compose -f $DOCKER_DIR/docker-compose.yml build --no-cache
+    $DOCKER_COMPOSE -f $DOCKER_DIR/$DOCKER_COMPOSE_FILE build --no-cache
     print_info "启动服务..."
-    docker compose -f $DOCKER_DIR/docker-compose.yml up -d
+    $DOCKER_COMPOSE -f $DOCKER_DIR/$DOCKER_COMPOSE_FILE up -d
     # 如果启用了WebUI，启动WebUI服务
     if [[ "$VERSION" == "full" && "$ENABLE_WEBUI" == "true" ]]; then
-        docker compose -f $DOCKER_DIR/docker-compose.yml --profile webui up -d
+        $DOCKER_COMPOSE -f $DOCKER_DIR/$DOCKER_COMPOSE_FILE --profile webui up -d
     fi
     print_success "服务启动成功!"
 }
@@ -336,7 +343,8 @@ wait_for_services() {
     local max_attempts=30
     local attempt=0
     while [[ $attempt -lt $max_attempts ]]; do
-        if curl -s http://localhost:8000/health &> /dev/null; then
+        current_api_port=$(grep "API_PORT=" "$ENV_FILE" | tail -1 | cut -d'=' -f2)
+        if curl -s http://localhost:$current_api_port/health &> /dev/null; then
             print_success "API 服务就绪!"
             break
         fi
@@ -346,7 +354,7 @@ wait_for_services() {
     done
     if [[ $attempt -eq $max_attempts ]]; then
         print_warning "服务启动超时，请检查日志"
-        docker compose -f $DOCKER_DIR/docker-compose.yml logs --tail=10
+        $DOCKER_COMPOSE -f $DOCKER_DIR/$DOCKER_COMPOSE_FILE logs --tail=10
         return 1
     fi
 }
@@ -366,16 +374,16 @@ show_access_info() {
     echo ""
     print_info "常用命令:"
     echo -e "  ${CYAN}# 查看服务状态${NC}"
-    echo -e "  docker compose -f $DOCKER_DIR/docker-compose.yml ps"
+    echo -e "  $DOCKER_COMPOSE -f $DOCKER_DIR/$DOCKER_COMPOSE_FILE ps"
     echo ""
     echo -e "  ${CYAN}# 查看日志${NC}"
-    echo -e "  docker compose -f $DOCKER_DIR/docker-compose.yml logs -f"
+    echo -e "  $DOCKER_COMPOSE -f $DOCKER_DIR/$DOCKER_COMPOSE_FILE logs -f"
     echo ""
     echo -e "  ${CYAN}# 停止服务${NC}"
-    echo -e "  docker compose -f $DOCKER_DIR/docker-compose.yml down"
+    echo -e "  $DOCKER_COMPOSE -f $DOCKER_DIR/$DOCKER_COMPOSE_FILE down"
     echo ""
     echo -e "  ${CYAN}# 重启服务${NC}"
-    echo -e "  docker compose -f $DOCKER_DIR/docker-compose.yml restart"
+    echo -e "  $DOCKER_COMPOSE -f $DOCKER_DIR/$DOCKER_COMPOSE_FILE restart"
 }
 
 # 快速测试
@@ -387,14 +395,15 @@ quick_test() {
         print_info "执行 API 测试..."
         
         # 健康检查测试
-        if curl -s http://localhost:8000/health | grep -q "healthy"; then
+        current_api_port=$(grep "API_PORT=" "$ENV_FILE" | tail -1 | cut -d'=' -f2)
+        if curl -s http://localhost:$current_api_port/health | grep -q "healthy"; then
             print_success "健康检查通过"
         else
             print_warning "健康检查失败"
         fi
         
         # API 端点测试
-        if curl -s http://localhost:8000/docs &> /dev/null; then
+        if curl -s http://localhost:$current_api_port/docs &> /dev/null; then
             print_success "API 文档可访问"
         else
             print_warning "API 文档无法访问"
@@ -407,7 +416,7 @@ cleanup() {
     if [[ $? -ne 0 ]]; then
         print_error "启动过程中出现错误"
         print_info "查看日志以获取更多信息:"
-        echo "  docker compose -f $DOCKER_DIR/docker-compose.yml logs"
+        echo "  $DOCKER_COMPOSE -f $DOCKER_DIR/$DOCKER_COMPOSE_FILE logs"
     fi
 }
 

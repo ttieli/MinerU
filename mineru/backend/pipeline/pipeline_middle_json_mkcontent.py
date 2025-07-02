@@ -297,3 +297,19 @@ def escape_special_markdown_char(content):
         content = content.replace(char, "\\" + char)
 
     return content
+
+
+def mk_content(middle_json, writer=None, image_writer=None, need_image=True):
+    """
+    为了向后兼容性，将 middle_json 转换为 markdown 内容
+    """
+    if "pdf_info" not in middle_json:
+        return ""
+    
+    pdf_info = middle_json["pdf_info"]
+    
+    # 确定使用的模式
+    make_mode = MakeMode.MM_MD if need_image else MakeMode.NLP_MD
+    
+    # 使用 union_make 函数生成内容
+    return union_make(pdf_info, make_mode, img_buket_path="")

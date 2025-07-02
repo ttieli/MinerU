@@ -25,7 +25,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # 复制requirements文件
-COPY requirements.txt .
+COPY docker/m1-mac/requirements.txt .
 
 # 安装Python依赖
 RUN pip install --no-cache-dir -r requirements.txt
@@ -34,14 +34,14 @@ RUN pip install --no-cache-dir -r requirements.txt
 RUN mkdir -p /opt/models /opt/layoutreader
 
 # 复制模型下载脚本并执行 (只下载核心模型以节省空间)
-COPY download_models_light.py .
+COPY docker/m1-mac/download_models_light.py .
 RUN python download_models_light.py
 
 # 复制应用文件
 COPY mineru ./mineru
-COPY app.py .
-COPY magic-pdf-m1.json /root/magic-pdf.json
-COPY entrypoint.sh .
+COPY docker/m1-mac/app.py .
+COPY docker/m1-mac/magic-pdf-m1.json /root/magic-pdf.json
+COPY docker/m1-mac/entrypoint.sh .
 
 # 设置执行权限
 RUN chmod +x entrypoint.sh

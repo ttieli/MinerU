@@ -248,3 +248,7 @@ def make_page_info_dict(blocks, page_id, page_w, page_h, discarded_blocks):
         'discarded_blocks': discarded_blocks,
     }
     return return_dict
+
+
+# 为了向后兼容性，添加别名
+model_json_to_middle_json = result_to_middle_json

@@ -1,0 +1,6296 @@
+{
+  "result": {
+    "pdf_info": [
+      {
+        "preproc_blocks": [
+          {
+            "type": "text",
+            "bbox": [
+              48,
+              56,
+              300,
+              140
+            ],
+            "lines": [
+              {
+                "bbox": [
+                  47,
+                  57,
+                  300,
+                  69
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      47,
+                      57,
+                      300,
+                      69
+                    ],
+                    "score": 1.0,
+                    "content": "the matching cost by performing two-pass aggregation using",
+                    "type": "text"
+                  }
+                ],
+                "index": 0
+              },
+              {
+                "bbox": [
+                  47,
+                  70,
+                  300,
+                  80
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      47,
+                      70,
+                      300,
+                      80
+                    ],
+                    "score": 1.0,
+                    "content": "two orthogonal 1D windows [5], [6], [8]. The two-pass method",
+                    "type": "text"
+                  }
+                ],
+                "index": 1
+              },
+              {
+                "bbox": [
+                  47,
+                  81,
+                  301,
+                  92
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      47,
+                      81,
+                      301,
+                      92
+                    ],
+                    "score": 1.0,
+                    "content": "first aggregates matching costs in the vertical direction, and",
+                    "type": "text"
+                  }
+                ],
+                "index": 2
+              },
+              {
+                "bbox": [
+                  47,
+                  93,
+                  301,
+                  105
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      47,
+                      93,
+                      301,
+                      105
+                    ],
+                    "score": 1.0,
+                    "content": "then computes a weighted sum of the aggregated costs in the",
+                    "type": "text"
+                  }
+                ],
+                "index": 3
+              },
+              {
+                "bbox": [
+                  47,
+                  105,
+                  300,
+                  117
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      47,
+                      105,
+                      300,
+                      117
+                    ],
+                    "score": 1.0,
+                    "content": "horizontal direction. Given that support regions are of size",
+                    "type": "text"
+                  }
+                ],
+                "index": 4
+              },
+              {
+                "bbox": [
+                  47,
+                  117,
+                  300,
+                  128
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      47,
+                      117,
+                      75,
+                      127
+                    ],
+                    "score": 0.88,
+                    "content": "\\omega \\times \\omega",
+                    "type": "inline_equation"
+                  },
+                  {
+                    "bbox": [
+                      75,
+                      118,
+                      300,
+                      128
+                    ],
+                    "score": 1.0,
+                    "content": ", the two-pass method reduces the complexity of cost",
+                    "type": "text"
+                  }
+                ],
+                "index": 5
+              },
+              {
+                "bbox": [
+                  47,
+                  128,
+                  189,
+                  140
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      47,
+                      128,
+                      120,
+                      140
+                    ],
+                    "score": 1.0,
+                    "content": "aggregation from",
+                    "type": "text"
+                  },
+                  {
+                    "bbox": [
+                      121,
+                      128,
+                      149,
+                      140
+                    ],
+                    "score": 0.93,
+                    "content": "\\mathcal { O } ( \\omega ^ { 2 } )",
+                    "type": "inline_equation"
+                  },
+                  {
+                    "bbox": [
+                      149,
+                      128,
+                      162,
+                      140
+                    ],
+                    "score": 1.0,
+                    "content": "to",
+                    "type": "text"
+                  },
+                  {
+                    "bbox": [
+                      163,
+                      128,
+                      186,
+                      140
+                    ],
+                    "score": 0.91,
+                    "content": "\\mathcal { O } ( \\omega )",
+                    "type": "inline_equation"
+                  },
+                  {
+                    "bbox": [
+                      186,
+                      128,
+                      189,
+                      140
+                    ],
+                    "score": 1.0,
+                    "content": ".",
+                    "type": "text"
+                  }
+                ],
+                "index": 6
+              }
+            ],
+            "index": 3
+          },
+          {
+            "type": "title",
+            "bbox": [
+              48,
+              145,
+              171,
+              156
+            ],
+            "lines": [
+              {
+                "bbox": [
+                  48,
+                  145,
+                  171,
+                  158
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      48,
+                      145,
+                      171,
+                      158
+                    ],
+                    "score": 1.0,
+                    "content": "B. Temporal cost aggregation",
+                    "type": "text"
+                  }
+                ],
+                "index": 7
+              }
+            ],
+            "index": 7
+          },
+          {
+            "type": "text",
+            "bbox": [
+              48,
+              159,
+              300,
+              255
+            ],
+            "lines": [
+              {
+                "bbox": [
+                  58,
+                  160,
+                  301,
+                  172
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      58,
+                      160,
+                      152,
+                      172
+                    ],
+                    "score": 1.0,
+                    "content": "Once aggregated costs",
+                    "type": "text"
+                  },
+                  {
+                    "bbox": [
+                      153,
+                      160,
+                      184,
+                      172
+                    ],
+                    "score": 0.93,
+                    "content": "C ( p , \\bar { p } )",
+                    "type": "inline_equation"
+                  },
+                  {
+                    "bbox": [
+                      184,
+                      160,
+                      301,
+                      172
+                    ],
+                    "score": 1.0,
+                    "content": "have been computed for all",
+                    "type": "text"
+                  }
+                ],
+                "index": 8
+              },
+              {
+                "bbox": [
+                  47,
+                  172,
+                  300,
+                  184
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      47,
+                      172,
+                      74,
+                      184
+                    ],
+                    "score": 1.0,
+                    "content": "pixels",
+                    "type": "text"
+                  },
+                  {
+                    "bbox": [
+                      74,
+                      173,
+                      81,
+                      183
+                    ],
+                    "score": 0.79,
+                    "content": "p",
+                    "type": "inline_equation"
+                  },
+                  {
+                    "bbox": [
+                      82,
+                      172,
+                      300,
+                      184
+                    ],
+                    "score": 1.0,
+                    "content": "in the reference image and their respective matching",
+                    "type": "text"
+                  }
+                ],
+                "index": 9
+              },
+              {
+                "bbox": [
+                  47,
+                  185,
+                  301,
+                  196
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      47,
+                      185,
+                      95,
+                      196
+                    ],
+                    "score": 1.0,
+                    "content": "candidates",
+                    "type": "text"
+                  },
+                  {
+                    "bbox": [
+                      95,
+                      185,
+                      103,
+                      195
+                    ],
+                    "score": 0.78,
+                    "content": "\\bar { p }",
+                    "type": "inline_equation"
+                  },
+                  {
+                    "bbox": [
+                      103,
+                      185,
+                      301,
+                      196
+                    ],
+                    "score": 1.0,
+                    "content": "in the target image, a single-pass temporal",
+                    "type": "text"
+                  }
+                ],
+                "index": 10
+              },
+              {
+                "bbox": [
+                  47,
+                  196,
+                  301,
+                  207
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      47,
+                      196,
+                      301,
+                      207
+                    ],
+                    "score": 1.0,
+                    "content": "aggregation routine is exectuted. At each time instance, the",
+                    "type": "text"
+                  }
+                ],
+                "index": 11
+              },
+              {
+                "bbox": [
+                  47,
+                  207,
+                  301,
+                  220
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      47,
+                      209,
+                      197,
+                      220
+                    ],
+                    "score": 1.0,
+                    "content": "algorithm stores an auxiliary cost",
+                    "type": "text"
+                  },
+                  {
+                    "bbox": [
+                      198,
+                      207,
+                      233,
+                      220
+                    ],
+                    "score": 0.96,
+                    "content": "C _ { a } ( p , \\bar { p } )",
+                    "type": "inline_equation"
+                  },
+                  {
+                    "bbox": [
+                      233,
+                      209,
+                      301,
+                      220
+                    ],
+                    "score": 1.0,
+                    "content": "which holds a",
+                    "type": "text"
+                  }
+                ],
+                "index": 12
+              },
+              {
+                "bbox": [
+                  48,
+                  221,
+                  300,
+                  231
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      48,
+                      221,
+                      300,
+                      231
+                    ],
+                    "score": 1.0,
+                    "content": "weighted summation of costs obtained in the previous frames.",
+                    "type": "text"
+                  }
+                ],
+                "index": 13
+              },
+              {
+                "bbox": [
+                  47,
+                  232,
+                  300,
+                  244
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      47,
+                      232,
+                      300,
+                      244
+                    ],
+                    "score": 1.0,
+                    "content": "During temporal aggregation, the auxiliary cost is merged with",
+                    "type": "text"
+                  }
+                ],
+                "index": 14
+              },
+              {
+                "bbox": [
+                  47,
+                  244,
+                  241,
+                  255
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      47,
+                      244,
+                      241,
+                      255
+                    ],
+                    "score": 1.0,
+                    "content": "the cost obtained from the current frame using",
+                    "type": "text"
+                  }
+                ],
+                "index": 15
+              }
+            ],
+            "index": 11.5
+          },
+          {
+            "type": "interline_equation",
+            "bbox": [
+              52,
+              257,
+              282,
+              284
+            ],
+            "lines": [
+              {
+                "bbox": [
+                  52,
+                  257,
+                  282,
+                  284
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      52,
+                      257,
+                      282,
+                      284
+                    ],
+                    "score": 0.92,
+                    "content": "C ( p , \\bar { p } ) \\gets \\frac { ( 1 - \\lambda ) \\cdot C ( p , \\bar { p } ) + \\lambda \\cdot w _ { t } ( p , p _ { t - 1 } ) \\cdot C _ { a } ( p , \\bar { p } ) } { ( 1 - \\lambda ) + \\lambda \\cdot w _ { t } ( p , p _ { t - 1 } ) } ,",
+                    "type": "interline_equation",
+                    "image_path": "70b84b3ca184ced576a1667ccef13446ed7792f4085b20a75ebc6c9da04973c8.jpg"
+                  }
+                ]
+              }
+            ],
+            "index": 16.5,
+            "virtual_lines": [
+              {
+                "bbox": [
+                  52,
+                  257,
+                  282,
+                  270.5
+                ],
+                "spans": [],
+                "index": 16
+              },
+              {
+                "bbox": [
+                  52,
+                  270.5,
+                  282,
+                  284.0
+                ],
+                "spans": [],
+                "index": 17
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "bbox": [
+              48,
+              286,
+              300,
+              358
+            ],
+            "lines": [
+              {
+                "bbox": [
+                  48,
+                  287,
+                  300,
+                  297
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      48,
+                      288,
+                      176,
+                      297
+                    ],
+                    "score": 1.0,
+                    "content": "where the feedback coefficient",
+                    "type": "text"
+                  },
+                  {
+                    "bbox": [
+                      176,
+                      287,
+                      183,
+                      297
+                    ],
+                    "score": 0.8,
+                    "content": "\\lambda",
+                    "type": "inline_equation"
+                  },
+                  {
+                    "bbox": [
+                      184,
+                      288,
+                      300,
+                      297
+                    ],
+                    "score": 1.0,
+                    "content": "controls the amount of cost",
+                    "type": "text"
+                  }
+                ],
+                "index": 18
+              },
+              {
+                "bbox": [
+                  47,
+                  298,
+                  300,
+                  311
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      47,
+                      299,
+                      115,
+                      311
+                    ],
+                    "score": 1.0,
+                    "content": "smoothing and",
+                    "type": "text"
+                  },
+                  {
+                    "bbox": [
+                      115,
+                      298,
+                      159,
+                      311
+                    ],
+                    "score": 0.93,
+                    "content": "w _ { t } ( p , p _ { t - 1 } )",
+                    "type": "inline_equation"
+                  },
+                  {
+                    "bbox": [
+                      159,
+                      299,
+                      300,
+                      311
+                    ],
+                    "score": 1.0,
+                    "content": "enforces color similarity in the",
+                    "type": "text"
+                  }
+                ],
+                "index": 19
+              },
+              {
+                "bbox": [
+                  47,
+                  312,
+                  300,
+                  322
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      47,
+                      312,
+                      300,
+                      322
+                    ],
+                    "score": 1.0,
+                    "content": "temporal domain. The temporal adaptive weight computed",
+                    "type": "text"
+                  }
+                ],
+                "index": 20
+              },
+              {
+                "bbox": [
+                  48,
+                  324,
+                  300,
+                  334
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      48,
+                      324,
+                      167,
+                      333
+                    ],
+                    "score": 1.0,
+                    "content": "between the pixel of interest",
+                    "type": "text"
+                  },
+                  {
+                    "bbox": [
+                      167,
+                      324,
+                      174,
+                      334
+                    ],
+                    "score": 0.79,
+                    "content": "p",
+                    "type": "inline_equation"
+                  },
+                  {
+                    "bbox": [
+                      174,
+                      324,
+                      300,
+                      333
+                    ],
+                    "score": 1.0,
+                    "content": "in the current frame and pixel",
+                    "type": "text"
+                  }
+                ],
+                "index": 21
+              },
+              {
+                "bbox": [
+                  47,
+                  335,
+                  301,
+                  347
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      47,
+                      336,
+                      63,
+                      346
+                    ],
+                    "score": 0.83,
+                    "content": "p _ { t - 1 }",
+                    "type": "inline_equation"
+                  },
+                  {
+                    "bbox": [
+                      64,
+                      335,
+                      301,
+                      347
+                    ],
+                    "score": 1.0,
+                    "content": ", located at the same spatial coordinate in the prior frame,",
+                    "type": "text"
+                  }
+                ],
+                "index": 22
+              },
+              {
+                "bbox": [
+                  47,
+                  347,
+                  96,
+                  359
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      47,
+                      347,
+                      96,
+                      359
+                    ],
+                    "score": 1.0,
+                    "content": "is given by",
+                    "type": "text"
+                  }
+                ],
+                "index": 23
+              }
+            ],
+            "index": 20.5
+          },
+          {
+            "type": "interline_equation",
+            "bbox": [
+              100,
+              360,
+              247,
+              388
+            ],
+            "lines": [
+              {
+                "bbox": [
+                  100,
+                  360,
+                  247,
+                  388
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      100,
+                      360,
+                      247,
+                      388
+                    ],
+                    "score": 0.95,
+                    "content": "w _ { t } ( p , p _ { t - 1 } ) = \\exp { \\left( - \\frac { \\Delta _ { c } ( p , p _ { t - 1 } ) } { \\gamma _ { t } } \\right) } ,",
+                    "type": "interline_equation",
+                    "image_path": "fe98bfc7142dce3f888443c17b1d649ea173b99ff89529ab9fb64d91c620d0dc.jpg"
+                  }
+                ]
+              }
+            ],
+            "index": 24.5,
+            "virtual_lines": [
+              {
+                "bbox": [
+                  100,
+                  360,
+                  247,
+                  374.0
+                ],
+                "spans": [],
+                "index": 24
+              },
+              {
+                "bbox": [
+                  100,
+                  374.0,
+                  247,
+                  388.0
+                ],
+                "spans": [],
+                "index": 25
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "bbox": [
+              48,
+              389,
+              300,
+              473
+            ],
+            "lines": [
+              {
+                "bbox": [
+                  48,
+                  390,
+                  300,
+                  402
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      48,
+                      390,
+                      74,
+                      402
+                    ],
+                    "score": 1.0,
+                    "content": "where",
+                    "type": "text"
+                  },
+                  {
+                    "bbox": [
+                      74,
+                      392,
+                      84,
+                      401
+                    ],
+                    "score": 0.84,
+                    "content": "\\gamma _ { t }",
+                    "type": "inline_equation"
+                  },
+                  {
+                    "bbox": [
+                      85,
+                      390,
+                      300,
+                      402
+                    ],
+                    "score": 1.0,
+                    "content": "regulates the strength of grouping by color similarity",
+                    "type": "text"
+                  }
+                ],
+                "index": 26
+              },
+              {
+                "bbox": [
+                  48,
+                  403,
+                  300,
+                  413
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      48,
+                      403,
+                      300,
+                      413
+                    ],
+                    "score": 1.0,
+                    "content": "in the temporal dimension. The temporal adaptive weight has",
+                    "type": "text"
+                  }
+                ],
+                "index": 27
+              },
+              {
+                "bbox": [
+                  47,
+                  414,
+                  301,
+                  425
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      47,
+                      414,
+                      301,
+                      425
+                    ],
+                    "score": 1.0,
+                    "content": "the effect of preserving edges in the temporal domain, such",
+                    "type": "text"
+                  }
+                ],
+                "index": 28
+              },
+              {
+                "bbox": [
+                  47,
+                  426,
+                  300,
+                  437
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      47,
+                      426,
+                      300,
+                      437
+                    ],
+                    "score": 1.0,
+                    "content": "that when a pixel coordinate transitions from one side of an",
+                    "type": "text"
+                  }
+                ],
+                "index": 29
+              },
+              {
+                "bbox": [
+                  48,
+                  439,
+                  300,
+                  448
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      48,
+                      439,
+                      300,
+                      448
+                    ],
+                    "score": 1.0,
+                    "content": "edge to another in subsequent frames, the auxiliary cost is",
+                    "type": "text"
+                  }
+                ],
+                "index": 30
+              },
+              {
+                "bbox": [
+                  48,
+                  451,
+                  300,
+                  461
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      48,
+                      451,
+                      300,
+                      461
+                    ],
+                    "score": 1.0,
+                    "content": "assigned a small weight and the majority of the cost is derived",
+                    "type": "text"
+                  }
+                ],
+                "index": 31
+              },
+              {
+                "bbox": [
+                  48,
+                  462,
+                  145,
+                  472
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      48,
+                      462,
+                      145,
+                      472
+                    ],
+                    "score": 1.0,
+                    "content": "from the current frame.",
+                    "type": "text"
+                  }
+                ],
+                "index": 32
+              }
+            ],
+            "index": 29
+          },
+          {
+            "type": "title",
+            "bbox": [
+              49,
+              478,
+              256,
+              489
+            ],
+            "lines": [
+              {
+                "bbox": [
+                  48,
+                  478,
+                  258,
+                  490
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      48,
+                      478,
+                      258,
+                      490
+                    ],
+                    "score": 1.0,
+                    "content": "C. Disparity Selection and Confidence Assessment",
+                    "type": "text"
+                  }
+                ],
+                "index": 33
+              }
+            ],
+            "index": 33
+          },
+          {
+            "type": "text",
+            "bbox": [
+              47,
+              493,
+              300,
+              552
+            ],
+            "lines": [
+              {
+                "bbox": [
+                  57,
+                  493,
+                  300,
+                  505
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      57,
+                      493,
+                      300,
+                      505
+                    ],
+                    "score": 1.0,
+                    "content": "Having performed temporal cost aggregation, matches are",
+                    "type": "text"
+                  }
+                ],
+                "index": 34
+              },
+              {
+                "bbox": [
+                  48,
+                  506,
+                  298,
+                  516
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      48,
+                      506,
+                      298,
+                      516
+                    ],
+                    "score": 1.0,
+                    "content": "determined using the Winner-Takes-All (WTA) match selec",
+                    "type": "text"
+                  }
+                ],
+                "index": 35
+              },
+              {
+                "bbox": [
+                  47,
+                  516,
+                  300,
+                  529
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      47,
+                      518,
+                      165,
+                      528
+                    ],
+                    "score": 1.0,
+                    "content": "tion criteria. The match for",
+                    "type": "text"
+                  },
+                  {
+                    "bbox": [
+                      166,
+                      519,
+                      172,
+                      528
+                    ],
+                    "score": 0.76,
+                    "content": "p",
+                    "type": "inline_equation"
+                  },
+                  {
+                    "bbox": [
+                      173,
+                      518,
+                      226,
+                      528
+                    ],
+                    "score": 1.0,
+                    "content": ", denoted as",
+                    "type": "text"
+                  },
+                  {
+                    "bbox": [
+                      226,
+                      516,
+                      248,
+                      529
+                    ],
+                    "score": 0.92,
+                    "content": "m ( p )",
+                    "type": "inline_equation"
+                  },
+                  {
+                    "bbox": [
+                      249,
+                      518,
+                      300,
+                      528
+                    ],
+                    "score": 1.0,
+                    "content": ", is the can-",
+                    "type": "text"
+                  }
+                ],
+                "index": 36
+              },
+              {
+                "bbox": [
+                  47,
+                  528,
+                  300,
+                  541
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      47,
+                      529,
+                      99,
+                      541
+                    ],
+                    "score": 1.0,
+                    "content": "didate pixel",
+                    "type": "text"
+                  },
+                  {
+                    "bbox": [
+                      99,
+                      528,
+                      129,
+                      541
+                    ],
+                    "score": 0.92,
+                    "content": "\\bar { p } \\in S _ { p }",
+                    "type": "inline_equation"
+                  },
+                  {
+                    "bbox": [
+                      130,
+                      529,
+                      300,
+                      541
+                    ],
+                    "score": 1.0,
+                    "content": "characterized by the minimum matching",
+                    "type": "text"
+                  }
+                ],
+                "index": 37
+              },
+              {
+                "bbox": [
+                  48,
+                  542,
+                  134,
+                  552
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      48,
+                      542,
+                      134,
+                      552
+                    ],
+                    "score": 1.0,
+                    "content": "cost, and is given by",
+                    "type": "text"
+                  }
+                ],
+                "index": 38
+              }
+            ],
+            "index": 36
+          },
+          {
+            "type": "interline_equation",
+            "bbox": [
+              122,
+              556,
+              226,
+              578
+            ],
+            "lines": [
+              {
+                "bbox": [
+                  122,
+                  556,
+                  226,
+                  578
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      122,
+                      556,
+                      226,
+                      578
+                    ],
+                    "score": 0.93,
+                    "content": "m ( p ) = \\operatorname * { a r g m i n } _ { \\bar { p } \\in S _ { p } } C ( p , \\bar { p } ) .",
+                    "type": "interline_equation",
+                    "image_path": "32354fcc55e34a688ebefd92f762e50ecb9fd80bf369de87a252601eed416ad3.jpg"
+                  }
+                ]
+              }
+            ],
+            "index": 39,
+            "virtual_lines": [
+              {
+                "bbox": [
+                  122,
+                  556,
+                  226,
+                  578
+                ],
+                "spans": [],
+                "index": 39
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "bbox": [
+              48,
+              581,
+              300,
+              653
+            ],
+            "lines": [
+              {
+                "bbox": [
+                  57,
+                  580,
+                  300,
+                  593
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      57,
+                      580,
+                      300,
+                      593
+                    ],
+                    "score": 1.0,
+                    "content": "To asses the level of confidence associated with selecting",
+                    "type": "text"
+                  }
+                ],
+                "index": 40
+              },
+              {
+                "bbox": [
+                  48,
+                  594,
+                  300,
+                  603
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      48,
+                      594,
+                      300,
+                      603
+                    ],
+                    "score": 1.0,
+                    "content": "minimum cost matches, the algorithm determines another set",
+                    "type": "text"
+                  }
+                ],
+                "index": 41
+              },
+              {
+                "bbox": [
+                  48,
+                  606,
+                  300,
+                  616
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      48,
+                      606,
+                      300,
+                      616
+                    ],
+                    "score": 1.0,
+                    "content": "of matches, this time from the target to reference image, and",
+                    "type": "text"
+                  }
+                ],
+                "index": 42
+              },
+              {
+                "bbox": [
+                  47,
+                  616,
+                  300,
+                  628
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      47,
+                      617,
+                      208,
+                      628
+                    ],
+                    "score": 1.0,
+                    "content": "verifies if the results agree. Given that",
+                    "type": "text"
+                  },
+                  {
+                    "bbox": [
+                      208,
+                      616,
+                      249,
+                      628
+                    ],
+                    "score": 0.93,
+                    "content": "\\bar { p } = m ( p )",
+                    "type": "inline_equation"
+                  },
+                  {
+                    "bbox": [
+                      250,
+                      617,
+                      293,
+                      628
+                    ],
+                    "score": 1.0,
+                    "content": ", i.e. pixel",
+                    "type": "text"
+                  },
+                  {
+                    "bbox": [
+                      293,
+                      617,
+                      300,
+                      628
+                    ],
+                    "score": 0.73,
+                    "content": "\\bar { p }",
+                    "type": "inline_equation"
+                  }
+                ],
+                "index": 43
+              },
+              {
+                "bbox": [
+                  47,
+                  630,
+                  300,
+                  640
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      47,
+                      630,
+                      218,
+                      640
+                    ],
+                    "score": 1.0,
+                    "content": "in the right image is the match for pixel",
+                    "type": "text"
+                  },
+                  {
+                    "bbox": [
+                      218,
+                      631,
+                      225,
+                      640
+                    ],
+                    "score": 0.81,
+                    "content": "p",
+                    "type": "inline_equation"
+                  },
+                  {
+                    "bbox": [
+                      226,
+                      630,
+                      300,
+                      640
+                    ],
+                    "score": 1.0,
+                    "content": "in the left image,",
+                    "type": "text"
+                  }
+                ],
+                "index": 44
+              },
+              {
+                "bbox": [
+                  47,
+                  640,
+                  291,
+                  653
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      47,
+                      641,
+                      65,
+                      652
+                    ],
+                    "score": 1.0,
+                    "content": "and",
+                    "type": "text"
+                  },
+                  {
+                    "bbox": [
+                      65,
+                      640,
+                      109,
+                      653
+                    ],
+                    "score": 0.93,
+                    "content": "p ^ { \\prime } = m ( \\bar { p } )",
+                    "type": "inline_equation"
+                  },
+                  {
+                    "bbox": [
+                      109,
+                      641,
+                      212,
+                      652
+                    ],
+                    "score": 1.0,
+                    "content": ", the confidence measure",
+                    "type": "text"
+                  },
+                  {
+                    "bbox": [
+                      213,
+                      641,
+                      225,
+                      653
+                    ],
+                    "score": 0.89,
+                    "content": "F _ { p }",
+                    "type": "inline_equation"
+                  },
+                  {
+                    "bbox": [
+                      226,
+                      641,
+                      291,
+                      652
+                    ],
+                    "score": 1.0,
+                    "content": "is computed as",
+                    "type": "text"
+                  }
+                ],
+                "index": 45
+              }
+            ],
+            "index": 42.5
+          },
+          {
+            "type": "interline_equation",
+            "bbox": [
+              52,
+              663,
+              295,
+              717
+            ],
+            "lines": [
+              {
+                "bbox": [
+                  52,
+                  663,
+                  295,
+                  717
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      52,
+                      663,
+                      295,
+                      717
+                    ],
+                    "score": 0.94,
+                    "content": "F _ { p } = \\left\\{ \\begin{array} { l l } { \\displaystyle \\operatorname* { m i n } _ { \\bar { p } \\in S _ { p } \\backslash m ( p ) } C ( p , \\bar { p } ) - \\operatorname* { m i n } _ { \\bar { p } \\in S _ { p } } C ( p , \\bar { p } ) } \\\\ { \\displaystyle \\operatorname* { m i n } _ { \\bar { p } \\in S _ { p } \\backslash m ( p ) } C ( p , \\bar { p } ) } ,  & { | d _ { p } - d _ { p ^ { \\prime } } | \\leq 1 } \\\\ { 0 , } & { \\mathrm { o t h e r w i s e } } \\end{array} \\right. .",
+                    "type": "interline_equation",
+                    "image_path": "c63358478cb6ff7adc2b53545e5d0899532304ae47fea9039f120d5d441b2d2e.jpg"
+                  }
+                ]
+              }
+            ],
+            "index": 47.5,
+            "virtual_lines": [
+              {
+                "bbox": [
+                  52,
+                  663,
+                  295,
+                  676.5
+                ],
+                "spans": [],
+                "index": 46
+              },
+              {
+                "bbox": [
+                  52,
+                  676.5,
+                  295,
+                  690.0
+                ],
+                "spans": [],
+                "index": 47
+              },
+              {
+                "bbox": [
+                  52,
+                  690.0,
+                  295,
+                  703.5
+                ],
+                "spans": [],
+                "index": 48
+              },
+              {
+                "bbox": [
+                  52,
+                  703.5,
+                  295,
+                  717.0
+                ],
+                "spans": [],
+                "index": 49
+              }
+            ]
+          },
+          {
+            "type": "title",
+            "bbox": [
+              311,
+              56,
+              450,
+              68
+            ],
+            "lines": [
+              {
+                "bbox": [
+                  311,
+                  57,
+                  450,
+                  68
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      311,
+                      57,
+                      450,
+                      68
+                    ],
+                    "score": 1.0,
+                    "content": "D. Iterative Disparity Refinement",
+                    "type": "text"
+                  }
+                ],
+                "index": 50
+              }
+            ],
+            "index": 50
+          },
+          {
+            "type": "text",
+            "bbox": [
+              311,
+              72,
+              563,
+              131
+            ],
+            "lines": [
+              {
+                "bbox": [
+                  320,
+                  72,
+                  563,
+                  83
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      320,
+                      72,
+                      563,
+                      83
+                    ],
+                    "score": 1.0,
+                    "content": "Once the first iteration of stereo matching is complete,",
+                    "type": "text"
+                  }
+                ],
+                "index": 51
+              },
+              {
+                "bbox": [
+                  311,
+                  83,
+                  564,
+                  97
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      311,
+                      83,
+                      393,
+                      96
+                    ],
+                    "score": 1.0,
+                    "content": "disparity estimates",
+                    "type": "text"
+                  },
+                  {
+                    "bbox": [
+                      394,
+                      83,
+                      408,
+                      97
+                    ],
+                    "score": 0.9,
+                    "content": "D _ { \\boldsymbol { p } } ^ { i }",
+                    "type": "inline_equation"
+                  },
+                  {
+                    "bbox": [
+                      408,
+                      83,
+                      564,
+                      96
+                    ],
+                    "score": 1.0,
+                    "content": "can be used to guide matching in",
+                    "type": "text"
+                  }
+                ],
+                "index": 52
+              },
+              {
+                "bbox": [
+                  311,
+                  96,
+                  564,
+                  108
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      311,
+                      96,
+                      564,
+                      108
+                    ],
+                    "score": 1.0,
+                    "content": "subsequent iterations. This is done by penalizing disparities",
+                    "type": "text"
+                  }
+                ],
+                "index": 53
+              },
+              {
+                "bbox": [
+                  310,
+                  108,
+                  563,
+                  119
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      310,
+                      108,
+                      563,
+                      119
+                    ],
+                    "score": 1.0,
+                    "content": "that deviate from their expected values. The penalty function",
+                    "type": "text"
+                  }
+                ],
+                "index": 54
+              },
+              {
+                "bbox": [
+                  309,
+                  120,
+                  358,
+                  132
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      309,
+                      120,
+                      358,
+                      132
+                    ],
+                    "score": 1.0,
+                    "content": "is given by",
+                    "type": "text"
+                  }
+                ],
+                "index": 55
+              }
+            ],
+            "index": 53
+          },
+          {
+            "type": "interline_equation",
+            "bbox": [
+              340,
+              134,
+              532,
+              163
+            ],
+            "lines": [
+              {
+                "bbox": [
+                  340,
+                  134,
+                  532,
+                  163
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      340,
+                      134,
+                      532,
+                      163
+                    ],
+                    "score": 0.93,
+                    "content": "\\Lambda ^ { i } ( p , \\bar { p } ) = \\alpha \\times \\sum _ { q \\in \\Omega _ { p } } w ( p , q ) F _ { q } ^ { i - 1 } \\left| D _ { q } ^ { i - 1 } - d _ { p } \\right| ,",
+                    "type": "interline_equation",
+                    "image_path": "2277a956d8ac1d1551ff7c0fef150494854bf7d420c396398a78c2a77c82fd18.jpg"
+                  }
+                ]
+              }
+            ],
+            "index": 56.5,
+            "virtual_lines": [
+              {
+                "bbox": [
+                  340,
+                  134,
+                  532,
+                  148.5
+                ],
+                "spans": [],
+                "index": 56
+              },
+              {
+                "bbox": [
+                  340,
+                  148.5,
+                  532,
+                  163.0
+                ],
+                "spans": [],
+                "index": 57
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "bbox": [
+              311,
+              166,
+              563,
+              190
+            ],
+            "lines": [
+              {
+                "bbox": [
+                  311,
+                  167,
+                  562,
+                  178
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      311,
+                      167,
+                      390,
+                      178
+                    ],
+                    "score": 1.0,
+                    "content": "where the value of",
+                    "type": "text"
+                  },
+                  {
+                    "bbox": [
+                      390,
+                      168,
+                      398,
+                      176
+                    ],
+                    "score": 0.8,
+                    "content": "\\alpha",
+                    "type": "inline_equation"
+                  },
+                  {
+                    "bbox": [
+                      398,
+                      167,
+                      562,
+                      178
+                    ],
+                    "score": 1.0,
+                    "content": "is chosen empirically. Next, the penalty",
+                    "type": "text"
+                  }
+                ],
+                "index": 58
+              },
+              {
+                "bbox": [
+                  311,
+                  180,
+                  514,
+                  190
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      311,
+                      180,
+                      514,
+                      190
+                    ],
+                    "score": 1.0,
+                    "content": "values are incorporated into the matching cost as",
+                    "type": "text"
+                  }
+                ],
+                "index": 59
+              }
+            ],
+            "index": 58.5
+          },
+          {
+            "type": "interline_equation",
+            "bbox": [
+              370,
+              194,
+              503,
+              209
+            ],
+            "lines": [
+              {
+                "bbox": [
+                  370,
+                  194,
+                  503,
+                  209
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      370,
+                      194,
+                      503,
+                      209
+                    ],
+                    "score": 0.92,
+                    "content": "{ C } ^ { i } ( p , \\bar { p } ) = { C } ^ { 0 } ( p , \\bar { p } ) + { \\Lambda } ^ { i } ( p , \\bar { p } ) ,",
+                    "type": "interline_equation",
+                    "image_path": "78820be128a80d2ff11641bcef87a8e86a9ebafc392da71ee8196df9170d4c29.jpg"
+                  }
+                ]
+              }
+            ],
+            "index": 60,
+            "virtual_lines": [
+              {
+                "bbox": [
+                  370,
+                  194,
+                  503,
+                  209
+                ],
+                "spans": [],
+                "index": 60
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "bbox": [
+              311,
+              214,
+              563,
+              286
+            ],
+            "lines": [
+              {
+                "bbox": [
+                  311,
+                  216,
+                  563,
+                  226
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      311,
+                      216,
+                      563,
+                      226
+                    ],
+                    "score": 1.0,
+                    "content": "and the matches are reselected using the WTA match selection",
+                    "type": "text"
+                  }
+                ],
+                "index": 61
+              },
+              {
+                "bbox": [
+                  310,
+                  228,
+                  564,
+                  239
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      310,
+                      228,
+                      564,
+                      239
+                    ],
+                    "score": 1.0,
+                    "content": "criteria. The resulting disparity maps are then post-processed",
+                    "type": "text"
+                  }
+                ],
+                "index": 62
+              },
+              {
+                "bbox": [
+                  310,
+                  239,
+                  563,
+                  251
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      310,
+                      239,
+                      563,
+                      251
+                    ],
+                    "score": 1.0,
+                    "content": "using a combination of median filtering and occlusion filling.",
+                    "type": "text"
+                  }
+                ],
+                "index": 63
+              },
+              {
+                "bbox": [
+                  311,
+                  252,
+                  564,
+                  261
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      311,
+                      252,
+                      564,
+                      261
+                    ],
+                    "score": 1.0,
+                    "content": "Finally, the current cost becomes the auxiliary cost for the next",
+                    "type": "text"
+                  }
+                ],
+                "index": 64
+              },
+              {
+                "bbox": [
+                  310,
+                  262,
+                  563,
+                  276
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      310,
+                      263,
+                      482,
+                      276
+                    ],
+                    "score": 1.0,
+                    "content": "pair of frames in the video sequence, i.e.,",
+                    "type": "text"
+                  },
+                  {
+                    "bbox": [
+                      482,
+                      262,
+                      563,
+                      275
+                    ],
+                    "score": 0.92,
+                    "content": "C _ { a } ( p , \\bar { p } )  C ( p , \\bar { p } )",
+                    "type": "inline_equation"
+                  }
+                ],
+                "index": 65
+              },
+              {
+                "bbox": [
+                  310,
+                  275,
+                  537,
+                  287
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      310,
+                      275,
+                      366,
+                      287
+                    ],
+                    "score": 1.0,
+                    "content": "for all pixels",
+                    "type": "text"
+                  },
+                  {
+                    "bbox": [
+                      366,
+                      277,
+                      373,
+                      286
+                    ],
+                    "score": 0.8,
+                    "content": "p",
+                    "type": "inline_equation"
+                  },
+                  {
+                    "bbox": [
+                      373,
+                      275,
+                      527,
+                      287
+                    ],
+                    "score": 1.0,
+                    "content": "in the and their matching candidates",
+                    "type": "text"
+                  },
+                  {
+                    "bbox": [
+                      527,
+                      276,
+                      533,
+                      286
+                    ],
+                    "score": 0.82,
+                    "content": "\\bar { p }",
+                    "type": "inline_equation"
+                  },
+                  {
+                    "bbox": [
+                      534,
+                      275,
+                      537,
+                      287
+                    ],
+                    "score": 1.0,
+                    "content": ".",
+                    "type": "text"
+                  }
+                ],
+                "index": 66
+              }
+            ],
+            "index": 63.5
+          },
+          {
+            "type": "title",
+            "bbox": [
+              408,
+              293,
+              465,
+              303
+            ],
+            "lines": [
+              {
+                "bbox": [
+                  408,
+                  294,
+                  466,
+                  303
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      408,
+                      294,
+                      466,
+                      303
+                    ],
+                    "score": 1.0,
+                    "content": "IV. RESULTS",
+                    "type": "text"
+                  }
+                ],
+                "index": 67
+              }
+            ],
+            "index": 67
+          },
+          {
+            "type": "text",
+            "bbox": [
+              311,
+              307,
+              563,
+              510
+            ],
+            "lines": [
+              {
+                "bbox": [
+                  321,
+                  309,
+                  563,
+                  319
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      321,
+                      309,
+                      563,
+                      319
+                    ],
+                    "score": 1.0,
+                    "content": "The speed and accuracy of real-time stereo matching al-",
+                    "type": "text"
+                  }
+                ],
+                "index": 68
+              },
+              {
+                "bbox": [
+                  310,
+                  321,
+                  563,
+                  331
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      310,
+                      321,
+                      563,
+                      331
+                    ],
+                    "score": 1.0,
+                    "content": "gorithms are traditionally demonstrated using still-frame im-",
+                    "type": "text"
+                  }
+                ],
+                "index": 69
+              },
+              {
+                "bbox": [
+                  310,
+                  333,
+                  564,
+                  343
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      310,
+                      333,
+                      564,
+                      343
+                    ],
+                    "score": 1.0,
+                    "content": "ages from the Middlebury stereo benchmark [1], [2]. Still",
+                    "type": "text"
+                  }
+                ],
+                "index": 70
+              },
+              {
+                "bbox": [
+                  310,
+                  344,
+                  563,
+                  354
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      310,
+                      344,
+                      563,
+                      354
+                    ],
+                    "score": 1.0,
+                    "content": "frames, however, are insufficient for evaluating stereo match-",
+                    "type": "text"
+                  }
+                ],
+                "index": 71
+              },
+              {
+                "bbox": [
+                  311,
+                  357,
+                  563,
+                  367
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      311,
+                      357,
+                      563,
+                      367
+                    ],
+                    "score": 1.0,
+                    "content": "ing algorithms that incorporate frame-to-frame prediction to",
+                    "type": "text"
+                  }
+                ],
+                "index": 72
+              },
+              {
+                "bbox": [
+                  311,
+                  369,
+                  564,
+                  379
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      311,
+                      369,
+                      564,
+                      379
+                    ],
+                    "score": 1.0,
+                    "content": "enhance matching accuracy. An alternative approach is to",
+                    "type": "text"
+                  }
+                ],
+                "index": 73
+              },
+              {
+                "bbox": [
+                  309,
+                  380,
+                  563,
+                  392
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      309,
+                      380,
+                      563,
+                      392
+                    ],
+                    "score": 1.0,
+                    "content": "use a stereo video sequence with a ground truth disparity",
+                    "type": "text"
+                  }
+                ],
+                "index": 74
+              },
+              {
+                "bbox": [
+                  311,
+                  393,
+                  563,
+                  403
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      311,
+                      393,
+                      563,
+                      403
+                    ],
+                    "score": 1.0,
+                    "content": "for each frame. Obtaining the ground truth disparity of real",
+                    "type": "text"
+                  }
+                ],
+                "index": 75
+              },
+              {
+                "bbox": [
+                  311,
+                  405,
+                  563,
+                  415
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      311,
+                      405,
+                      563,
+                      415
+                    ],
+                    "score": 1.0,
+                    "content": "world video sequences is a difficult undertaking due to the",
+                    "type": "text"
+                  }
+                ],
+                "index": 76
+              },
+              {
+                "bbox": [
+                  310,
+                  416,
+                  562,
+                  428
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      310,
+                      416,
+                      562,
+                      428
+                    ],
+                    "score": 1.0,
+                    "content": "high frame rate of video and limitations in depth sensing-",
+                    "type": "text"
+                  }
+                ],
+                "index": 77
+              },
+              {
+                "bbox": [
+                  311,
+                  429,
+                  563,
+                  439
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      311,
+                      429,
+                      563,
+                      439
+                    ],
+                    "score": 1.0,
+                    "content": "technology. To address the need for stereo video with ground",
+                    "type": "text"
+                  }
+                ],
+                "index": 78
+              },
+              {
+                "bbox": [
+                  311,
+                  441,
+                  563,
+                  451
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      311,
+                      441,
+                      563,
+                      451
+                    ],
+                    "score": 1.0,
+                    "content": "truth disparities, five pairs of synthetic stereo video sequences",
+                    "type": "text"
+                  }
+                ],
+                "index": 79
+              },
+              {
+                "bbox": [
+                  311,
+                  452,
+                  563,
+                  462
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      311,
+                      452,
+                      563,
+                      462
+                    ],
+                    "score": 1.0,
+                    "content": "of a computer-generated scene were given in [19]. While these",
+                    "type": "text"
+                  }
+                ],
+                "index": 80
+              },
+              {
+                "bbox": [
+                  311,
+                  465,
+                  563,
+                  475
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      311,
+                      465,
+                      563,
+                      475
+                    ],
+                    "score": 1.0,
+                    "content": "videos incorporate a sufficient amount of movement variation,",
+                    "type": "text"
+                  }
+                ],
+                "index": 81
+              },
+              {
+                "bbox": [
+                  310,
+                  476,
+                  563,
+                  487
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      310,
+                      476,
+                      563,
+                      487
+                    ],
+                    "score": 1.0,
+                    "content": "they were generated from relatively simple models using low-",
+                    "type": "text"
+                  }
+                ],
+                "index": 82
+              },
+              {
+                "bbox": [
+                  311,
+                  489,
+                  563,
+                  498
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      311,
+                      489,
+                      563,
+                      498
+                    ],
+                    "score": 1.0,
+                    "content": "resolution rendering, and they do not provide occlusion or",
+                    "type": "text"
+                  }
+                ],
+                "index": 83
+              },
+              {
+                "bbox": [
+                  311,
+                  500,
+                  392,
+                  511
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      311,
+                      500,
+                      392,
+                      511
+                    ],
+                    "score": 1.0,
+                    "content": "discontinuity maps.",
+                    "type": "text"
+                  }
+                ],
+                "index": 84
+              }
+            ],
+            "index": 76
+          },
+          {
+            "type": "text",
+            "bbox": [
+              311,
+              511,
+              563,
+              726
+            ],
+            "lines": [
+              {
+                "bbox": [
+                  320,
+                  511,
+                  564,
+                  523
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      320,
+                      511,
+                      564,
+                      523
+                    ],
+                    "score": 1.0,
+                    "content": "To evaluate the performance of temporal aggregation, a",
+                    "type": "text"
+                  }
+                ],
+                "index": 85
+              },
+              {
+                "bbox": [
+                  311,
+                  524,
+                  563,
+                  534
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      311,
+                      524,
+                      563,
+                      534
+                    ],
+                    "score": 1.0,
+                    "content": "new synthetic stereo video sequence is introduced along with",
+                    "type": "text"
+                  }
+                ],
+                "index": 86
+              },
+              {
+                "bbox": [
+                  310,
+                  537,
+                  563,
+                  546
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      310,
+                      537,
+                      563,
+                      546
+                    ],
+                    "score": 1.0,
+                    "content": "corresponding disparity maps, occlusion maps, and disconti-",
+                    "type": "text"
+                  }
+                ],
+                "index": 87
+              },
+              {
+                "bbox": [
+                  311,
+                  548,
+                  563,
+                  558
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      311,
+                      548,
+                      563,
+                      558
+                    ],
+                    "score": 1.0,
+                    "content": "nuity maps for evaluating the performance of temporal stereo",
+                    "type": "text"
+                  }
+                ],
+                "index": 88
+              },
+              {
+                "bbox": [
+                  311,
+                  560,
+                  563,
+                  570
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      311,
+                      560,
+                      563,
+                      570
+                    ],
+                    "score": 1.0,
+                    "content": "matching algorithms. To create the video sequence, a complex",
+                    "type": "text"
+                  }
+                ],
+                "index": 89
+              },
+              {
+                "bbox": [
+                  310,
+                  572,
+                  564,
+                  582
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      310,
+                      572,
+                      564,
+                      582
+                    ],
+                    "score": 1.0,
+                    "content": "scene was constructed using Google Sketchup and a pair",
+                    "type": "text"
+                  }
+                ],
+                "index": 90
+              },
+              {
+                "bbox": [
+                  311,
+                  584,
+                  563,
+                  594
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      311,
+                      584,
+                      563,
+                      594
+                    ],
+                    "score": 1.0,
+                    "content": "of animated paths were rendered photorealistically using the",
+                    "type": "text"
+                  }
+                ],
+                "index": 91
+              },
+              {
+                "bbox": [
+                  311,
+                  596,
+                  563,
+                  606
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      311,
+                      596,
+                      563,
+                      606
+                    ],
+                    "score": 1.0,
+                    "content": "Kerkythea rendering software. Realistic material properties",
+                    "type": "text"
+                  }
+                ],
+                "index": 92
+              },
+              {
+                "bbox": [
+                  310,
+                  607,
+                  563,
+                  619
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      310,
+                      607,
+                      563,
+                      619
+                    ],
+                    "score": 1.0,
+                    "content": "were used to give surfaces a natural-looking appearance by",
+                    "type": "text"
+                  }
+                ],
+                "index": 93
+              },
+              {
+                "bbox": [
+                  311,
+                  619,
+                  564,
+                  630
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      311,
+                      619,
+                      564,
+                      630
+                    ],
+                    "score": 1.0,
+                    "content": "adjusting their specularity, reflectance, and diffusion. The",
+                    "type": "text"
+                  }
+                ],
+                "index": 94
+              },
+              {
+                "bbox": [
+                  311,
+                  630,
+                  564,
+                  642
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      311,
+                      631,
+                      472,
+                      642
+                    ],
+                    "score": 1.0,
+                    "content": "video sequence has a resolution of",
+                    "type": "text"
+                  },
+                  {
+                    "bbox": [
+                      472,
+                      630,
+                      520,
+                      641
+                    ],
+                    "score": 0.89,
+                    "content": "6 4 0 ~ \\times ~ 4 8 0",
+                    "type": "inline_equation"
+                  },
+                  {
+                    "bbox": [
+                      521,
+                      631,
+                      564,
+                      642
+                    ],
+                    "score": 1.0,
+                    "content": "pixels, a",
+                    "type": "text"
+                  }
+                ],
+                "index": 95
+              },
+              {
+                "bbox": [
+                  310,
+                  642,
+                  564,
+                  654
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      310,
+                      642,
+                      564,
+                      654
+                    ],
+                    "score": 1.0,
+                    "content": "frame rate of 30 frames per second, and a duration of 4",
+                    "type": "text"
+                  }
+                ],
+                "index": 96
+              },
+              {
+                "bbox": [
+                  310,
+                  655,
+                  563,
+                  667
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      310,
+                      655,
+                      563,
+                      667
+                    ],
+                    "score": 1.0,
+                    "content": "seconds. In addition to performing photorealistic rendering,",
+                    "type": "text"
+                  }
+                ],
+                "index": 97
+              },
+              {
+                "bbox": [
+                  311,
+                  668,
+                  563,
+                  678
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      311,
+                      668,
+                      563,
+                      678
+                    ],
+                    "score": 1.0,
+                    "content": "depth renders of both video sequences were also generated and",
+                    "type": "text"
+                  }
+                ],
+                "index": 98
+              },
+              {
+                "bbox": [
+                  310,
+                  680,
+                  563,
+                  689
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      310,
+                      680,
+                      563,
+                      689
+                    ],
+                    "score": 1.0,
+                    "content": "converted to ground truth disparity for the stereo video. The",
+                    "type": "text"
+                  }
+                ],
+                "index": 99
+              },
+              {
+                "bbox": [
+                  311,
+                  691,
+                  563,
+                  701
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      311,
+                      691,
+                      563,
+                      701
+                    ],
+                    "score": 1.0,
+                    "content": "video sequences and ground truth data have been made avail-",
+                    "type": "text"
+                  }
+                ],
+                "index": 100
+              },
+              {
+                "bbox": [
+                  310,
+                  703,
+                  563,
+                  713
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      310,
+                      703,
+                      563,
+                      713
+                    ],
+                    "score": 1.0,
+                    "content": "able at http://mc2.unl.edu/current-research",
+                    "type": "text"
+                  }
+                ],
+                "index": 101
+              },
+              {
+                "bbox": [
+                  311,
+                  716,
+                  563,
+                  726
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      311,
+                      716,
+                      563,
+                      726
+                    ],
+                    "score": 1.0,
+                    "content": "/image-processing/. Figure 2 shows two sample frames",
+                    "type": "text"
+                  }
+                ],
+                "index": 102
+              }
+            ],
+            "index": 93.5
+          }
+        ],
+        "page_idx": 0,
+        "page_size": [
+          612,
+          792
+        ],
+        "discarded_blocks": [],
+        "para_blocks": [
+          {
+            "type": "text",
+            "bbox": [
+              48,
+              56,
+              300,
+              140
+            ],
+            "lines": [
+              {
+                "bbox": [
+                  47,
+                  57,
+                  300,
+                  69
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      47,
+                      57,
+                      300,
+                      69
+                    ],
+                    "score": 1.0,
+                    "content": "the matching cost by performing two-pass aggregation using",
+                    "type": "text"
+                  }
+                ],
+                "index": 0
+              },
+              {
+                "bbox": [
+                  47,
+                  70,
+                  300,
+                  80
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      47,
+                      70,
+                      300,
+                      80
+                    ],
+                    "score": 1.0,
+                    "content": "two orthogonal 1D windows [5], [6], [8]. The two-pass method",
+                    "type": "text"
+                  }
+                ],
+                "index": 1
+              },
+              {
+                "bbox": [
+                  47,
+                  81,
+                  301,
+                  92
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      47,
+                      81,
+                      301,
+                      92
+                    ],
+                    "score": 1.0,
+                    "content": "first aggregates matching costs in the vertical direction, and",
+                    "type": "text"
+                  }
+                ],
+                "index": 2
+              },
+              {
+                "bbox": [
+                  47,
+                  93,
+                  301,
+                  105
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      47,
+                      93,
+                      301,
+                      105
+                    ],
+                    "score": 1.0,
+                    "content": "then computes a weighted sum of the aggregated costs in the",
+                    "type": "text"
+                  }
+                ],
+                "index": 3
+              },
+              {
+                "bbox": [
+                  47,
+                  105,
+                  300,
+                  117
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      47,
+                      105,
+                      300,
+                      117
+                    ],
+                    "score": 1.0,
+                    "content": "horizontal direction. Given that support regions are of size",
+                    "type": "text"
+                  }
+                ],
+                "index": 4
+              },
+              {
+                "bbox": [
+                  47,
+                  117,
+                  300,
+                  128
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      47,
+                      117,
+                      75,
+                      127
+                    ],
+                    "score": 0.88,
+                    "content": "\\omega \\times \\omega",
+                    "type": "inline_equation"
+                  },
+                  {
+                    "bbox": [
+                      75,
+                      118,
+                      300,
+                      128
+                    ],
+                    "score": 1.0,
+                    "content": ", the two-pass method reduces the complexity of cost",
+                    "type": "text"
+                  }
+                ],
+                "index": 5
+              },
+              {
+                "bbox": [
+                  47,
+                  128,
+                  189,
+                  140
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      47,
+                      128,
+                      120,
+                      140
+                    ],
+                    "score": 1.0,
+                    "content": "aggregation from",
+                    "type": "text"
+                  },
+                  {
+                    "bbox": [
+                      121,
+                      128,
+                      149,
+                      140
+                    ],
+                    "score": 0.93,
+                    "content": "\\mathcal { O } ( \\omega ^ { 2 } )",
+                    "type": "inline_equation"
+                  },
+                  {
+                    "bbox": [
+                      149,
+                      128,
+                      162,
+                      140
+                    ],
+                    "score": 1.0,
+                    "content": "to",
+                    "type": "text"
+                  },
+                  {
+                    "bbox": [
+                      163,
+                      128,
+                      186,
+                      140
+                    ],
+                    "score": 0.91,
+                    "content": "\\mathcal { O } ( \\omega )",
+                    "type": "inline_equation"
+                  },
+                  {
+                    "bbox": [
+                      186,
+                      128,
+                      189,
+                      140
+                    ],
+                    "score": 1.0,
+                    "content": ".",
+                    "type": "text"
+                  }
+                ],
+                "index": 6
+              }
+            ],
+            "index": 3,
+            "page_num": 0,
+            "page_size": [
+              612,
+              792
+            ],
+            "bbox_fs": [
+              47,
+              57,
+              301,
+              140
+            ]
+          },
+          {
+            "type": "title",
+            "bbox": [
+              48,
+              145,
+              171,
+              156
+            ],
+            "lines": [
+              {
+                "bbox": [
+                  48,
+                  145,
+                  171,
+                  158
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      48,
+                      145,
+                      171,
+                      158
+                    ],
+                    "score": 1.0,
+                    "content": "B. Temporal cost aggregation",
+                    "type": "text"
+                  }
+                ],
+                "index": 7
+              }
+            ],
+            "index": 7,
+            "page_num": 0,
+            "page_size": [
+              612,
+              792
+            ]
+          },
+          {
+            "type": "text",
+            "bbox": [
+              48,
+              159,
+              300,
+              255
+            ],
+            "lines": [
+              {
+                "bbox": [
+                  58,
+                  160,
+                  301,
+                  172
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      58,
+                      160,
+                      152,
+                      172
+                    ],
+                    "score": 1.0,
+                    "content": "Once aggregated costs",
+                    "type": "text"
+                  },
+                  {
+                    "bbox": [
+                      153,
+                      160,
+                      184,
+                      172
+                    ],
+                    "score": 0.93,
+                    "content": "C ( p , \\bar { p } )",
+                    "type": "inline_equation"
+                  },
+                  {
+                    "bbox": [
+                      184,
+                      160,
+                      301,
+                      172
+                    ],
+                    "score": 1.0,
+                    "content": "have been computed for all",
+                    "type": "text"
+                  }
+                ],
+                "index": 8
+              },
+              {
+                "bbox": [
+                  47,
+                  172,
+                  300,
+                  184
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      47,
+                      172,
+                      74,
+                      184
+                    ],
+                    "score": 1.0,
+                    "content": "pixels",
+                    "type": "text"
+                  },
+                  {
+                    "bbox": [
+                      74,
+                      173,
+                      81,
+                      183
+                    ],
+                    "score": 0.79,
+                    "content": "p",
+                    "type": "inline_equation"
+                  },
+                  {
+                    "bbox": [
+                      82,
+                      172,
+                      300,
+                      184
+                    ],
+                    "score": 1.0,
+                    "content": "in the reference image and their respective matching",
+                    "type": "text"
+                  }
+                ],
+                "index": 9
+              },
+              {
+                "bbox": [
+                  47,
+                  185,
+                  301,
+                  196
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      47,
+                      185,
+                      95,
+                      196
+                    ],
+                    "score": 1.0,
+                    "content": "candidates",
+                    "type": "text"
+                  },
+                  {
+                    "bbox": [
+                      95,
+                      185,
+                      103,
+                      195
+                    ],
+                    "score": 0.78,
+                    "content": "\\bar { p }",
+                    "type": "inline_equation"
+                  },
+                  {
+                    "bbox": [
+                      103,
+                      185,
+                      301,
+                      196
+                    ],
+                    "score": 1.0,
+                    "content": "in the target image, a single-pass temporal",
+                    "type": "text"
+                  }
+                ],
+                "index": 10
+              },
+              {
+                "bbox": [
+                  47,
+                  196,
+                  301,
+                  207
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      47,
+                      196,
+                      301,
+                      207
+                    ],
+                    "score": 1.0,
+                    "content": "aggregation routine is exectuted. At each time instance, the",
+                    "type": "text"
+                  }
+                ],
+                "index": 11
+              },
+              {
+                "bbox": [
+                  47,
+                  207,
+                  301,
+                  220
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      47,
+                      209,
+                      197,
+                      220
+                    ],
+                    "score": 1.0,
+                    "content": "algorithm stores an auxiliary cost",
+                    "type": "text"
+                  },
+                  {
+                    "bbox": [
+                      198,
+                      207,
+                      233,
+                      220
+                    ],
+                    "score": 0.96,
+                    "content": "C _ { a } ( p , \\bar { p } )",
+                    "type": "inline_equation"
+                  },
+                  {
+                    "bbox": [
+                      233,
+                      209,
+                      301,
+                      220
+                    ],
+                    "score": 1.0,
+                    "content": "which holds a",
+                    "type": "text"
+                  }
+                ],
+                "index": 12
+              },
+              {
+                "bbox": [
+                  48,
+                  221,
+                  300,
+                  231
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      48,
+                      221,
+                      300,
+                      231
+                    ],
+                    "score": 1.0,
+                    "content": "weighted summation of costs obtained in the previous frames.",
+                    "type": "text"
+                  }
+                ],
+                "index": 13
+              },
+              {
+                "bbox": [
+                  47,
+                  232,
+                  300,
+                  244
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      47,
+                      232,
+                      300,
+                      244
+                    ],
+                    "score": 1.0,
+                    "content": "During temporal aggregation, the auxiliary cost is merged with",
+                    "type": "text"
+                  }
+                ],
+                "index": 14
+              },
+              {
+                "bbox": [
+                  47,
+                  244,
+                  241,
+                  255
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      47,
+                      244,
+                      241,
+                      255
+                    ],
+                    "score": 1.0,
+                    "content": "the cost obtained from the current frame using",
+                    "type": "text"
+                  }
+                ],
+                "index": 15
+              }
+            ],
+            "index": 11.5,
+            "page_num": 0,
+            "page_size": [
+              612,
+              792
+            ],
+            "bbox_fs": [
+              47,
+              160,
+              301,
+              255
+            ]
+          },
+          {
+            "type": "interline_equation",
+            "bbox": [
+              52,
+              257,
+              282,
+              284
+            ],
+            "lines": [
+              {
+                "bbox": [
+                  52,
+                  257,
+                  282,
+                  284
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      52,
+                      257,
+                      282,
+                      284
+                    ],
+                    "score": 0.92,
+                    "content": "C ( p , \\bar { p } ) \\gets \\frac { ( 1 - \\lambda ) \\cdot C ( p , \\bar { p } ) + \\lambda \\cdot w _ { t } ( p , p _ { t - 1 } ) \\cdot C _ { a } ( p , \\bar { p } ) } { ( 1 - \\lambda ) + \\lambda \\cdot w _ { t } ( p , p _ { t - 1 } ) } ,",
+                    "type": "interline_equation",
+                    "image_path": "70b84b3ca184ced576a1667ccef13446ed7792f4085b20a75ebc6c9da04973c8.jpg"
+                  }
+                ]
+              }
+            ],
+            "index": 16.5,
+            "virtual_lines": [
+              {
+                "bbox": [
+                  52,
+                  257,
+                  282,
+                  270.5
+                ],
+                "spans": [],
+                "index": 16
+              },
+              {
+                "bbox": [
+                  52,
+                  270.5,
+                  282,
+                  284.0
+                ],
+                "spans": [],
+                "index": 17
+              }
+            ],
+            "page_num": 0,
+            "page_size": [
+              612,
+              792
+            ]
+          },
+          {
+            "type": "text",
+            "bbox": [
+              48,
+              286,
+              300,
+              358
+            ],
+            "lines": [
+              {
+                "bbox": [
+                  48,
+                  287,
+                  300,
+                  297
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      48,
+                      288,
+                      176,
+                      297
+                    ],
+                    "score": 1.0,
+                    "content": "where the feedback coefficient",
+                    "type": "text"
+                  },
+                  {
+                    "bbox": [
+                      176,
+                      287,
+                      183,
+                      297
+                    ],
+                    "score": 0.8,
+                    "content": "\\lambda",
+                    "type": "inline_equation"
+                  },
+                  {
+                    "bbox": [
+                      184,
+                      288,
+                      300,
+                      297
+                    ],
+                    "score": 1.0,
+                    "content": "controls the amount of cost",
+                    "type": "text"
+                  }
+                ],
+                "index": 18
+              },
+              {
+                "bbox": [
+                  47,
+                  298,
+                  300,
+                  311
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      47,
+                      299,
+                      115,
+                      311
+                    ],
+                    "score": 1.0,
+                    "content": "smoothing and",
+                    "type": "text"
+                  },
+                  {
+                    "bbox": [
+                      115,
+                      298,
+                      159,
+                      311
+                    ],
+                    "score": 0.93,
+                    "content": "w _ { t } ( p , p _ { t - 1 } )",
+                    "type": "inline_equation"
+                  },
+                  {
+                    "bbox": [
+                      159,
+                      299,
+                      300,
+                      311
+                    ],
+                    "score": 1.0,
+                    "content": "enforces color similarity in the",
+                    "type": "text"
+                  }
+                ],
+                "index": 19
+              },
+              {
+                "bbox": [
+                  47,
+                  312,
+                  300,
+                  322
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      47,
+                      312,
+                      300,
+                      322
+                    ],
+                    "score": 1.0,
+                    "content": "temporal domain. The temporal adaptive weight computed",
+                    "type": "text"
+                  }
+                ],
+                "index": 20
+              },
+              {
+                "bbox": [
+                  48,
+                  324,
+                  300,
+                  334
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      48,
+                      324,
+                      167,
+                      333
+                    ],
+                    "score": 1.0,
+                    "content": "between the pixel of interest",
+                    "type": "text"
+                  },
+                  {
+                    "bbox": [
+                      167,
+                      324,
+                      174,
+                      334
+                    ],
+                    "score": 0.79,
+                    "content": "p",
+                    "type": "inline_equation"
+                  },
+                  {
+                    "bbox": [
+                      174,
+                      324,
+                      300,
+                      333
+                    ],
+                    "score": 1.0,
+                    "content": "in the current frame and pixel",
+                    "type": "text"
+                  }
+                ],
+                "index": 21
+              },
+              {
+                "bbox": [
+                  47,
+                  335,
+                  301,
+                  347
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      47,
+                      336,
+                      63,
+                      346
+                    ],
+                    "score": 0.83,
+                    "content": "p _ { t - 1 }",
+                    "type": "inline_equation"
+                  },
+                  {
+                    "bbox": [
+                      64,
+                      335,
+                      301,
+                      347
+                    ],
+                    "score": 1.0,
+                    "content": ", located at the same spatial coordinate in the prior frame,",
+                    "type": "text"
+                  }
+                ],
+                "index": 22
+              },
+              {
+                "bbox": [
+                  47,
+                  347,
+                  96,
+                  359
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      47,
+                      347,
+                      96,
+                      359
+                    ],
+                    "score": 1.0,
+                    "content": "is given by",
+                    "type": "text"
+                  }
+                ],
+                "index": 23
+              }
+            ],
+            "index": 20.5,
+            "page_num": 0,
+            "page_size": [
+              612,
+              792
+            ],
+            "bbox_fs": [
+              47,
+              287,
+              301,
+              359
+            ]
+          },
+          {
+            "type": "interline_equation",
+            "bbox": [
+              100,
+              360,
+              247,
+              388
+            ],
+            "lines": [
+              {
+                "bbox": [
+                  100,
+                  360,
+                  247,
+                  388
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      100,
+                      360,
+                      247,
+                      388
+                    ],
+                    "score": 0.95,
+                    "content": "w _ { t } ( p , p _ { t - 1 } ) = \\exp { \\left( - \\frac { \\Delta _ { c } ( p , p _ { t - 1 } ) } { \\gamma _ { t } } \\right) } ,",
+                    "type": "interline_equation",
+                    "image_path": "fe98bfc7142dce3f888443c17b1d649ea173b99ff89529ab9fb64d91c620d0dc.jpg"
+                  }
+                ]
+              }
+            ],
+            "index": 24.5,
+            "virtual_lines": [
+              {
+                "bbox": [
+                  100,
+                  360,
+                  247,
+                  374.0
+                ],
+                "spans": [],
+                "index": 24
+              },
+              {
+                "bbox": [
+                  100,
+                  374.0,
+                  247,
+                  388.0
+                ],
+                "spans": [],
+                "index": 25
+              }
+            ],
+            "page_num": 0,
+            "page_size": [
+              612,
+              792
+            ]
+          },
+          {
+            "type": "text",
+            "bbox": [
+              48,
+              389,
+              300,
+              473
+            ],
+            "lines": [
+              {
+                "bbox": [
+                  48,
+                  390,
+                  300,
+                  402
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      48,
+                      390,
+                      74,
+                      402
+                    ],
+                    "score": 1.0,
+                    "content": "where",
+                    "type": "text"
+                  },
+                  {
+                    "bbox": [
+                      74,
+                      392,
+                      84,
+                      401
+                    ],
+                    "score": 0.84,
+                    "content": "\\gamma _ { t }",
+                    "type": "inline_equation"
+                  },
+                  {
+                    "bbox": [
+                      85,
+                      390,
+                      300,
+                      402
+                    ],
+                    "score": 1.0,
+                    "content": "regulates the strength of grouping by color similarity",
+                    "type": "text"
+                  }
+                ],
+                "index": 26
+              },
+              {
+                "bbox": [
+                  48,
+                  403,
+                  300,
+                  413
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      48,
+                      403,
+                      300,
+                      413
+                    ],
+                    "score": 1.0,
+                    "content": "in the temporal dimension. The temporal adaptive weight has",
+                    "type": "text"
+                  }
+                ],
+                "index": 27
+              },
+              {
+                "bbox": [
+                  47,
+                  414,
+                  301,
+                  425
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      47,
+                      414,
+                      301,
+                      425
+                    ],
+                    "score": 1.0,
+                    "content": "the effect of preserving edges in the temporal domain, such",
+                    "type": "text"
+                  }
+                ],
+                "index": 28
+              },
+              {
+                "bbox": [
+                  47,
+                  426,
+                  300,
+                  437
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      47,
+                      426,
+                      300,
+                      437
+                    ],
+                    "score": 1.0,
+                    "content": "that when a pixel coordinate transitions from one side of an",
+                    "type": "text"
+                  }
+                ],
+                "index": 29
+              },
+              {
+                "bbox": [
+                  48,
+                  439,
+                  300,
+                  448
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      48,
+                      439,
+                      300,
+                      448
+                    ],
+                    "score": 1.0,
+                    "content": "edge to another in subsequent frames, the auxiliary cost is",
+                    "type": "text"
+                  }
+                ],
+                "index": 30
+              },
+              {
+                "bbox": [
+                  48,
+                  451,
+                  300,
+                  461
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      48,
+                      451,
+                      300,
+                      461
+                    ],
+                    "score": 1.0,
+                    "content": "assigned a small weight and the majority of the cost is derived",
+                    "type": "text"
+                  }
+                ],
+                "index": 31
+              },
+              {
+                "bbox": [
+                  48,
+                  462,
+                  145,
+                  472
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      48,
+                      462,
+                      145,
+                      472
+                    ],
+                    "score": 1.0,
+                    "content": "from the current frame.",
+                    "type": "text"
+                  }
+                ],
+                "index": 32
+              }
+            ],
+            "index": 29,
+            "page_num": 0,
+            "page_size": [
+              612,
+              792
+            ],
+            "bbox_fs": [
+              47,
+              390,
+              301,
+              472
+            ]
+          },
+          {
+            "type": "title",
+            "bbox": [
+              49,
+              478,
+              256,
+              489
+            ],
+            "lines": [
+              {
+                "bbox": [
+                  48,
+                  478,
+                  258,
+                  490
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      48,
+                      478,
+                      258,
+                      490
+                    ],
+                    "score": 1.0,
+                    "content": "C. Disparity Selection and Confidence Assessment",
+                    "type": "text"
+                  }
+                ],
+                "index": 33
+              }
+            ],
+            "index": 33,
+            "page_num": 0,
+            "page_size": [
+              612,
+              792
+            ]
+          },
+          {
+            "type": "text",
+            "bbox": [
+              47,
+              493,
+              300,
+              552
+            ],
+            "lines": [
+              {
+                "bbox": [
+                  57,
+                  493,
+                  300,
+                  505
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      57,
+                      493,
+                      300,
+                      505
+                    ],
+                    "score": 1.0,
+                    "content": "Having performed temporal cost aggregation, matches are",
+                    "type": "text"
+                  }
+                ],
+                "index": 34
+              },
+              {
+                "bbox": [
+                  48,
+                  506,
+                  298,
+                  516
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      48,
+                      506,
+                      298,
+                      516
+                    ],
+                    "score": 1.0,
+                    "content": "determined using the Winner-Takes-All (WTA) match selec",
+                    "type": "text"
+                  }
+                ],
+                "index": 35
+              },
+              {
+                "bbox": [
+                  47,
+                  516,
+                  300,
+                  529
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      47,
+                      518,
+                      165,
+                      528
+                    ],
+                    "score": 1.0,
+                    "content": "tion criteria. The match for",
+                    "type": "text"
+                  },
+                  {
+                    "bbox": [
+                      166,
+                      519,
+                      172,
+                      528
+                    ],
+                    "score": 0.76,
+                    "content": "p",
+                    "type": "inline_equation"
+                  },
+                  {
+                    "bbox": [
+                      173,
+                      518,
+                      226,
+                      528
+                    ],
+                    "score": 1.0,
+                    "content": ", denoted as",
+                    "type": "text"
+                  },
+                  {
+                    "bbox": [
+                      226,
+                      516,
+                      248,
+                      529
+                    ],
+                    "score": 0.92,
+                    "content": "m ( p )",
+                    "type": "inline_equation"
+                  },
+                  {
+                    "bbox": [
+                      249,
+                      518,
+                      300,
+                      528
+                    ],
+                    "score": 1.0,
+                    "content": ", is the can-",
+                    "type": "text"
+                  }
+                ],
+                "index": 36
+              },
+              {
+                "bbox": [
+                  47,
+                  528,
+                  300,
+                  541
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      47,
+                      529,
+                      99,
+                      541
+                    ],
+                    "score": 1.0,
+                    "content": "didate pixel",
+                    "type": "text"
+                  },
+                  {
+                    "bbox": [
+                      99,
+                      528,
+                      129,
+                      541
+                    ],
+                    "score": 0.92,
+                    "content": "\\bar { p } \\in S _ { p }",
+                    "type": "inline_equation"
+                  },
+                  {
+                    "bbox": [
+                      130,
+                      529,
+                      300,
+                      541
+                    ],
+                    "score": 1.0,
+                    "content": "characterized by the minimum matching",
+                    "type": "text"
+                  }
+                ],
+                "index": 37
+              },
+              {
+                "bbox": [
+                  48,
+                  542,
+                  134,
+                  552
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      48,
+                      542,
+                      134,
+                      552
+                    ],
+                    "score": 1.0,
+                    "content": "cost, and is given by",
+                    "type": "text"
+                  }
+                ],
+                "index": 38
+              }
+            ],
+            "index": 36,
+            "page_num": 0,
+            "page_size": [
+              612,
+              792
+            ],
+            "bbox_fs": [
+              47,
+              493,
+              300,
+              552
+            ]
+          },
+          {
+            "type": "interline_equation",
+            "bbox": [
+              122,
+              556,
+              226,
+              578
+            ],
+            "lines": [
+              {
+                "bbox": [
+                  122,
+                  556,
+                  226,
+                  578
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      122,
+                      556,
+                      226,
+                      578
+                    ],
+                    "score": 0.93,
+                    "content": "m ( p ) = \\operatorname * { a r g m i n } _ { \\bar { p } \\in S _ { p } } C ( p , \\bar { p } ) .",
+                    "type": "interline_equation",
+                    "image_path": "32354fcc55e34a688ebefd92f762e50ecb9fd80bf369de87a252601eed416ad3.jpg"
+                  }
+                ]
+              }
+            ],
+            "index": 39,
+            "virtual_lines": [
+              {
+                "bbox": [
+                  122,
+                  556,
+                  226,
+                  578
+                ],
+                "spans": [],
+                "index": 39
+              }
+            ],
+            "page_num": 0,
+            "page_size": [
+              612,
+              792
+            ]
+          },
+          {
+            "type": "text",
+            "bbox": [
+              48,
+              581,
+              300,
+              653
+            ],
+            "lines": [
+              {
+                "bbox": [
+                  57,
+                  580,
+                  300,
+                  593
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      57,
+                      580,
+                      300,
+                      593
+                    ],
+                    "score": 1.0,
+                    "content": "To asses the level of confidence associated with selecting",
+                    "type": "text"
+                  }
+                ],
+                "index": 40
+              },
+              {
+                "bbox": [
+                  48,
+                  594,
+                  300,
+                  603
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      48,
+                      594,
+                      300,
+                      603
+                    ],
+                    "score": 1.0,
+                    "content": "minimum cost matches, the algorithm determines another set",
+                    "type": "text"
+                  }
+                ],
+                "index": 41
+              },
+              {
+                "bbox": [
+                  48,
+                  606,
+                  300,
+                  616
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      48,
+                      606,
+                      300,
+                      616
+                    ],
+                    "score": 1.0,
+                    "content": "of matches, this time from the target to reference image, and",
+                    "type": "text"
+                  }
+                ],
+                "index": 42
+              },
+              {
+                "bbox": [
+                  47,
+                  616,
+                  300,
+                  628
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      47,
+                      617,
+                      208,
+                      628
+                    ],
+                    "score": 1.0,
+                    "content": "verifies if the results agree. Given that",
+                    "type": "text"
+                  },
+                  {
+                    "bbox": [
+                      208,
+                      616,
+                      249,
+                      628
+                    ],
+                    "score": 0.93,
+                    "content": "\\bar { p } = m ( p )",
+                    "type": "inline_equation"
+                  },
+                  {
+                    "bbox": [
+                      250,
+                      617,
+                      293,
+                      628
+                    ],
+                    "score": 1.0,
+                    "content": ", i.e. pixel",
+                    "type": "text"
+                  },
+                  {
+                    "bbox": [
+                      293,
+                      617,
+                      300,
+                      628
+                    ],
+                    "score": 0.73,
+                    "content": "\\bar { p }",
+                    "type": "inline_equation"
+                  }
+                ],
+                "index": 43
+              },
+              {
+                "bbox": [
+                  47,
+                  630,
+                  300,
+                  640
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      47,
+                      630,
+                      218,
+                      640
+                    ],
+                    "score": 1.0,
+                    "content": "in the right image is the match for pixel",
+                    "type": "text"
+                  },
+                  {
+                    "bbox": [
+                      218,
+                      631,
+                      225,
+                      640
+                    ],
+                    "score": 0.81,
+                    "content": "p",
+                    "type": "inline_equation"
+                  },
+                  {
+                    "bbox": [
+                      226,
+                      630,
+                      300,
+                      640
+                    ],
+                    "score": 1.0,
+                    "content": "in the left image,",
+                    "type": "text"
+                  }
+                ],
+                "index": 44
+              },
+              {
+                "bbox": [
+                  47,
+                  640,
+                  291,
+                  653
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      47,
+                      641,
+                      65,
+                      652
+                    ],
+                    "score": 1.0,
+                    "content": "and",
+                    "type": "text"
+                  },
+                  {
+                    "bbox": [
+                      65,
+                      640,
+                      109,
+                      653
+                    ],
+                    "score": 0.93,
+                    "content": "p ^ { \\prime } = m ( \\bar { p } )",
+                    "type": "inline_equation"
+                  },
+                  {
+                    "bbox": [
+                      109,
+                      641,
+                      212,
+                      652
+                    ],
+                    "score": 1.0,
+                    "content": ", the confidence measure",
+                    "type": "text"
+                  },
+                  {
+                    "bbox": [
+                      213,
+                      641,
+                      225,
+                      653
+                    ],
+                    "score": 0.89,
+                    "content": "F _ { p }",
+                    "type": "inline_equation"
+                  },
+                  {
+                    "bbox": [
+                      226,
+                      641,
+                      291,
+                      652
+                    ],
+                    "score": 1.0,
+                    "content": "is computed as",
+                    "type": "text"
+                  }
+                ],
+                "index": 45
+              }
+            ],
+            "index": 42.5,
+            "page_num": 0,
+            "page_size": [
+              612,
+              792
+            ],
+            "bbox_fs": [
+              47,
+              580,
+              300,
+              653
+            ]
+          },
+          {
+            "type": "interline_equation",
+            "bbox": [
+              52,
+              663,
+              295,
+              717
+            ],
+            "lines": [
+              {
+                "bbox": [
+                  52,
+                  663,
+                  295,
+                  717
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      52,
+                      663,
+                      295,
+                      717
+                    ],
+                    "score": 0.94,
+                    "content": "F _ { p } = \\left\\{ \\begin{array} { l l } { \\displaystyle \\operatorname* { m i n } _ { \\bar { p } \\in S _ { p } \\backslash m ( p ) } C ( p , \\bar { p } ) - \\operatorname* { m i n } _ { \\bar { p } \\in S _ { p } } C ( p , \\bar { p } ) } \\\\ { \\displaystyle \\operatorname* { m i n } _ { \\bar { p } \\in S _ { p } \\backslash m ( p ) } C ( p , \\bar { p } ) } ,  & { | d _ { p } - d _ { p ^ { \\prime } } | \\leq 1 } \\\\ { 0 , } & { \\mathrm { o t h e r w i s e } } \\end{array} \\right. .",
+                    "type": "interline_equation",
+                    "image_path": "c63358478cb6ff7adc2b53545e5d0899532304ae47fea9039f120d5d441b2d2e.jpg"
+                  }
+                ]
+              }
+            ],
+            "index": 47.5,
+            "virtual_lines": [
+              {
+                "bbox": [
+                  52,
+                  663,
+                  295,
+                  676.5
+                ],
+                "spans": [],
+                "index": 46
+              },
+              {
+                "bbox": [
+                  52,
+                  676.5,
+                  295,
+                  690.0
+                ],
+                "spans": [],
+                "index": 47
+              },
+              {
+                "bbox": [
+                  52,
+                  690.0,
+                  295,
+                  703.5
+                ],
+                "spans": [],
+                "index": 48
+              },
+              {
+                "bbox": [
+                  52,
+                  703.5,
+                  295,
+                  717.0
+                ],
+                "spans": [],
+                "index": 49
+              }
+            ],
+            "page_num": 0,
+            "page_size": [
+              612,
+              792
+            ]
+          },
+          {
+            "type": "title",
+            "bbox": [
+              311,
+              56,
+              450,
+              68
+            ],
+            "lines": [
+              {
+                "bbox": [
+                  311,
+                  57,
+                  450,
+                  68
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      311,
+                      57,
+                      450,
+                      68
+                    ],
+                    "score": 1.0,
+                    "content": "D. Iterative Disparity Refinement",
+                    "type": "text"
+                  }
+                ],
+                "index": 50
+              }
+            ],
+            "index": 50,
+            "page_num": 0,
+            "page_size": [
+              612,
+              792
+            ]
+          },
+          {
+            "type": "text",
+            "bbox": [
+              311,
+              72,
+              563,
+              131
+            ],
+            "lines": [
+              {
+                "bbox": [
+                  320,
+                  72,
+                  563,
+                  83
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      320,
+                      72,
+                      563,
+                      83
+                    ],
+                    "score": 1.0,
+                    "content": "Once the first iteration of stereo matching is complete,",
+                    "type": "text"
+                  }
+                ],
+                "index": 51
+              },
+              {
+                "bbox": [
+                  311,
+                  83,
+                  564,
+                  97
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      311,
+                      83,
+                      393,
+                      96
+                    ],
+                    "score": 1.0,
+                    "content": "disparity estimates",
+                    "type": "text"
+                  },
+                  {
+                    "bbox": [
+                      394,
+                      83,
+                      408,
+                      97
+                    ],
+                    "score": 0.9,
+                    "content": "D _ { \\boldsymbol { p } } ^ { i }",
+                    "type": "inline_equation"
+                  },
+                  {
+                    "bbox": [
+                      408,
+                      83,
+                      564,
+                      96
+                    ],
+                    "score": 1.0,
+                    "content": "can be used to guide matching in",
+                    "type": "text"
+                  }
+                ],
+                "index": 52
+              },
+              {
+                "bbox": [
+                  311,
+                  96,
+                  564,
+                  108
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      311,
+                      96,
+                      564,
+                      108
+                    ],
+                    "score": 1.0,
+                    "content": "subsequent iterations. This is done by penalizing disparities",
+                    "type": "text"
+                  }
+                ],
+                "index": 53
+              },
+              {
+                "bbox": [
+                  310,
+                  108,
+                  563,
+                  119
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      310,
+                      108,
+                      563,
+                      119
+                    ],
+                    "score": 1.0,
+                    "content": "that deviate from their expected values. The penalty function",
+                    "type": "text"
+                  }
+                ],
+                "index": 54
+              },
+              {
+                "bbox": [
+                  309,
+                  120,
+                  358,
+                  132
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      309,
+                      120,
+                      358,
+                      132
+                    ],
+                    "score": 1.0,
+                    "content": "is given by",
+                    "type": "text"
+                  }
+                ],
+                "index": 55
+              }
+            ],
+            "index": 53,
+            "page_num": 0,
+            "page_size": [
+              612,
+              792
+            ],
+            "bbox_fs": [
+              309,
+              72,
+              564,
+              132
+            ]
+          },
+          {
+            "type": "interline_equation",
+            "bbox": [
+              340,
+              134,
+              532,
+              163
+            ],
+            "lines": [
+              {
+                "bbox": [
+                  340,
+                  134,
+                  532,
+                  163
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      340,
+                      134,
+                      532,
+                      163
+                    ],
+                    "score": 0.93,
+                    "content": "\\Lambda ^ { i } ( p , \\bar { p } ) = \\alpha \\times \\sum _ { q \\in \\Omega _ { p } } w ( p , q ) F _ { q } ^ { i - 1 } \\left| D _ { q } ^ { i - 1 } - d _ { p } \\right| ,",
+                    "type": "interline_equation",
+                    "image_path": "2277a956d8ac1d1551ff7c0fef150494854bf7d420c396398a78c2a77c82fd18.jpg"
+                  }
+                ]
+              }
+            ],
+            "index": 56.5,
+            "virtual_lines": [
+              {
+                "bbox": [
+                  340,
+                  134,
+                  532,
+                  148.5
+                ],
+                "spans": [],
+                "index": 56
+              },
+              {
+                "bbox": [
+                  340,
+                  148.5,
+                  532,
+                  163.0
+                ],
+                "spans": [],
+                "index": 57
+              }
+            ],
+            "page_num": 0,
+            "page_size": [
+              612,
+              792
+            ]
+          },
+          {
+            "type": "text",
+            "bbox": [
+              311,
+              166,
+              563,
+              190
+            ],
+            "lines": [
+              {
+                "bbox": [
+                  311,
+                  167,
+                  562,
+                  178
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      311,
+                      167,
+                      390,
+                      178
+                    ],
+                    "score": 1.0,
+                    "content": "where the value of",
+                    "type": "text"
+                  },
+                  {
+                    "bbox": [
+                      390,
+                      168,
+                      398,
+                      176
+                    ],
+                    "score": 0.8,
+                    "content": "\\alpha",
+                    "type": "inline_equation"
+                  },
+                  {
+                    "bbox": [
+                      398,
+                      167,
+                      562,
+                      178
+                    ],
+                    "score": 1.0,
+                    "content": "is chosen empirically. Next, the penalty",
+                    "type": "text"
+                  }
+                ],
+                "index": 58
+              },
+              {
+                "bbox": [
+                  311,
+                  180,
+                  514,
+                  190
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      311,
+                      180,
+                      514,
+                      190
+                    ],
+                    "score": 1.0,
+                    "content": "values are incorporated into the matching cost as",
+                    "type": "text"
+                  }
+                ],
+                "index": 59
+              }
+            ],
+            "index": 58.5,
+            "page_num": 0,
+            "page_size": [
+              612,
+              792
+            ],
+            "bbox_fs": [
+              311,
+              167,
+              562,
+              190
+            ]
+          },
+          {
+            "type": "interline_equation",
+            "bbox": [
+              370,
+              194,
+              503,
+              209
+            ],
+            "lines": [
+              {
+                "bbox": [
+                  370,
+                  194,
+                  503,
+                  209
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      370,
+                      194,
+                      503,
+                      209
+                    ],
+                    "score": 0.92,
+                    "content": "{ C } ^ { i } ( p , \\bar { p } ) = { C } ^ { 0 } ( p , \\bar { p } ) + { \\Lambda } ^ { i } ( p , \\bar { p } ) ,",
+                    "type": "interline_equation",
+                    "image_path": "78820be128a80d2ff11641bcef87a8e86a9ebafc392da71ee8196df9170d4c29.jpg"
+                  }
+                ]
+              }
+            ],
+            "index": 60,
+            "virtual_lines": [
+              {
+                "bbox": [
+                  370,
+                  194,
+                  503,
+                  209
+                ],
+                "spans": [],
+                "index": 60
+              }
+            ],
+            "page_num": 0,
+            "page_size": [
+              612,
+              792
+            ]
+          },
+          {
+            "type": "text",
+            "bbox": [
+              311,
+              214,
+              563,
+              286
+            ],
+            "lines": [
+              {
+                "bbox": [
+                  311,
+                  216,
+                  563,
+                  226
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      311,
+                      216,
+                      563,
+                      226
+                    ],
+                    "score": 1.0,
+                    "content": "and the matches are reselected using the WTA match selection",
+                    "type": "text"
+                  }
+                ],
+                "index": 61
+              },
+              {
+                "bbox": [
+                  310,
+                  228,
+                  564,
+                  239
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      310,
+                      228,
+                      564,
+                      239
+                    ],
+                    "score": 1.0,
+                    "content": "criteria. The resulting disparity maps are then post-processed",
+                    "type": "text"
+                  }
+                ],
+                "index": 62
+              },
+              {
+                "bbox": [
+                  310,
+                  239,
+                  563,
+                  251
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      310,
+                      239,
+                      563,
+                      251
+                    ],
+                    "score": 1.0,
+                    "content": "using a combination of median filtering and occlusion filling.",
+                    "type": "text"
+                  }
+                ],
+                "index": 63
+              },
+              {
+                "bbox": [
+                  311,
+                  252,
+                  564,
+                  261
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      311,
+                      252,
+                      564,
+                      261
+                    ],
+                    "score": 1.0,
+                    "content": "Finally, the current cost becomes the auxiliary cost for the next",
+                    "type": "text"
+                  }
+                ],
+                "index": 64
+              },
+              {
+                "bbox": [
+                  310,
+                  262,
+                  563,
+                  276
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      310,
+                      263,
+                      482,
+                      276
+                    ],
+                    "score": 1.0,
+                    "content": "pair of frames in the video sequence, i.e.,",
+                    "type": "text"
+                  },
+                  {
+                    "bbox": [
+                      482,
+                      262,
+                      563,
+                      275
+                    ],
+                    "score": 0.92,
+                    "content": "C _ { a } ( p , \\bar { p } )  C ( p , \\bar { p } )",
+                    "type": "inline_equation"
+                  }
+                ],
+                "index": 65
+              },
+              {
+                "bbox": [
+                  310,
+                  275,
+                  537,
+                  287
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      310,
+                      275,
+                      366,
+                      287
+                    ],
+                    "score": 1.0,
+                    "content": "for all pixels",
+                    "type": "text"
+                  },
+                  {
+                    "bbox": [
+                      366,
+                      277,
+                      373,
+                      286
+                    ],
+                    "score": 0.8,
+                    "content": "p",
+                    "type": "inline_equation"
+                  },
+                  {
+                    "bbox": [
+                      373,
+                      275,
+                      527,
+                      287
+                    ],
+                    "score": 1.0,
+                    "content": "in the and their matching candidates",
+                    "type": "text"
+                  },
+                  {
+                    "bbox": [
+                      527,
+                      276,
+                      533,
+                      286
+                    ],
+                    "score": 0.82,
+                    "content": "\\bar { p }",
+                    "type": "inline_equation"
+                  },
+                  {
+                    "bbox": [
+                      534,
+                      275,
+                      537,
+                      287
+                    ],
+                    "score": 1.0,
+                    "content": ".",
+                    "type": "text"
+                  }
+                ],
+                "index": 66
+              }
+            ],
+            "index": 63.5,
+            "page_num": 0,
+            "page_size": [
+              612,
+              792
+            ],
+            "bbox_fs": [
+              310,
+              216,
+              564,
+              287
+            ]
+          },
+          {
+            "type": "title",
+            "bbox": [
+              408,
+              293,
+              465,
+              303
+            ],
+            "lines": [
+              {
+                "bbox": [
+                  408,
+                  294,
+                  466,
+                  303
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      408,
+                      294,
+                      466,
+                      303
+                    ],
+                    "score": 1.0,
+                    "content": "IV. RESULTS",
+                    "type": "text"
+                  }
+                ],
+                "index": 67
+              }
+            ],
+            "index": 67,
+            "page_num": 0,
+            "page_size": [
+              612,
+              792
+            ]
+          },
+          {
+            "type": "text",
+            "bbox": [
+              311,
+              307,
+              563,
+              510
+            ],
+            "lines": [
+              {
+                "bbox": [
+                  321,
+                  309,
+                  563,
+                  319
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      321,
+                      309,
+                      563,
+                      319
+                    ],
+                    "score": 1.0,
+                    "content": "The speed and accuracy of real-time stereo matching al-",
+                    "type": "text"
+                  }
+                ],
+                "index": 68
+              },
+              {
+                "bbox": [
+                  310,
+                  321,
+                  563,
+                  331
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      310,
+                      321,
+                      563,
+                      331
+                    ],
+                    "score": 1.0,
+                    "content": "gorithms are traditionally demonstrated using still-frame im-",
+                    "type": "text"
+                  }
+                ],
+                "index": 69
+              },
+              {
+                "bbox": [
+                  310,
+                  333,
+                  564,
+                  343
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      310,
+                      333,
+                      564,
+                      343
+                    ],
+                    "score": 1.0,
+                    "content": "ages from the Middlebury stereo benchmark [1], [2]. Still",
+                    "type": "text"
+                  }
+                ],
+                "index": 70
+              },
+              {
+                "bbox": [
+                  310,
+                  344,
+                  563,
+                  354
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      310,
+                      344,
+                      563,
+                      354
+                    ],
+                    "score": 1.0,
+                    "content": "frames, however, are insufficient for evaluating stereo match-",
+                    "type": "text"
+                  }
+                ],
+                "index": 71
+              },
+              {
+                "bbox": [
+                  311,
+                  357,
+                  563,
+                  367
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      311,
+                      357,
+                      563,
+                      367
+                    ],
+                    "score": 1.0,
+                    "content": "ing algorithms that incorporate frame-to-frame prediction to",
+                    "type": "text"
+                  }
+                ],
+                "index": 72
+              },
+              {
+                "bbox": [
+                  311,
+                  369,
+                  564,
+                  379
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      311,
+                      369,
+                      564,
+                      379
+                    ],
+                    "score": 1.0,
+                    "content": "enhance matching accuracy. An alternative approach is to",
+                    "type": "text"
+                  }
+                ],
+                "index": 73
+              },
+              {
+                "bbox": [
+                  309,
+                  380,
+                  563,
+                  392
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      309,
+                      380,
+                      563,
+                      392
+                    ],
+                    "score": 1.0,
+                    "content": "use a stereo video sequence with a ground truth disparity",
+                    "type": "text"
+                  }
+                ],
+                "index": 74
+              },
+              {
+                "bbox": [
+                  311,
+                  393,
+                  563,
+                  403
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      311,
+                      393,
+                      563,
+                      403
+                    ],
+                    "score": 1.0,
+                    "content": "for each frame. Obtaining the ground truth disparity of real",
+                    "type": "text"
+                  }
+                ],
+                "index": 75
+              },
+              {
+                "bbox": [
+                  311,
+                  405,
+                  563,
+                  415
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      311,
+                      405,
+                      563,
+                      415
+                    ],
+                    "score": 1.0,
+                    "content": "world video sequences is a difficult undertaking due to the",
+                    "type": "text"
+                  }
+                ],
+                "index": 76
+              },
+              {
+                "bbox": [
+                  310,
+                  416,
+                  562,
+                  428
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      310,
+                      416,
+                      562,
+                      428
+                    ],
+                    "score": 1.0,
+                    "content": "high frame rate of video and limitations in depth sensing-",
+                    "type": "text"
+                  }
+                ],
+                "index": 77
+              },
+              {
+                "bbox": [
+                  311,
+                  429,
+                  563,
+                  439
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      311,
+                      429,
+                      563,
+                      439
+                    ],
+                    "score": 1.0,
+                    "content": "technology. To address the need for stereo video with ground",
+                    "type": "text"
+                  }
+                ],
+                "index": 78
+              },
+              {
+                "bbox": [
+                  311,
+                  441,
+                  563,
+                  451
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      311,
+                      441,
+                      563,
+                      451
+                    ],
+                    "score": 1.0,
+                    "content": "truth disparities, five pairs of synthetic stereo video sequences",
+                    "type": "text"
+                  }
+                ],
+                "index": 79
+              },
+              {
+                "bbox": [
+                  311,
+                  452,
+                  563,
+                  462
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      311,
+                      452,
+                      563,
+                      462
+                    ],
+                    "score": 1.0,
+                    "content": "of a computer-generated scene were given in [19]. While these",
+                    "type": "text"
+                  }
+                ],
+                "index": 80
+              },
+              {
+                "bbox": [
+                  311,
+                  465,
+                  563,
+                  475
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      311,
+                      465,
+                      563,
+                      475
+                    ],
+                    "score": 1.0,
+                    "content": "videos incorporate a sufficient amount of movement variation,",
+                    "type": "text"
+                  }
+                ],
+                "index": 81
+              },
+              {
+                "bbox": [
+                  310,
+                  476,
+                  563,
+                  487
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      310,
+                      476,
+                      563,
+                      487
+                    ],
+                    "score": 1.0,
+                    "content": "they were generated from relatively simple models using low-",
+                    "type": "text"
+                  }
+                ],
+                "index": 82
+              },
+              {
+                "bbox": [
+                  311,
+                  489,
+                  563,
+                  498
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      311,
+                      489,
+                      563,
+                      498
+                    ],
+                    "score": 1.0,
+                    "content": "resolution rendering, and they do not provide occlusion or",
+                    "type": "text"
+                  }
+                ],
+                "index": 83
+              },
+              {
+                "bbox": [
+                  311,
+                  500,
+                  392,
+                  511
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      311,
+                      500,
+                      392,
+                      511
+                    ],
+                    "score": 1.0,
+                    "content": "discontinuity maps.",
+                    "type": "text"
+                  }
+                ],
+                "index": 84
+              }
+            ],
+            "index": 76,
+            "page_num": 0,
+            "page_size": [
+              612,
+              792
+            ],
+            "bbox_fs": [
+              309,
+              309,
+              564,
+              511
+            ]
+          },
+          {
+            "type": "text",
+            "bbox": [
+              311,
+              511,
+              563,
+              726
+            ],
+            "lines": [
+              {
+                "bbox": [
+                  320,
+                  511,
+                  564,
+                  523
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      320,
+                      511,
+                      564,
+                      523
+                    ],
+                    "score": 1.0,
+                    "content": "To evaluate the performance of temporal aggregation, a",
+                    "type": "text"
+                  }
+                ],
+                "index": 85
+              },
+              {
+                "bbox": [
+                  311,
+                  524,
+                  563,
+                  534
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      311,
+                      524,
+                      563,
+                      534
+                    ],
+                    "score": 1.0,
+                    "content": "new synthetic stereo video sequence is introduced along with",
+                    "type": "text"
+                  }
+                ],
+                "index": 86
+              },
+              {
+                "bbox": [
+                  310,
+                  537,
+                  563,
+                  546
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      310,
+                      537,
+                      563,
+                      546
+                    ],
+                    "score": 1.0,
+                    "content": "corresponding disparity maps, occlusion maps, and disconti-",
+                    "type": "text"
+                  }
+                ],
+                "index": 87
+              },
+              {
+                "bbox": [
+                  311,
+                  548,
+                  563,
+                  558
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      311,
+                      548,
+                      563,
+                      558
+                    ],
+                    "score": 1.0,
+                    "content": "nuity maps for evaluating the performance of temporal stereo",
+                    "type": "text"
+                  }
+                ],
+                "index": 88
+              },
+              {
+                "bbox": [
+                  311,
+                  560,
+                  563,
+                  570
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      311,
+                      560,
+                      563,
+                      570
+                    ],
+                    "score": 1.0,
+                    "content": "matching algorithms. To create the video sequence, a complex",
+                    "type": "text"
+                  }
+                ],
+                "index": 89
+              },
+              {
+                "bbox": [
+                  310,
+                  572,
+                  564,
+                  582
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      310,
+                      572,
+                      564,
+                      582
+                    ],
+                    "score": 1.0,
+                    "content": "scene was constructed using Google Sketchup and a pair",
+                    "type": "text"
+                  }
+                ],
+                "index": 90
+              },
+              {
+                "bbox": [
+                  311,
+                  584,
+                  563,
+                  594
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      311,
+                      584,
+                      563,
+                      594
+                    ],
+                    "score": 1.0,
+                    "content": "of animated paths were rendered photorealistically using the",
+                    "type": "text"
+                  }
+                ],
+                "index": 91
+              },
+              {
+                "bbox": [
+                  311,
+                  596,
+                  563,
+                  606
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      311,
+                      596,
+                      563,
+                      606
+                    ],
+                    "score": 1.0,
+                    "content": "Kerkythea rendering software. Realistic material properties",
+                    "type": "text"
+                  }
+                ],
+                "index": 92
+              },
+              {
+                "bbox": [
+                  310,
+                  607,
+                  563,
+                  619
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      310,
+                      607,
+                      563,
+                      619
+                    ],
+                    "score": 1.0,
+                    "content": "were used to give surfaces a natural-looking appearance by",
+                    "type": "text"
+                  }
+                ],
+                "index": 93
+              },
+              {
+                "bbox": [
+                  311,
+                  619,
+                  564,
+                  630
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      311,
+                      619,
+                      564,
+                      630
+                    ],
+                    "score": 1.0,
+                    "content": "adjusting their specularity, reflectance, and diffusion. The",
+                    "type": "text"
+                  }
+                ],
+                "index": 94
+              },
+              {
+                "bbox": [
+                  311,
+                  630,
+                  564,
+                  642
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      311,
+                      631,
+                      472,
+                      642
+                    ],
+                    "score": 1.0,
+                    "content": "video sequence has a resolution of",
+                    "type": "text"
+                  },
+                  {
+                    "bbox": [
+                      472,
+                      630,
+                      520,
+                      641
+                    ],
+                    "score": 0.89,
+                    "content": "6 4 0 ~ \\times ~ 4 8 0",
+                    "type": "inline_equation"
+                  },
+                  {
+                    "bbox": [
+                      521,
+                      631,
+                      564,
+                      642
+                    ],
+                    "score": 1.0,
+                    "content": "pixels, a",
+                    "type": "text"
+                  }
+                ],
+                "index": 95
+              },
+              {
+                "bbox": [
+                  310,
+                  642,
+                  564,
+                  654
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      310,
+                      642,
+                      564,
+                      654
+                    ],
+                    "score": 1.0,
+                    "content": "frame rate of 30 frames per second, and a duration of 4",
+                    "type": "text"
+                  }
+                ],
+                "index": 96
+              },
+              {
+                "bbox": [
+                  310,
+                  655,
+                  563,
+                  667
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      310,
+                      655,
+                      563,
+                      667
+                    ],
+                    "score": 1.0,
+                    "content": "seconds. In addition to performing photorealistic rendering,",
+                    "type": "text"
+                  }
+                ],
+                "index": 97
+              },
+              {
+                "bbox": [
+                  311,
+                  668,
+                  563,
+                  678
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      311,
+                      668,
+                      563,
+                      678
+                    ],
+                    "score": 1.0,
+                    "content": "depth renders of both video sequences were also generated and",
+                    "type": "text"
+                  }
+                ],
+                "index": 98
+              },
+              {
+                "bbox": [
+                  310,
+                  680,
+                  563,
+                  689
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      310,
+                      680,
+                      563,
+                      689
+                    ],
+                    "score": 1.0,
+                    "content": "converted to ground truth disparity for the stereo video. The",
+                    "type": "text"
+                  }
+                ],
+                "index": 99
+              },
+              {
+                "bbox": [
+                  311,
+                  691,
+                  563,
+                  701
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      311,
+                      691,
+                      563,
+                      701
+                    ],
+                    "score": 1.0,
+                    "content": "video sequences and ground truth data have been made avail-",
+                    "type": "text"
+                  }
+                ],
+                "index": 100
+              },
+              {
+                "bbox": [
+                  310,
+                  703,
+                  563,
+                  713
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      310,
+                      703,
+                      563,
+                      713
+                    ],
+                    "score": 1.0,
+                    "content": "able at http://mc2.unl.edu/current-research",
+                    "type": "text"
+                  }
+                ],
+                "index": 101
+              },
+              {
+                "bbox": [
+                  311,
+                  716,
+                  563,
+                  726
+                ],
+                "spans": [
+                  {
+                    "bbox": [
+                      311,
+                      716,
+                      563,
+                      726
+                    ],
+                    "score": 1.0,
+                    "content": "/image-processing/. Figure 2 shows two sample frames",
+                    "type": "text"
+                  }
+                ],
+                "index": 102
+              }
+            ],
+            "index": 93.5,
+            "page_num": 0,
+            "page_size": [
+              612,
+              792
+            ],
+            "bbox_fs": [
+              310,
+              511,
+              564,
+              726
+            ]
+          }
+        ]
+      }
+    ],
+    "_backend": "pipeline",
+    "_version_name": "2.0.6"
+  },
+  "md_content": "the matching cost by performing two-pass aggregation using two orthogonal 1D windows [5], [6], [8]. The two-pass method first aggregates matching costs in the vertical direction, and then computes a weighted sum of the aggregated costs in the horizontal direction. Given that support regions are of size $\\omega \\times \\omega$ , the two-pass method reduces the complexity of cost aggregation from $\\mathcal { O } ( \\omega ^ { 2 } )$ to $\\mathcal { O } ( \\omega )$ .\n\n# B. Temporal cost aggregation\n\nOnce aggregated costs $C ( p , \\bar { p } )$ have been computed for all pixels $p$ in the reference image and their respective matching candidates $\\bar { p }$ in the target image, a single-pass temporal aggregation routine is exectuted. At each time instance, the algorithm stores an auxiliary cost $C _ { a } ( p , \\bar { p } )$ which holds a weighted summation of costs obtained in the previous frames. During temporal aggregation, the auxiliary cost is merged with the cost obtained from the current frame using\n\n$$\nC ( p , \\bar { p } ) \\gets \\frac { ( 1 - \\lambda ) \\cdot C ( p , \\bar { p } ) + \\lambda \\cdot w _ { t } ( p , p _ { t - 1 } ) \\cdot C _ { a } ( p , \\bar { p } ) } { ( 1 - \\lambda ) + \\lambda \\cdot w _ { t } ( p , p _ { t - 1 } ) } ,\n$$\n\nwhere the feedback coefficient $\\lambda$ controls the amount of cost smoothing and $w _ { t } ( p , p _ { t - 1 } )$ enforces color similarity in the temporal domain. The temporal adaptive weight computed between the pixel of interest $p$ in the current frame and pixel $p _ { t - 1 }$ , located at the same spatial coordinate in the prior frame, is given by\n\n$$\nw _ { t } ( p , p _ { t - 1 } ) = \\exp { \\left( - \\frac { \\Delta _ { c } ( p , p _ { t - 1 } ) } { \\gamma _ { t } } \\right) } ,\n$$\n\nwhere $\\gamma _ { t }$ regulates the strength of grouping by color similarity in the temporal dimension. The temporal adaptive weight has the effect of preserving edges in the temporal domain, such that when a pixel coordinate transitions from one side of an edge to another in subsequent frames, the auxiliary cost is assigned a small weight and the majority of the cost is derived from the current frame.\n\n# C. Disparity Selection and Confidence Assessment\n\nHaving performed temporal cost aggregation, matches are determined using the Winner-Takes-All (WTA) match selec tion criteria. The match for $p$ , denoted as $m ( p )$ , is the candidate pixel $\\bar { p } \\in S _ { p }$ characterized by the minimum matching cost, and is given by\n\n$$\nm ( p ) = \\operatorname * { a r g m i n } _ { \\bar { p } \\in S _ { p } } C ( p , \\bar { p } ) .\n$$\n\nTo asses the level of confidence associated with selecting minimum cost matches, the algorithm determines another set of matches, this time from the target to reference image, and verifies if the results agree. Given that $\\bar { p } = m ( p )$ , i.e. pixel $\\bar { p }$ in the right image is the match for pixel $p$ in the left image, and $p ^ { \\prime } = m ( \\bar { p } )$ , the confidence measure $F _ { p }$ is computed as\n\n$$\nF _ { p } = \\left\\{ \\begin{array} { l l } { \\displaystyle \\operatorname* { m i n } _ { \\bar { p } \\in S _ { p } \\backslash m ( p ) } C ( p , \\bar { p } ) - \\operatorname* { m i n } _ { \\bar { p } \\in S _ { p } } C ( p , \\bar { p } ) } \\\\ { \\displaystyle \\operatorname* { m i n } _ { \\bar { p } \\in S _ { p } \\backslash m ( p ) } C ( p , \\bar { p } ) } ,  & { | d _ { p } - d _ { p ^ { \\prime } } | \\leq 1 } \\\\ { 0 , } & { \\mathrm { o t h e r w i s e } } \\end{array} \\right. .\n$$\n\n# D. Iterative Disparity Refinement\n\nOnce the first iteration of stereo matching is complete, disparity estimates $D _ { \\boldsymbol { p } } ^ { i }$ can be used to guide matching in subsequent iterations. This is done by penalizing disparities that deviate from their expected values. The penalty function is given by\n\n$$\n\\Lambda ^ { i } ( p , \\bar { p } ) = \\alpha \\times \\sum _ { q \\in \\Omega _ { p } } w ( p , q ) F _ { q } ^ { i - 1 } \\left| D _ { q } ^ { i - 1 } - d _ { p } \\right| ,\n$$\n\nwhere the value of $\\alpha$ is chosen empirically. Next, the penalty values are incorporated into the matching cost as\n\n$$\n{ C } ^ { i } ( p , \\bar { p } ) = { C } ^ { 0 } ( p , \\bar { p } ) + { \\Lambda } ^ { i } ( p , \\bar { p } ) ,\n$$\n\nand the matches are reselected using the WTA match selection criteria. The resulting disparity maps are then post-processed using a combination of median filtering and occlusion filling. Finally, the current cost becomes the auxiliary cost for the next pair of frames in the video sequence, i.e., $C _ { a } ( p , \\bar { p } )  C ( p , \\bar { p } )$ for all pixels $p$ in the and their matching candidates $\\bar { p }$ .\n\n# IV. RESULTS\n\nThe speed and accuracy of real-time stereo matching algorithms are traditionally demonstrated using still-frame images from the Middlebury stereo benchmark [1], [2]. Still frames, however, are insufficient for evaluating stereo matching algorithms that incorporate frame-to-frame prediction to enhance matching accuracy. An alternative approach is to use a stereo video sequence with a ground truth disparity for each frame. Obtaining the ground truth disparity of real world video sequences is a difficult undertaking due to the high frame rate of video and limitations in depth sensingtechnology. To address the need for stereo video with ground truth disparities, five pairs of synthetic stereo video sequences of a computer-generated scene were given in [19]. While these videos incorporate a sufficient amount of movement variation, they were generated from relatively simple models using lowresolution rendering, and they do not provide occlusion or discontinuity maps.\n\nTo evaluate the performance of temporal aggregation, a new synthetic stereo video sequence is introduced along with corresponding disparity maps, occlusion maps, and discontinuity maps for evaluating the performance of temporal stereo matching algorithms. To create the video sequence, a complex scene was constructed using Google Sketchup and a pair of animated paths were rendered photorealistically using the Kerkythea rendering software. Realistic material properties were used to give surfaces a natural-looking appearance by adjusting their specularity, reflectance, and diffusion. The video sequence has a resolution of $6 4 0 ~ \\times ~ 4 8 0$ pixels, a frame rate of 30 frames per second, and a duration of 4 seconds. In addition to performing photorealistic rendering, depth renders of both video sequences were also generated and converted to ground truth disparity for the stereo video. The video sequences and ground truth data have been made available at http://mc2.unl.edu/current-research /image-processing/. Figure 2 shows two sample frames",
+  "layout": {},
+  "info": {
+    "filename": "academic_paper_formula",
+    "type": ".pdf"
+  },
+  "content_list": [],
+  "_meta": {
+    "version": "完整版",
+    "processing_time": 38.53711795806885,
+    "timestamp": "2025-07-02T13:57:34.263011",
+    "status": "success"
+  }
+}

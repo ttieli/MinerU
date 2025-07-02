@@ -61,7 +61,7 @@ RUN mkdir -p /app/logs \
              /app/cache
 
 # 复制requirements文件
-COPY requirements-full.txt requirements.txt
+COPY docker/m1-mac-full/requirements-full.txt requirements.txt
 
 # 如果存在constraints文件则复制
 COPY constraints.txt* ./
@@ -97,14 +97,14 @@ RUN if [ -f constraints.txt ]; then \
     fi
 
 # 复制应用文件
-COPY app_full.py app.py
+COPY docker/m1-mac-full/app_full.py app.py
 
 # 复制配置文件（如果存在）
-COPY magic-pdf-full.json* /root/
+COPY docker/m1-mac-full/magic-pdf-full.json* /root/
 
 # 复制启动脚本
-COPY entrypoint.sh* ./
-COPY healthcheck.sh* ./
+COPY docker/m1-mac-full/entrypoint.sh* ./
+COPY docker/m1-mac-full/healthcheck.sh* ./
 
 # 如果没有entrypoint.sh，创建一个简单的
 RUN if [ ! -f entrypoint.sh ]; then \

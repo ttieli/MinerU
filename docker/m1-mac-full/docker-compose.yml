@@ -1,11 +1,9 @@
-version: '3.8'
-
 services:
   # 主要的MinerU全功能服务
   mineru-full:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ../..
+      dockerfile: docker/m1-mac-full/Dockerfile
       args:
         BUILD_DATE: ${BUILD_DATE:-$(date -u +'%Y-%m-%dT%H:%M:%SZ')}
         VERSION: ${VERSION:-2.0-full}
@@ -17,11 +15,11 @@ services:
     hostname: mineru-full
     restart: unless-stopped
     
-    # 端口映射
+    # 端口映射 - 避免与简化版冲突
     ports:
-      - "${API_PORT:-8000}:8000"     # API服务端口
-      - "${WEBUI_PORT:-3000}:3000"   # WebUI端口（可选）
-      - "${MONITOR_PORT:-8080}:8080" # 监控端口
+      - "${API_PORT:-8001}:8000"     # API服务端口（改为8001）
+      - "${WEBUI_PORT:-3001}:3000"   # WebUI端口（改为3001）
+      - "${MONITOR_PORT:-8081}:8080" # 监控端口（改为8081）
     
     # 环境变量配置
     environment:
@@ -112,7 +110,7 @@ services:
     
     # 网络配置
     networks:
-      - mineru-network
+      - mineru-full-network
     
     # 依赖服务
     depends_on:
@@ -139,10 +137,10 @@ services:
   # Redis缓存服务（用于任务队列和缓存）
   redis:
     image: redis:7-alpine
-    container_name: mineru-redis
+    container_name: mineru-redis-full
     restart: unless-stopped
     ports:
-      - "127.0.0.1:6379:6379"
+      - "127.0.0.1:6380:6379"  # 改为6380避免冲突
     volumes:
       - redis_data:/data
     command: >
@@ -151,7 +149,7 @@ services:
       --maxmemory 512mb
       --maxmemory-policy allkeys-lru
     networks:
-      - mineru-network
+      - mineru-full-network
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s
@@ -164,17 +162,17 @@ services:
       context: ./webui
       dockerfile: Dockerfile
     # platform: linux/arm64  # 注释掉以解决兼容性问题
-    container_name: mineru-webui
+    container_name: mineru-webui-full
     restart: unless-stopped
     ports:
-      - "${WEBUI_PORT:-3000}:3000"
+      - "${WEBUI_PORT:-3001}:3000"  # 改为3001避免冲突
     environment:
       - API_URL=http://mineru-full:8000
       - NODE_ENV=production
     volumes:
       - ./webui/config:/app/config:ro
     networks:
-      - mineru-network
+      - mineru-full-network
     depends_on:
       - mineru-full
     profiles:
@@ -185,17 +183,17 @@ services:
   # Nginx反向代理（生产环境）
   nginx:
     image: nginx:alpine
-    container_name: mineru-nginx
+    container_name: mineru-nginx-full
     restart: unless-stopped
     ports:
-      - "${HTTP_PORT:-80}:80"
-      - "${HTTPS_PORT:-443}:443"
+      - "${HTTP_PORT:-8080}:80"    # 改为8080避免冲突
+      - "${HTTPS_PORT:-8443}:443"  # 改为8443避免冲突
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./nginx/ssl:/etc/nginx/ssl:ro
       - nginx_logs:/var/log/nginx
     networks:
-      - mineru-network
+      - mineru-full-network
     depends_on:
       - mineru-full
       - webui
@@ -207,10 +205,10 @@ services:
   # 监控服务（Prometheus + Grafana）
   prometheus:
     image: prom/prometheus:latest
-    container_name: mineru-prometheus
+    container_name: mineru-prometheus-full
     restart: unless-stopped
     ports:
-      - "127.0.0.1:9090:9090"
+      - "127.0.0.1:9091:9090"  # 改为9091避免冲突
     volumes:
       - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
       - prometheus_data:/prometheus
@@ -222,7 +220,7 @@ services:
       - '--storage.tsdb.retention.time=200h'
       - '--web.enable-lifecycle'
     networks:
-      - mineru-network
+      - mineru-full-network
     profiles:
       - monitoring
     labels:
@@ -230,10 +228,10 @@ services:
 
   grafana:
     image: grafana/grafana:latest
-    container_name: mineru-grafana
+    container_name: mineru-grafana-full
     restart: unless-stopped
     ports:
-      - "127.0.0.1:3001:3000"
+      - "127.0.0.1:3002:3000"  # 改为3002避免冲突
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-admin123}
       - GF_USERS_ALLOW_SIGN_UP=false
@@ -241,7 +239,7 @@ services:
       - grafana_data:/var/lib/grafana
       - ./monitoring/grafana:/etc/grafana/provisioning:ro
     networks:
-      - mineru-network
+      - mineru-full-network
     depends_on:
       - prometheus
     profiles:
@@ -286,8 +284,8 @@ volumes:
 
 # 网络配置
 networks:
-  mineru-network:
+  mineru-full-network:
     driver: bridge
     ipam:
       config:
-        - subnet: 172.25.0.0/16
+        - subnet: 172.26.0.0/16  # 不同的子网避免冲突

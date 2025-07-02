@@ -1,0 +1,109 @@
+services:
+  # 完整版MinerU服务（基于现有镜像）
+  mineru-full:
+    image: m1-mac-mineru-m1:latest  # 使用现有的简化版镜像
+    container_name: mineru-full-api
+    hostname: mineru-full
+    restart: unless-stopped
+    
+    # 端口映射 - 避免与简化版冲突
+    ports:
+      - "8001:8000"     # API服务端口（外部8001，内部8000）
+    
+    # 环境变量配置（启用完整版功能）
+    environment:
+      # 模型源配置
+      - MINERU_MODEL_SOURCE=huggingface
+      
+      # 设备配置
+      - DEVICE_MODE=mps
+      - MPS_MEMORY_LIMIT=8G
+      - PYTORCH_ENABLE_MPS_FALLBACK=1
+      - PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0
+      - MPS_MEMORY_FRACTION=0.8
+      
+      # 功能开关（启用完整版功能）
+      - ENABLE_VLM=true
+      - ENABLE_PIPELINE=true
+      - ENABLE_TABLE=true
+      - ENABLE_FORMULA=true
+      - ENABLE_LLM_AIDED=false
+      - ENABLE_WEBUI=false
+      
+      # 性能配置
+      - MAX_WORKERS=4
+      - BATCH_SIZE=2
+      - MEMORY_LIMIT=8G
+      - MODEL_PRECISION=fp16
+      - WORKER_PROCESSES=4
+      - WORKER_THREADS=2
+      - QUEUE_MAX_SIZE=100
+      - REQUEST_TIMEOUT=300
+      
+      # 内存优化
+      - MEMORY_EFFICIENT_MODE=true
+      - MODEL_OFFLOAD_CPU=true
+      - CLEAR_CACHE_INTERVAL=100
+      - ADAPTIVE_BATCH_SIZE=true
+      - MAX_CONCURRENT_REQUESTS=4
+      
+      # 日志配置
+      - LOG_LEVEL=INFO
+      - LOG_FORMAT=json
+      
+      # Python路径
+      - PYTHONPATH=/app
+    
+    # 数据卷映射（使用不同的输出目录避免冲突）
+    volumes:
+      - ./output-full:/app/output
+      - ./temp-full:/app/temp
+      - ./config-full:/app/config:ro
+    
+    # 资源限制
+    deploy:
+      resources:
+        limits:
+          memory: 16G
+          cpus: '8.0'
+        reservations:
+          memory: 8G
+          cpus: '4.0'
+    
+    # 健康检查
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 15s
+      retries: 3
+      start_period: 60s
+    
+    # 网络配置（使用独立网络避免冲突）
+    networks:
+      - mineru-full-network
+    
+    # 系统配置
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
+      memlock:
+        soft: -1
+        hard: -1
+    
+    # 安全配置
+    security_opt:
+      - no-new-privileges:true
+    
+    # 标签
+    labels:
+      - "com.mineru.service=api-full"
+      - "com.mineru.version=2.0-full"
+
+# 网络配置（独立网络避免冲突）
+networks:
+  mineru-full-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.26.0.0/16  # 不同的子网避免冲突

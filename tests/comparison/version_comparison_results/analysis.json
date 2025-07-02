@@ -1,0 +1,26 @@
+{
+  "performance": {
+    "simplified_time": 6.468757152557373,
+    "full_time": 38.53711795806885,
+    "time_difference": 32.068360805511475
+  },
+  "content": {
+    "simplified_length": 5552,
+    "full_length": 6711,
+    "length_difference": 1159,
+    "similarity": 0.8136671287613145,
+    "simplified_lines": 41,
+    "full_lines": 53
+  },
+  "features": {
+    "simplified_has_layout": true,
+    "full_has_layout": true,
+    "simplified_blocks_count": 21,
+    "full_blocks_count": 21
+  },
+  "quality": {
+    "simplified_has_errors": false,
+    "full_has_errors": false,
+    "content_enhancement_ratio": 1.2087536023054755
+  }
+}

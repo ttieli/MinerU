@@ -1,0 +1,74 @@
+{
+  "test_time": "2025-07-02T14:21:18.804361",
+  "phases": {
+    "check_status": {
+      "docker": {
+        "status": "success",
+        "duration": 0.28157997131347656,
+        "stdout": "Client:\n Version:    28.2.2\n Context:    desktop-linux\n Debug Mode: false\n Plugins:\n  ai: Docker AI Agent - Ask Gordon (Docker Inc.)\n    Version:  v1.4.0\n    Path:     /Users/tieli/.docker/cli-plugins/docker-ai\n  buildx: Docker Buildx (Docker Inc.)\n    Version:  v0.24.0-desktop.2\n    Path:     /Users/tieli/.docker/cli-plugins/docker-buildx\n  cloud: Docker Cloud (Docker Inc.)\n    Version:  v0.3.9\n    Path:     /Users/tieli/.docker/cli-plugins/docker-cloud\n  compose: Docker Compose (Docker Inc.)\n    Version:  v2.37.1-desktop.1\n    Path:     /Users/tieli/.docker/cli-plugins/docker-compose\n  debug: Get a shell into any image or container (Docker Inc.)\n    Version:  0.0.41\n    Path:     /Users/tieli/.docker/cli-plugins/docker-debug\n  desktop: Docker Desktop commands (Docker Inc.)\n    Version:  v0.1.9\n    Path:     /Users/tieli/.docker/cli-plugins/docker-desktop\n  extension: Manages Docker extensions (Docker Inc.)\n    Version:  v0.2.29\n    Path:     /Users/tieli/.docker/cli-plugins/docker-extension\n  init: Creates Docker-related starter files for your project (Docker Inc.)\n    Version:  v1.4.0\n    Path:     /Users/tieli/.docker/cli-plugins/docker-init\n  mcp: Docker MCP Plugin (Docker Inc.)\n    Version:  dev\n    Path:     /Users/tieli/.docker/cli-plugins/docker-mcp\n  model: Docker Model Runner (Docker Inc.)\n    Version:  v0.1.24\n    Path:     /Users/tieli/.docker/cli-plugins/docker-model\n  sbom: View the packaged-based Software Bill Of Materials (SBOM) for an image (Anchore Inc.)\n    Version:  0.6.0\n    Path:     /Users/tieli/.docker/cli-plugins/docker-sbom\n  scout: Docker Scout (Docker Inc.)\n    Version:  v1.18.0\n    Path:     /Users/tieli/.docker/cli-plugins/docker-scout\n\nServer:\n Containers: 27\n  Running: 27\n  Paused: 0\n  Stopped: 0\n Images: 26\n Server Version: 28.2.2\n Storage Driver: overlay2\n  Backing Filesystem: extfs\n  Supports d_type: true\n  Using metacopy: false\n  Native Overlay Diff: true\n  userxattr: false\n Logging Driver: json-file\n Cgroup Driver: cgroupfs\n Cgroup Version: 2\n Plugins:\n  Volume: local\n  Network: bridge host ipvlan macvlan null overlay\n  Log: awslogs fluentd gcplogs gelf journald json-file local splunk syslog\n CDI spec directories:\n  /etc/cdi\n  /var/run/cdi\n Discovered Devices:\n  cdi: docker.com/gpu=webgpu\n Swarm: inactive\n Runtimes: io.containerd.runc.v2 runc\n Default Runtime: runc\n Init Binary: docker-init\n containerd version: 05044ec0a9a75232cad458027ca83437aae3f4da\n runc version: v1.2.5-0-g59923ef\n init version: de40ad0\n Security Options:\n  seccomp\n   Profile: builtin\n  cgroupns\n Kernel Version: 6.10.14-linuxkit\n Operating System: Docker Desktop\n OSType: linux\n Architecture: aarch64\n CPUs: 14\n Total Memory: 31.29GiB\n Name: docker-desktop\n ID: b755bdc5-dc16-4fdd-80bf-597f9c8b4fd7\n Docker Root Dir: /var/lib/docker\n Debug Mode: false\n HTTP Proxy: http.docker.internal:3128\n HTTPS Proxy: http.docker.internal:3128\n No Proxy: hubproxy.docker.internal\n Labels:\n  com.docker.desktop.address=unix:///Users/tieli/Library/Containers/com.docker.docker/Data/docker-cli.sock\n Experimental: false\n Insecure Registries:\n  hubproxy.docker.internal:5555\n  ::1/128\n  127.0.0.0/8\n Registry Mirrors:\n  https://mirror.ccs.tencentyun.com/\n  https://registry.docker-cn.com/\n  https://docker.mirrors.ustc.edu.cn/\n Live Restore Enabled: false\n\n",
+        "stderr": "WARNING: Plugin \"/Users/tieli/.docker/cli-plugins/docker-dev\" is not valid: failed to fetch metadata: fork/exec /Users/tieli/.docker/cli-plugins/docker-dev: no such file or directory\nWARNING: Plugin \"/Users/tieli/.docker/cli-plugins/docker-feedback\" is not valid: failed to fetch metadata: fork/exec /Users/tieli/.docker/cli-plugins/docker-feedback: no such file or directory\nWARNING: DOCKER_INSECURE_NO_IPTABLES_RAW is set\n"
+      }
+    },
+    "cleanup": {
+      "停止完整版容器": {
+        "status": "success",
+        "duration": 1.3607971668243408,
+        "stdout": "",
+        "stderr": " Container mineru-full-api  Stopping\n Container mineru-full-api  Stopped\n Container mineru-full-api  Removing\n Container mineru-full-api  Removed\n Network m1-mac-full_mineru-full-network  Removing\n Network m1-mac-full_mineru-full-network  Removed\n"
+      },
+      "停止旧完整版容器": {
+        "status": "success",
+        "duration": 0.09815025329589844,
+        "stdout": "",
+        "stderr": ""
+      }
+    },
+    "build": {
+      "full_version": {
+        "status": "success",
+        "duration": 12.41015887260437,
+        "stdout": "#1 [internal] load local bake definitions\n#1 reading from stdin 594B done\n#1 DONE 0.0s\n\n#2 [internal] load build definition from Dockerfile-fixed\n#2 transferring dockerfile: 3.18kB done\n#2 DONE 0.0s\n\n#3 [internal] load metadata for docker.io/library/m1-mac-mineru-m1:latest\n#3 DONE 0.0s\n\n#4 [internal] load .dockerignore\n#4 transferring context: 2B done\n#4 DONE 0.0s\n\n#5 [1/6] FROM docker.io/library/m1-mac-mineru-m1:latest\n#5 DONE 0.0s\n\n#6 [internal] load build context\n#6 transferring context: 6.36MB 0.1s done\n#6 DONE 0.1s\n\n#7 [2/6] RUN pip install --no-cache-dir     rapid_table>=1.0.5     easyocr>=1.7.0     pytesseract>=0.3.10     scikit-image>=0.22.0     python-docx>=1.1.0     openpyxl>=3.1.0     ultralytics>=8.3.48     doclayout_yolo==0.0.4\n#7 CACHED\n\n#8 [3/6] COPY . /app\n#8 DONE 6.6s\n\n#9 [4/6] RUN echo \"\" >> /app/mineru/backend/pipeline/model_json_to_middle_json.py &&     echo \"# 完整版兼容性修复\" >> /app/mineru/backend/pipeline/model_json_to_middle_json.py &&     echo \"try:\" >> /app/mineru/backend/pipeline/model_json_to_middle_json.py &&     echo \"    from .result_to_middle_json import result_to_middle_json\" >> /app/mineru/backend/pipeline/model_json_to_middle_json.py &&     echo \"    model_json_to_middle_json = result_to_middle_json\" >> /app/mineru/backend/pipeline/model_json_to_middle_json.py &&     echo \"except ImportError:\" >> /app/mineru/backend/pipeline/model_json_to_middle_json.py &&     echo \"    def model_json_to_middle_json(*args, **kwargs):\" >> /app/mineru/backend/pipeline/model_json_to_middle_json.py &&     echo \"        raise NotImplementedError('model_json_to_middle_json not available')\" >> /app/mineru/backend/pipeline/model_json_to_middle_json.py\n#9 DONE 0.1s\n\n#10 [5/6] RUN echo \"\" >> /app/mineru/utils/language.py &&     echo \"# 完整版兼容性修复\" >> /app/mineru/utils/language.py &&     echo \"def get_lang_by_content(content, file_name=None):\" >> /app/mineru/utils/language.py &&     echo \"    \"\"\"检测内容语言\"\"\"\" >> /app/mineru/utils/language.py &&     echo \"    if isinstance(content, bytes):\" >> /app/mineru/utils/language.py &&     echo \"        content = content.decode('utf-8', errors='ignore')\" >> /app/mineru/utils/language.py &&     echo \"    # 简单的语言检测逻辑\" >> /app/mineru/utils/language.py &&     echo \"    if any(ord(char) > 127 for char in content[:100]):\" >> /app/mineru/utils/language.py &&     echo \"        return 'zh'\" >> /app/mineru/utils/language.py &&     echo \"    return 'en'\" >> /app/mineru/utils/language.py\n#10 DONE 0.1s\n\n#11 [6/6] COPY docker/m1-mac-full/app_full.py app.py\n#11 DONE 0.0s\n\n#12 exporting to image\n#12 exporting layers\n#12 exporting layers 5.1s done\n#12 writing image sha256:63617b59cd7d70205e14a9cd5341a2db640bf9fb9cafaf4483eef48769c0284c\n#12 writing image sha256:63617b59cd7d70205e14a9cd5341a2db640bf9fb9cafaf4483eef48769c0284c done\n#12 naming to docker.io/library/mineru-m1-full-fixed:latest done\n#12 DONE 5.1s\n\n#13 resolving provenance for metadata file\n#13 DONE 0.0s\n",
+        "stderr": " mineru-full  Built\n"
+      }
+    },
+    "startup": {
+      "full_version": {
+        "status": "success",
+        "duration": 0.26996397972106934,
+        "stdout": "",
+        "stderr": " Network m1-mac-full_mineru-full-network  Creating\n Network m1-mac-full_mineru-full-network  Created\n Container mineru-full-api  Creating\n Container mineru-full-api  Created\n Container mineru-full-api  Starting\n Container mineru-full-api  Started\n"
+      }
+    },
+    "health_check": {
+      "simplified": true,
+      "full": true
+    },
+    "functionality": {
+      "simplified": {
+        "status": "success",
+        "processing_time": 7.1447060108184814,
+        "features": {
+          "latex_formulas": 0,
+          "has_sections": true,
+          "content_length": 5552
+        }
+      },
+      "full": {
+        "status": "success",
+        "processing_time": 66.38164186477661,
+        "features": {
+          "latex_formulas": 76,
+          "has_sections": true,
+          "content_length": 6711
+        }
+      }
+    },
+    "comparison": {
+      "time_difference": 59.23693585395813,
+      "content_enhancement": 1.2087536023054755,
+      "formula_count_full": 76,
+      "formula_count_simplified": 0
+    }
+  },
+  "overall_status": "success"
+}
