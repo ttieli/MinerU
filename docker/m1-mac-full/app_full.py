@@ -1,11 +1,14 @@
 import json
 import os
 import gc
+import asyncio
+import multiprocessing
 from base64 import b64encode
 from glob import glob
 from io import StringIO
 import tempfile
 from typing import Tuple
+from concurrent.futures import ThreadPoolExecutor
 
 import uvicorn
 from fastapi import FastAPI, HTTPException, UploadFile, Form
@@ -21,11 +24,16 @@ from mineru.backend.pipeline.model_init import MineruPipelineModel
 # 全局模型变量
 model: MineruPipelineModel = None
 
+# 异步配置 - 完整版由于模型更大，限制并发数
+CPU_COUNT = multiprocessing.cpu_count()
+THREAD_POOL_SIZE = min(CPU_COUNT, 4)  # 完整版限制更严格，避免内存不足
+executor = ThreadPoolExecutor(max_workers=THREAD_POOL_SIZE)
+
 # 初始化FastAPI应用
 app = FastAPI(
-    title="MinerU API - M1 Mac Full Version",
-    description="PDF解析API服务 - M1芯片Mac完整版 (VLM+表格+公式识别)",
-    version="2.0.0-full"
+    title="MinerU API - M1 Mac Full Version (Async)",
+    description="PDF解析API服务 - M1芯片Mac完整版 (VLM+表格+公式识别) + 异步并发处理",
+    version="2.0.0-full-async"
 )
 
 # 文件扩展名定义
@@ -117,6 +125,23 @@ def encode_image(image_path: str) -> str:
     with open(image_path, "rb") as f:
         return b64encode(f.read()).decode()
 
+def process_file_sync(file_bytes: bytes, file_name: str, writer, image_writer, model_instance):
+    """同步文件处理函数 - 用于在线程池中执行（完整版）"""
+    import time
+    start_time = time.time()
+    
+    result, md_content = model_instance.predict(
+        b_content=file_bytes,
+        file_name=file_name,
+        writer=writer,
+        image_writer=image_writer,
+    )
+    
+    processing_time = time.time() - start_time
+    logger.info(f"完整版文件解析完成，耗时: {processing_time:.2f}秒")
+    
+    return result, md_content
+
 @app.get("/", tags=["root"])
 async def root():
     """根路径"""
@@ -131,7 +156,23 @@ async def root():
 @app.get("/health", tags=["health"])
 async def health_check():
     """健康检查"""
-    return {"status": "healthy", "service": "mineru-full", "version": "2.0.0-full"}
+    return {"status": "healthy", "service": "mineru-full-async", "version": "2.0.0-full-async"}
+
+@app.get("/status", tags=["monitoring"])
+async def get_async_status():
+    """获取异步处理状态（完整版）"""
+    active_threads = len(executor._threads) if hasattr(executor, '_threads') else 0
+    queue_size = executor._work_queue.qsize() if hasattr(executor, '_work_queue') and hasattr(executor._work_queue, 'qsize') else 0
+    
+    return {
+        "thread_pool_size": THREAD_POOL_SIZE,
+        "active_threads": active_threads,
+        "queue_size": queue_size,
+        "cpu_count": CPU_COUNT,
+        "model_loaded": model is not None,
+        "version": "full",
+        "features": ["VLM", "表格识别", "公式识别", "异步并发"]
+    }
 
 @app.post("/file_parse", tags=["parse"], summary="解析文件 (PDF/Office/图像)")
 async def file_parse(
@@ -197,20 +238,16 @@ async def file_parse(
             )
             logger.info("延迟模型加载完成（完整版）")
         
-        # 调用核心解析逻辑
-        logger.info(f"开始解析文件: {file_name}")
-        import time
-        start_time = time.time()
+        # 异步调用核心解析逻辑（完整版）
+        logger.info(f"开始异步解析文件: {file_name} (完整版线程池大小: {THREAD_POOL_SIZE})")
         
-        result, md_content = model.predict(
-            b_content=file_bytes,
-            file_name=file_name,
-            writer=writer,
-            image_writer=image_writer,
+        # 使用线程池执行CPU密集型任务
+        loop = asyncio.get_event_loop()
+        result, md_content = await loop.run_in_executor(
+            executor,
+            process_file_sync,
+            file_bytes, file_name, writer, image_writer, model
         )
-        
-        processing_time = time.time() - start_time
-        logger.info(f"文件解析完成，耗时: {processing_time:.2f}秒")
 
         # 构建返回数据
         data = {
@@ -254,6 +291,13 @@ async def file_parse(
         logger.exception(e)
         cleanup_memory()
         return JSONResponse(content={"error": str(e)}, status_code=500)
+
+@app.on_event("shutdown")
+async def shutdown_event():
+    """服务关闭时的清理工作（完整版）"""
+    logger.info("正在关闭完整版服务，清理线程池...")
+    executor.shutdown(wait=True)
+    logger.info("完整版线程池清理完成")
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)  # Docker内部端口，外部映射到8001
