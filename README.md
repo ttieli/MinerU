@@ -396,6 +396,7 @@ Easier to use: Just grab MinerU Desktop. No coding, no login, just a simple inte
 ### Core Documentation
 - **[Quick Start Guide](QUICK_START.md)** - Complete setup and launch instructions
 - **[API Documentation](API_DOCUMENTATION.md)** - Detailed API usage and examples
+- **[API Async Upgrade Guide](API_ASYNC_UPGRADE.md)** - Zero-downtime async enhancement guide
 - **[Project Structure](DIRECTORY_SUMMARY.md)** - Overview of project organization
 
 ### Additional Resources
