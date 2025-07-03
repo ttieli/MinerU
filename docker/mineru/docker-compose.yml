@@ -1,0 +1,280 @@
+# MinerU 统一Docker Compose配置
+# 支持Simple和Full两个版本的并行部署
+
+services:
+  # ========== MinerU Simple版本 (8000端口) ==========
+  mineru-simple:
+    build:
+      context: ../..
+      dockerfile: docker/mineru/Dockerfile
+      args:
+        VERSION: simple
+        BUILD_DATE: ${BUILD_DATE:-}
+    image: mineru:simple-latest
+    container_name: mineru-simple
+    hostname: mineru-simple
+    restart: unless-stopped
+    
+    # 端口映射
+    ports:
+      - "8000:8000"
+    
+    # 环境变量
+    environment:
+      # 基本配置
+      - MINERU_VERSION=simple
+      - PYTHONPATH=/app
+      
+      # 设备配置
+      - DEVICE_MODE=${DEVICE_MODE:-cpu}
+      - TORCH_NUM_THREADS=${TORCH_NUM_THREADS:-4}
+      - OMP_NUM_THREADS=${OMP_NUM_THREADS:-4}
+      - MKL_NUM_THREADS=${MKL_NUM_THREADS:-4}
+      
+      # 功能配置
+      - ENABLE_TABLE=true
+      - ENABLE_FORMULA=false
+      - ENABLE_VLM=false
+      
+      # 性能配置
+      - MAX_WORKERS=6
+      - THREAD_POOL_SIZE=6
+      - MEMORY_LIMIT=4G
+      - BATCH_SIZE=1
+      
+      # 日志配置
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+    
+    # 数据卷
+    volumes:
+      # 模型存储
+      - mineru_simple_models:/opt/models
+      - mineru_simple_cache:/app/cache
+      
+      # 输出目录
+      - ./output/simple:/app/output
+      - ./temp/simple:/app/temp
+      - ./logs/simple:/app/logs
+      
+      # 配置文件
+      - ./config/simple:/app/config:ro
+    
+    # 资源限制
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+          cpus: '2.0'
+        reservations:
+          memory: 1G
+          cpus: '1.0'
+    
+    # 健康检查
+    healthcheck:
+      test: ["CMD", "/app/healthcheck.sh"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    
+    # 网络
+    networks:
+      - mineru-network
+    
+    # 标签
+    labels:
+      - "mineru.service=api"
+      - "mineru.version=simple"
+      - "mineru.port=8000"
+
+  # ========== MinerU Full版本 (8001端口) ==========
+  mineru-full:
+    build:
+      context: ../..
+      dockerfile: docker/mineru/Dockerfile
+      args:
+        VERSION: full
+        BUILD_DATE: ${BUILD_DATE:-}
+    image: mineru:full-latest
+    container_name: mineru-full
+    hostname: mineru-full
+    restart: unless-stopped
+    
+    # 端口映射
+    ports:
+      - "8001:8000"  # 外部8001映射到内部8000
+    
+    # 环境变量
+    environment:
+      # 基本配置
+      - MINERU_VERSION=full
+      - PYTHONPATH=/app
+      
+      # 设备配置
+      - DEVICE_MODE=${DEVICE_MODE:-mps}
+      - MPS_MEMORY_LIMIT=${MPS_MEMORY_LIMIT:-8G}
+      - PYTORCH_ENABLE_MPS_FALLBACK=1
+      - PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0
+      
+      # 功能配置
+      - ENABLE_TABLE=true
+      - ENABLE_FORMULA=true
+      - ENABLE_VLM=true
+      
+      # 性能配置
+      - MAX_WORKERS=4
+      - THREAD_POOL_SIZE=4
+      - MEMORY_LIMIT=16G
+      - BATCH_SIZE=2
+      - MODEL_PRECISION=fp16
+      
+      # 内存优化
+      - MEMORY_EFFICIENT_MODE=true
+      - MODEL_OFFLOAD_CPU=true
+      - CLEAR_CACHE_INTERVAL=100
+      - MAX_CONCURRENT_REQUESTS=4
+      
+      # 日志配置
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+    
+    # 数据卷
+    volumes:
+      # 模型存储
+      - mineru_full_models:/opt/models
+      - mineru_full_layoutreader:/opt/layoutreader
+      - mineru_full_cache:/app/cache
+      
+      # 输出目录
+      - ./output/full:/app/output
+      - ./temp/full:/app/temp
+      - ./logs/full:/app/logs
+      
+      # 配置文件
+      - ./config/full:/app/config:ro
+    
+    # 资源限制
+    deploy:
+      resources:
+        limits:
+          memory: 16G
+          cpus: '8.0'
+        reservations:
+          memory: 8G
+          cpus: '4.0'
+    
+    # 健康检查
+    healthcheck:
+      test: ["CMD", "/app/healthcheck.sh"]
+      interval: 30s
+      timeout: 15s
+      retries: 3
+      start_period: 120s
+    
+    # 网络
+    networks:
+      - mineru-network
+    
+    # 系统配置
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
+      memlock:
+        soft: -1
+        hard: -1
+    
+    # 标签
+    labels:
+      - "mineru.service=api"
+      - "mineru.version=full"
+      - "mineru.port=8001"
+
+  # ========== Redis缓存服务 (可选) ==========
+  redis:
+    image: redis:7-alpine
+    container_name: mineru-redis
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:6379:6379"
+    volumes:
+      - redis_data:/data
+    command: >
+      redis-server
+      --appendonly yes
+      --maxmemory 512mb
+      --maxmemory-policy allkeys-lru
+    networks:
+      - mineru-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    profiles:
+      - cache
+    labels:
+      - "mineru.service=cache"
+
+  # ========== Nginx负载均衡 (可选) ==========
+  nginx:
+    image: nginx:alpine
+    container_name: mineru-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+      - nginx_logs:/var/log/nginx
+    depends_on:
+      - mineru-simple
+      - mineru-full
+    networks:
+      - mineru-network
+    profiles:
+      - production
+    labels:
+      - "mineru.service=proxy"
+
+# ========== 数据卷定义 ==========
+volumes:
+  # Simple版本数据卷
+  mineru_simple_models:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${SIMPLE_MODELS_PATH:-./models/simple}
+  
+  mineru_simple_cache:
+    driver: local
+  
+  # Full版本数据卷
+  mineru_full_models:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${FULL_MODELS_PATH:-./models/full}
+  
+  mineru_full_layoutreader:
+    driver: local
+  
+  mineru_full_cache:
+    driver: local
+  
+  # 共享数据卷
+  redis_data:
+    driver: local
+  
+  nginx_logs:
+    driver: local
+
+# ========== 网络配置 ==========
+networks:
+  mineru-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.25.0.0/16
